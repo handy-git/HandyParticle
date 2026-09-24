@@ -1,18 +1,14 @@
-package cn.handyplus.lib.particle;
+package cn.handyplus.particle.core;
 
 import cn.handyplus.lib.internal.EntitySchedulerUtil;
 import cn.handyplus.lib.internal.HandyRunnable;
-import cn.handyplus.lib.particle.listener.PlayerQuitEventListener;
-import cn.handyplus.lib.particle.trail.ParticleEmitter;
-import cn.handyplus.lib.particle.trail.ParticleTrailOptions;
-import cn.handyplus.lib.particle.trail.ParticleTrailPattern;
-import cn.handyplus.lib.particle.trail.ParticleTrailTask;
-import cn.handyplus.lib.particle.wing.ParticleWingTask;
-import cn.handyplus.lib.particle.wing.ParticleWingTypeEnum;
-import org.bukkit.Bukkit;
+import cn.handyplus.particle.core.trail.ParticleEmitter;
+import cn.handyplus.particle.core.trail.ParticleTrailOptions;
+import cn.handyplus.particle.core.trail.ParticleTrailPattern;
+import cn.handyplus.particle.core.trail.ParticleTrailTask;
+import cn.handyplus.particle.core.wing.ParticleWingTask;
+import cn.handyplus.particle.core.wing.ParticleWingTypeEnum;
 import org.bukkit.entity.Player;
-import org.bukkit.event.HandlerList;
-import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -21,42 +17,21 @@ import java.util.Map;
 import java.util.UUID;
 
 /**
- * 玩家粒子效果统一 API。
+ * 玩家粒子效果统一
  *
  * @author handy
  */
-public final class HandyParticleApi {
+public class HandyParticleCore {
+
     /**
      * 玩家当前启用的粒子任务。
      */
     private static final Map<UUID, HandyRunnable> TASK_MAP = new HashMap<>();
-    /**
-     * 玩家退出事件监听器。
-     */
-    private static PlayerQuitEventListener listener;
-    /**
-     * 模块是否已初始化。
-     */
-    private static boolean initialized;
 
     /**
-     * 禁止实例化粒子 API。
+     * 禁止实例化
      */
-    private HandyParticleApi() {
-    }
-
-    /**
-     * 初始化粒子效果模块。
-     *
-     * @param plugin 插件
-     */
-    public static synchronized void init(@NotNull Plugin plugin) {
-        if (initialized) {
-            return;
-        }
-        listener = new PlayerQuitEventListener();
-        Bukkit.getPluginManager().registerEvents(listener, plugin);
-        initialized = true;
+    private HandyParticleCore() {
     }
 
     /**
@@ -64,10 +39,10 @@ public final class HandyParticleApi {
      *
      * @param player   玩家
      * @param wingType 翅膀组合
-     * @return 模块已初始化、玩家在线且已发起调度请求时返回 true
+     * @return 玩家在线且已发起调度请求时返回 true
      */
     public static synchronized boolean enable(@NotNull Player player, @NotNull ParticleWingTypeEnum wingType) {
-        if (!initialized || !player.isOnline()) {
+        if (!player.isOnline()) {
             return false;
         }
         start(player, new ParticleWingTask(player, wingType));
@@ -80,7 +55,7 @@ public final class HandyParticleApi {
      * @param player  玩家
      * @param pattern 运动算法
      * @param emitter 粒子发射器
-     * @return 模块已初始化、玩家在线且已发起调度请求时返回 true
+     * @return 玩家在线且已发起调度请求时返回 true
      */
     public static boolean enable(@NotNull Player player, @NotNull ParticleTrailPattern pattern, @NotNull ParticleEmitter emitter) {
         return enable(player, pattern, ParticleTrailOptions.defaults(), emitter);
@@ -93,10 +68,10 @@ public final class HandyParticleApi {
      * @param pattern 运动算法
      * @param options 轨迹参数
      * @param emitter 粒子发射器
-     * @return 模块已初始化、玩家在线且已发起调度请求时返回 true
+     * @return 玩家在线且已发起调度请求时返回 true
      */
     public static synchronized boolean enable(@NotNull Player player, @NotNull ParticleTrailPattern pattern, @NotNull ParticleTrailOptions options, @NotNull ParticleEmitter emitter) {
-        if (!initialized || !player.isOnline()) {
+        if (!player.isOnline()) {
             return false;
         }
         start(player, new ParticleTrailTask(player, pattern, options, emitter));
@@ -119,18 +94,6 @@ public final class HandyParticleApi {
         for (UUID playerId : new ArrayList<>(TASK_MAP.keySet())) {
             disable(playerId);
         }
-    }
-
-    /**
-     * 关闭并重置粒子效果模块。
-     */
-    public static synchronized void shutdown() {
-        disableAll();
-        if (listener != null) {
-            HandlerList.unregisterAll(listener);
-            listener = null;
-        }
-        initialized = false;
     }
 
     /**
@@ -162,6 +125,5 @@ public final class HandyParticleApi {
             // 任务可能在调度器完成绑定前被替换。
         }
     }
-
 
 }

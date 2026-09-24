@@ -1,7 +1,7 @@
-package cn.handyplus.lib.particle.trail;
+package cn.handyplus.particle.core.trail;
 
 import cn.handyplus.lib.internal.HandyRunnable;
-import cn.handyplus.lib.particle.HandyParticleApi;
+import cn.handyplus.particle.api.HandyParticleApi;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.entity.Player;
 

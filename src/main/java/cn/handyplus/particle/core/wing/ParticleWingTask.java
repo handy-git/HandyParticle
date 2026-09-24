@@ -1,7 +1,7 @@
-package cn.handyplus.lib.particle.wing;
+package cn.handyplus.particle.core.wing;
 
 import cn.handyplus.lib.internal.HandyRunnable;
-import cn.handyplus.lib.particle.HandyParticleApi;
+import cn.handyplus.particle.api.HandyParticleApi;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.entity.Player;
 

@@ -1,0 +1,16 @@
+name: HandyParticle
+main: cn.handyplus.particle.HandyParticle
+version: 1.0.0
+author: handy
+api-version: 1.13
+description: 一个有点好用的玩家粒子插件
+website: https://ricedoc.handyplus.cn/wiki/HandyParticle/log/
+folia-supported: true
+commands:
+  handyParticle:
+    description: 玩家粒子插件
+    aliases: [ hp ]
+permissions:
+  handyParticle.reload:
+    description: 重载配置
+    default: op

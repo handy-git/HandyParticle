@@ -1,4 +1,4 @@
-package cn.handyplus.lib.particle.wing;
+package cn.handyplus.particle.core.wing;
 
 import cn.handyplus.lib.constants.BaseConstants;
 import cn.handyplus.lib.constants.VersionCheckEnum;

@@ -1,4 +1,4 @@
-package cn.handyplus.lib.particle.trail;
+package cn.handyplus.particle.core.trail;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Player;

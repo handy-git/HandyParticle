@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>cn.handyplus.lib.particle</groupId>
+    <groupId>cn.handyplus.particle</groupId>
     <artifactId>HandyParticle</artifactId>
     <version>1.0.0</version>
 
@@ -22,13 +22,17 @@
         </dependency>
     </dependencies>
 
-    <distributionManagement>
-        <repository>
-            <id>handy</id>
-            <name>Aliyun Maven Repository</name>
-            <url>https://packages.aliyun.com/60bf16902c5969c370c5f508/maven/handy</url>
-        </repository>
-    </distributionManagement>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>cn.handyplus.lib</groupId>
+                <artifactId>HandyBom</artifactId>
+                <version>1.2.2</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <build>
         <plugins>
@@ -38,7 +42,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.15.0</version>
                 <configuration>
-                    <release>8</release>
+                    <source>1.8</source>
+                    <target>1.8</target>
                     <annotationProcessorPaths>
                         <path>
                             <groupId>org.projectlombok</groupId>
@@ -52,7 +57,81 @@
                     </compilerArgs>
                 </configuration>
             </plugin>
+            <!--将依赖的 jar包打包到当前jar包-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.6.0</version>
+                <configuration>
+                    <createDependencyReducedPom>false</createDependencyReducedPom>
+                    <artifactSet>
+                        <includes>
+                            <include>cn.handyplus.lib:*:*:*</include>
+                        </includes>
+                    </artifactSet>
+                    <relocations>
+                        <relocation>
+                            <pattern>cn.handyplus.lib</pattern>
+                            <shadedPattern>cn.handyplus.particle.lib</shadedPattern>
+                        </relocation>
+                    </relocations>
+                    <!--添加过滤，避免重复警告-->
+                    <filters>
+                        <filter>
+                            <artifact>*:*</artifact>
+                            <excludes>
+                                <exclude>META-INF/MANIFEST.MF</exclude>
+                            </excludes>
+                        </filter>
+                    </filters>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>upload</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>wagon-maven-plugin</artifactId>
+                        <version>2.0.2</version>
+                        <executions>
+                            <execution>
+                                <id>upload-jar</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>upload-single</goal>
+                                </goals>
+                                <configuration>
+                                    <fromFile>${project.build.directory}/${project.artifactId}-${project.version}.jar</fromFile>
+                                    <url>${alist.dav.url}/${project.artifactId}</url>
+                                    <serverId>alist-dav</serverId>
+                                </configuration>
+                            </execution>
+                        </executions>
+                        <dependencies>
+                            <dependency>
+                                <groupId>org.apache.maven.wagon</groupId>
+                                <artifactId>wagon-webdav-jackrabbit</artifactId>
+                                <version>3.5.3</version>
+                            </dependency>
+                        </dependencies>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
 
 </project>

@@ -1,6 +1,7 @@
-package cn.handyplus.lib.particle.listener;
+package cn.handyplus.particle.listener;
 
-import cn.handyplus.lib.particle.HandyParticleApi;
+import cn.handyplus.lib.annotation.HandyListener;
+import cn.handyplus.particle.api.HandyParticleApi;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -10,6 +11,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
  *
  * @author handy
  */
+@HandyListener
 public final class PlayerQuitEventListener implements Listener {
 
     /**

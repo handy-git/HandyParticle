@@ -1,4 +1,4 @@
-package cn.handyplus.lib.particle.wing;
+package cn.handyplus.particle.core.wing;
 
 /**
  * Elf 模型的固定粒子点数据。
