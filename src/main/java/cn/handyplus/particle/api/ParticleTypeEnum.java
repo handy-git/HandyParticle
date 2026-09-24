@@ -295,4 +295,13 @@ public enum ParticleTypeEnum {
         this.trailPattern = trailPattern;
     }
 
+    /**
+     * 判断当前类型是否为需要指定粒子的轨迹。
+     *
+     * @return 是轨迹时返回 true
+     */
+    public boolean isTrail() {
+        return trailPattern != null;
+    }
+
 }

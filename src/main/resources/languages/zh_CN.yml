@@ -1,6 +1,14 @@
 noPermission: "&8[&c✘&8] &7你没有权限执行该命令"
 
 reloadMsg: "&8[&a✔&8] &a插件配置已重载"
+setUsage: "&c用法: /hp set <玩家> <类型> [粒子名]"
+clearUsage: "&c用法: /hp clear <玩家>"
+playerOffline: "&c玩家不在线"
+invalidParticleType: "&c未知的粒子类型"
+particleRequired: "&c轨迹类型必须填写粒子名"
+invalidParticleName: "&c粒子不存在、不受当前服务端支持或需要额外数据"
+setSuccess: "&a已为 {player} 设置 {type} 粒子效果"
+clearSuccess: "&a已清除 {player} 的粒子效果"
 
 # 管理员帮助信息
 helps:
@@ -10,4 +18,6 @@ helps:
   - " &7命令: &f/hp &8[...]"
   - " &7参数:"
   - "   &8- &f reload     &7重载插件"
+  - "   &8- &f set <玩家> <类型> [粒子名]  &7设置粒子效果"
+  - "   &8- &f clear <玩家>                &7清除粒子效果"
   - ""

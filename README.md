@@ -119,6 +119,12 @@ public final class ExamplePlugin extends JavaPlugin {
 - 粒子任务每 2 Tick 刷新一次，玩家退出时自动停止并移除。
 - HandyParticle 插件关闭时停止全部任务并释放 HandyLib 资源。
 
-## 重载配置
+## 管理员指令
 
 拥有 `handyparticle.reload` 权限的管理员可执行 `/handyparticle reload` 或 `/hp reload`，重新读取配置和语言文件。重载不会中断正在运行的粒子任务。
+
+- `/hp set <玩家> <类型>`：设置翅膀，忽略粒子名。
+- `/hp set <玩家> <轨迹类型> <粒子名>`：设置轨迹，必须填写粒子名，不使用默认粒子。
+- `/hp clear <玩家>`：清除玩家当前的粒子效果。
+
+设置和清除分别需要 `handyParticle.set`、`handyParticle.clear` 权限；玩家必须在线。粒子名使用 XParticle 名称，仅支持无需附加数据的粒子及默认红色粉尘 `DUST`。

@@ -47,7 +47,9 @@ public final class HandyParticleCommand implements TabExecutor {
      * @param sender 发送人
      */
     private void sendHelp(CommandSender sender) {
-        if (!sender.hasPermission(PERMISSION)) {
+        if (!sender.hasPermission(PERMISSION)
+                && !sender.hasPermission("handyParticle.set")
+                && !sender.hasPermission("handyParticle.clear")) {
             return;
         }
         List<String> helps = BaseConstants.LANG_CONFIG.getStringList("helps");

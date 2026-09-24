@@ -14,3 +14,9 @@ permissions:
   handyParticle.reload:
     description: 重载配置
     default: op
+  handyParticle.set:
+    description: 设置玩家粒子效果
+    default: op
+  handyParticle.clear:
+    description: 清除玩家粒子效果
+    default: op
