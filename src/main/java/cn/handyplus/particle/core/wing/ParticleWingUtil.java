@@ -1,7 +1,6 @@
 package cn.handyplus.particle.core.wing;
 
-import cn.handyplus.lib.constants.BaseConstants;
-import cn.handyplus.lib.constants.VersionCheckEnum;
+import com.cryptomorin.xseries.particles.XParticle;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Particle;
@@ -17,23 +16,23 @@ final class ParticleWingUtil {
     /**
      * 彩色翅膀点使用的粒子。
      */
-    private static final Particle COLOR_PARTICLE = getParticle("REDSTONE");
+    private static final Particle COLOR_PARTICLE = XParticle.DUST.get();
     /**
      * 火焰翅膀点使用的粒子。
      */
-    private static final Particle FLAME_PARTICLE = getParticle("FLAME");
+    private static final Particle FLAME_PARTICLE = XParticle.FLAME.get();
     /**
      * 女巫法术翅膀点使用的粒子。
      */
-    private static final Particle WITCH_PARTICLE = getParticle("WITCH");
+    private static final Particle WITCH_PARTICLE = XParticle.WITCH.get();
     /**
      * 熔岩滴落翅膀点使用的粒子。
      */
-    private static final Particle DRIP_LAVA_PARTICLE = getParticle("DRIPPING_LAVA");
+    private static final Particle DRIP_LAVA_PARTICLE = XParticle.DRIPPING_LAVA.get();
     /**
      * 魔法暴击翅膀点使用的粒子。
      */
-    private static final Particle CRIT_PARTICLE = getParticle("CRIT_MAGIC");
+    private static final Particle CRIT_PARTICLE = XParticle.ENCHANTED_HIT.get();
 
     /**
      * 禁止实例化渲染工具。
@@ -120,36 +119,6 @@ final class ParticleWingUtil {
      */
     private static void spawnSimple(@NotNull Player player, @NotNull Particle particle, @NotNull Location location) {
         player.spawnParticle(particle, location, 1);
-    }
-
-    /**
-     * 获取跨版本粒子。
-     *
-     * @param name 旧版本粒子名称
-     * @return 当前版本对应的粒子
-     */
-    private static Particle getParticle(@NotNull String name) {
-        // 以下名称变更版本与 XSeries 13.7.1 的 XParticle 定义保持一致。
-        boolean useNewName = BaseConstants.VERSION_ID >= VersionCheckEnum.V_1_20_5.getVersionId();
-        switch (name) {
-            // 彩色红石粉尘粒子
-            case "REDSTONE":
-                return Particle.valueOf(useNewName ? "DUST" : "REDSTONE");
-            // 女巫法术粒子
-            case "WITCH":
-                return Particle.valueOf(useNewName ? "WITCH" : "SPELL_WITCH");
-            // 熔岩滴落粒子
-            case "DRIPPING_LAVA":
-                return Particle.valueOf(useNewName ? "DRIPPING_LAVA" : "DRIP_LAVA");
-            // 魔法暴击粒子
-            case "CRIT_MAGIC":
-                return Particle.valueOf(useNewName ? "ENCHANTED_HIT" : "CRIT_MAGIC");
-            // 火焰粒子，所有支持版本名称一致
-            case "FLAME":
-                return Particle.valueOf("FLAME");
-            default:
-                throw new IllegalArgumentException("Unsupported wing particle: " + name);
-        }
     }
 
 }

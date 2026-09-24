@@ -11,6 +11,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <HandyLib.version>3.43.3</HandyLib.version>
+        <XSeries.version>13.7.1</XSeries.version>
     </properties>
 
     <dependencies>
@@ -18,6 +19,13 @@
             <groupId>cn.handyplus.lib</groupId>
             <artifactId>HandyLib</artifactId>
             <version>${HandyLib.version}</version>
+            <optional>true</optional>
+        </dependency>
+        <!-- XSeries -->
+        <dependency>
+            <groupId>com.github.cryptomorin</groupId>
+            <artifactId>XSeries</artifactId>
+            <version>${XSeries.version}</version>
             <optional>true</optional>
         </dependency>
     </dependencies>
@@ -67,12 +75,17 @@
                     <artifactSet>
                         <includes>
                             <include>cn.handyplus.lib:*:*:*</include>
+                            <include>com.github.cryptomorin:*:*:*</include>
                         </includes>
                     </artifactSet>
                     <relocations>
                         <relocation>
                             <pattern>cn.handyplus.lib</pattern>
                             <shadedPattern>cn.handyplus.particle.lib</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>com.cryptomorin.xseries</pattern>
+                            <shadedPattern>cn.handyplus.particle.lib.internal</shadedPattern>
                         </relocation>
                     </relocations>
                     <!--添加过滤，避免重复警告-->
@@ -82,6 +95,13 @@
                             <excludes>
                                 <exclude>META-INF/MANIFEST.MF</exclude>
                             </excludes>
+                        </filter>
+                        <filter>
+                            <artifact>com.github.cryptomorin:XSeries</artifact>
+                            <includes>
+                                <include>com/cryptomorin/xseries/base/**</include>
+                                <include>com/cryptomorin/xseries/particles/**</include>
+                            </includes>
                         </filter>
                     </filters>
                 </configuration>
