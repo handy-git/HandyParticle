@@ -43,7 +43,7 @@ public class HandyParticleCore {
      * @param wingType 翅膀组合
      * @return 玩家在线且已发起调度请求时返回 true
      */
-    public static synchronized boolean enable(@NotNull Player player, @NotNull ParticleWingTypeEnum wingType) {
+    public static synchronized boolean setWings(@NotNull Player player, @NotNull ParticleWingTypeEnum wingType) {
         if (!player.isOnline()) {
             return false;
         }
@@ -52,7 +52,7 @@ public class HandyParticleCore {
     }
 
     /**
-     * 使用默认参数和普通粒子启用玩家轨迹。
+     * 使用默认参数和指定粒子启用玩家轨迹。
      *
      * @param player       玩家
      * @param pattern      运动算法
@@ -60,7 +60,7 @@ public class HandyParticleCore {
      * @return 玩家在线且已发起调度请求时返回 true
      * @throws IllegalArgumentException 粒子不存在、不受当前服务端支持或需要额外数据
      */
-    public static boolean enable(@NotNull Player player, @NotNull ParticleTrailPattern pattern, @NotNull String particleName) {
+    public static boolean setTrail(@NotNull Player player, @NotNull ParticleTrailPattern pattern, @NotNull String particleName) {
         XParticle xParticle = XParticle.of(particleName).orElseThrow(() -> new IllegalArgumentException("Unknown particle: " + particleName));
         Particle particle = xParticle.get();
         if (particle == null) {
@@ -69,7 +69,7 @@ public class HandyParticleCore {
         if (particle.getDataType() != Void.class) {
             throw new IllegalArgumentException("Particle requires data: " + particleName);
         }
-        return enable(player, pattern, (target, location, tick) -> target.spawnParticle(particle, location, 1));
+        return setTrail(player, pattern, (target, location, tick) -> target.spawnParticle(particle, location, 1));
     }
 
     /**
@@ -80,8 +80,8 @@ public class HandyParticleCore {
      * @param emitter 粒子发射器
      * @return 玩家在线且已发起调度请求时返回 true
      */
-    public static boolean enable(@NotNull Player player, @NotNull ParticleTrailPattern pattern, @NotNull ParticleEmitter emitter) {
-        return enable(player, pattern, ParticleTrailOptions.defaults(), emitter);
+    public static boolean setTrail(@NotNull Player player, @NotNull ParticleTrailPattern pattern, @NotNull ParticleEmitter emitter) {
+        return setTrail(player, pattern, ParticleTrailOptions.defaults(), emitter);
     }
 
     /**
@@ -93,7 +93,7 @@ public class HandyParticleCore {
      * @param emitter 粒子发射器
      * @return 玩家在线且已发起调度请求时返回 true
      */
-    public static synchronized boolean enable(@NotNull Player player, @NotNull ParticleTrailPattern pattern, @NotNull ParticleTrailOptions options, @NotNull ParticleEmitter emitter) {
+    public static synchronized boolean setTrail(@NotNull Player player, @NotNull ParticleTrailPattern pattern, @NotNull ParticleTrailOptions options, @NotNull ParticleEmitter emitter) {
         if (!player.isOnline()) {
             return false;
         }

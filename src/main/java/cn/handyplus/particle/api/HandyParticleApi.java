@@ -1,12 +1,12 @@
 package cn.handyplus.particle.api;
 
 import cn.handyplus.particle.core.HandyParticleCore;
-import cn.handyplus.particle.core.trail.ParticleEmitter;
-import cn.handyplus.particle.core.trail.ParticleTrailOptions;
-import cn.handyplus.particle.core.trail.ParticleTrailPattern;
 import cn.handyplus.particle.core.wing.ParticleWingTypeEnum;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.Objects;
 
 /**
  * 玩家粒子效果统一 API。
@@ -22,52 +22,35 @@ public final class HandyParticleApi {
     }
 
     /**
-     * 启用指定组合的粒子翅膀。
+     * 启用翅膀或使用默认红色粉尘启用轨迹。
      *
-     * @param player   玩家
-     * @param wingType 翅膀组合
+     * @param player 玩家
+     * @param type   翅膀组合或轨迹算法
      * @return 玩家在线且已发起调度请求时返回 true
      */
-    public static boolean enable(@NotNull Player player, @NotNull ParticleWingTypeEnum wingType) {
-        return HandyParticleCore.enable(player, wingType);
+    public static boolean enable(@NotNull Player player, @NotNull ParticleTypeEnum type) {
+        return enable(player, type, "DUST");
     }
 
     /**
-     * 使用默认参数和普通粒子启用玩家轨迹。
+     * 启用翅膀或指定粒子的轨迹；翅膀类型忽略粒子名称。
      *
      * @param player       玩家
-     * @param pattern      运动算法
-     * @param particleName XParticle 粒子名称
+     * @param type         翅膀组合或轨迹算法
+     * @param particleName XParticle 粒子名称；翅膀类型可为空
      * @return 玩家在线且已发起调度请求时返回 true
      * @throws IllegalArgumentException 粒子不存在、不受当前服务端支持或需要额外数据
      */
-    public static boolean enable(@NotNull Player player, @NotNull ParticleTrailPattern pattern, @NotNull String particleName) {
-        return HandyParticleCore.enable(player, pattern, particleName);
-    }
-
-    /**
-     * 使用默认参数启用玩家粒子轨迹。
-     *
-     * @param player  玩家
-     * @param pattern 运动算法
-     * @param emitter 粒子发射器
-     * @return 玩家在线且已发起调度请求时返回 true
-     */
-    public static boolean enable(@NotNull Player player, @NotNull ParticleTrailPattern pattern, @NotNull ParticleEmitter emitter) {
-        return HandyParticleCore.enable(player, pattern, emitter);
-    }
-
-    /**
-     * 启用玩家粒子轨迹。
-     *
-     * @param player  玩家
-     * @param pattern 运动算法
-     * @param options 轨迹参数
-     * @param emitter 粒子发射器
-     * @return 玩家在线且已发起调度请求时返回 true
-     */
-    public static boolean enable(@NotNull Player player, @NotNull ParticleTrailPattern pattern, @NotNull ParticleTrailOptions options, @NotNull ParticleEmitter emitter) {
-        return HandyParticleCore.enable(player, pattern, options, emitter);
+    public static boolean enable(@NotNull Player player, @NotNull ParticleTypeEnum type, @Nullable String particleName) {
+        Objects.requireNonNull(type, "type");
+        ParticleWingTypeEnum wingType = type.getWingType();
+        if (wingType != null) {
+            return HandyParticleCore.setWings(player, wingType);
+        }
+        if (particleName == null) {
+            throw new IllegalArgumentException("Particle name is required for trails");
+        }
+        return HandyParticleCore.setTrail(player, Objects.requireNonNull(type.getTrailPattern(), "trailPattern"), particleName);
     }
 
     /**

@@ -4,15 +4,15 @@ HandyParticle 是基于 HandyLib 的独立 Bukkit 粒子插件，为其他插件
 
 ## 包结构
 
-- `cn.handyplus.particle.api`：对外暴露的 `HandyParticleApi`。
-- `cn.handyplus.particle.core.trail`：轨迹参数、发射器与运动算法。
-- `cn.handyplus.particle.core.wing`：翅膀组合枚举、点阵数据和渲染实现。
+- `cn.handyplus.particle.api`：统一入口 `HandyParticleApi` 与效果类型 `ParticleTypeEnum`。
+- `cn.handyplus.particle.core.trail`：轨迹参数、发射器与运动算法的内部实现。
+- `cn.handyplus.particle.core.wing`：翅膀组合、点阵数据和渲染实现。
 - `cn.handyplus.particle.listener`：粒子任务的生命周期监听器。
 
 ## 功能
 
 - 内置 8 种翅膀模型和 7 种粒子图案，共 56 种固定组合。
-- 提供与粒子类型解耦的运动轨迹算法，由调用方决定发射的粒子。
+- 提供运动轨迹算法，由调用方选择普通粒子；未指定时使用红色粉尘。
 - 同一玩家启用新效果时自动替换旧任务，玩家退出时自动停止任务。
 - 插件关闭时统一清理全部粒子任务。
 
@@ -47,8 +47,7 @@ HandyParticle 会在插件启动时自动初始化。以下示例展示翅膀、
 
 ```java
 import cn.handyplus.particle.api.HandyParticleApi;
-import cn.handyplus.particle.core.trail.ParticleTrailPatternEnum;
-import cn.handyplus.particle.core.wing.ParticleWingTypeEnum;
+import cn.handyplus.particle.api.ParticleTypeEnum;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -61,7 +60,7 @@ public final class ExamplePlugin extends JavaPlugin {
      * @return 启用是否成功
      */
     public boolean enableWing(Player player) {
-        return HandyParticleApi.enable(player, ParticleWingTypeEnum.ANGEL_FIRE);
+        return HandyParticleApi.enable(player, ParticleTypeEnum.ANGEL_FIRE);
     }
 
     /**
@@ -71,7 +70,17 @@ public final class ExamplePlugin extends JavaPlugin {
      * @return 启用是否成功
      */
     public boolean enableTrail(Player player) {
-        return HandyParticleApi.enable(player, ParticleTrailPatternEnum.HELIX, "FLAME");
+        return HandyParticleApi.enable(player, ParticleTypeEnum.HELIX, "FLAME");
+    }
+
+    /**
+     * 使用默认红色粉尘启用螺旋轨迹。
+     *
+     * @param player 在线玩家
+     * @return 启用是否成功
+     */
+    public boolean enableDefaultTrail(Player player) {
+        return HandyParticleApi.enable(player, ParticleTypeEnum.HELIX);
     }
 
     /**
@@ -87,11 +96,11 @@ public final class ExamplePlugin extends JavaPlugin {
 
 玩家在线时，`enable` 发起调度请求并返回 `true`；玩家离线时返回 `false`。Folia 实体若在提交瞬间退休，底层可能不创建任务，`enable` 无法据此返回 `false`。同一玩家启用翅膀或轨迹时，旧效果会被替换，两种效果不能同时启用。调用
 `HandyParticleApi.disableAll()` 可关闭全部玩家的效果。
-调用方若提供了自定义发射器，应在自身插件关闭前停止其创建的效果，避免停用后继续执行发射器代码。
+三参调用传入翅膀类型时，粒子名称会被忽略。
 
 ## 翅膀组合
 
-`ParticleWingTypeEnum` 的常量命名格式为 `{模型}_{图案}`。
+`ParticleTypeEnum` 的翅膀常量命名格式为 `{模型}_{图案}`。
 
 模型：`ANGEL`、`BUTTERFLY`、`BUTTERFLY2`、`ELF`、`LONG`、`SHORT`、`DEMON`、`NIGHT`。
 
@@ -101,11 +110,8 @@ public final class ExamplePlugin extends JavaPlugin {
 
 ## 粒子运动算法
 
-内置 `CIRCLE`、`HELIX`、`SPIRAL`、`WAVES`、`PULSE` 和 `SHIELD`。算法负责计算位置，`ParticleEmitter` 由调用方实现，可以发射任意
-Bukkit 粒子、彩色粒子或带额外数据的粒子。省略 `ParticleTrailOptions` 参数时使用默认值。
-普通粒子可直接传 XParticle 名称，例如 `"FLAME"`；名称不存在、当前服务端不支持或粒子需要额外数据时，启用时抛出 `IllegalArgumentException`。彩色粉尘等带数据的粒子仍需使用 `ParticleEmitter` 重载。
-参数值必须有限，半径和高度不能为负，长度、每帧增长高度及粒子数量等计数必须大于零；无效参数会抛出 `IllegalArgumentException`。
-为限制单轮计算量，`strands` 最多 200，`waveStrands` 最多 100，`baseParticles` 最多 50；内置轨迹单轮最多调用发射器 200 次，实际粒子数量由调用方决定。
+`ParticleTypeEnum` 内置 `CIRCLE`、`HELIX`、`SPIRAL`、`WAVES`、`PULSE` 和 `SHIELD`。两参调用使用红色粉尘，大小为 1。三参调用可传 XParticle 名称，例如 `"FLAME"`；`"DUST"` 和 `"REDSTONE"` 同样使用默认红色粉尘。
+名称不存在、当前服务端不支持或其他粒子需要额外数据时，启用时抛出 `IllegalArgumentException`。内置轨迹单轮最多发射 200 个粒子。
 
 ## 生命周期
 
