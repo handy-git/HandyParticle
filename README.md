@@ -19,8 +19,8 @@ HandyParticle 是基于 HandyLib 的粒子翅膀与运动轨迹依赖库。
 ## 环境要求
 
 - Java 8 目标字节码。
-- HandyLib 3.43.2。
-- Bukkit/Spigot/Paper 服务端。翅膀彩色粒子使用 `Particle.DustOptions`，不兼容缺少该类的 1.13 以下版本；Folia 尚未验证线程安全。
+- HandyLib 3.43.3。
+- Bukkit/Spigot/Paper/Folia 服务端。翅膀彩色粒子使用 `Particle.DustOptions`，不兼容缺少该类的 1.13 以下版本；Folia 使用玩家实体调度器，尚未经过实机验证。
 
 ## Maven
 
@@ -36,7 +36,7 @@ HandyParticle 是基于 HandyLib 的粒子翅膀与运动轨迹依赖库。
     <dependency>
         <groupId>cn.handyplus.lib</groupId>
         <artifactId>HandyLib</artifactId>
-        <version>3.43.2</version>
+        <version>3.43.3</version>
     </dependency>
 </dependencies>
 ```
@@ -107,7 +107,7 @@ public final class ExamplePlugin extends JavaPlugin {
 }
 ```
 
-模块已初始化、玩家在线且任务创建成功时，`enable` 返回 `true`；模块未初始化或玩家离线时返回 `false`。同一玩家启用翅膀或轨迹时，旧效果会被替换，两种效果不能同时启用。调用
+模块已初始化且玩家在线时，`enable` 发起调度请求并返回 `true`；模块未初始化或玩家离线时返回 `false`。Folia 实体若在提交瞬间退休，底层可能不创建任务，`enable` 无法据此返回 `false`。同一玩家启用翅膀或轨迹时，旧效果会被替换，两种效果不能同时启用。调用
 `HandyParticleApi.disableAll()` 可关闭全部玩家的效果。
 
 ## 翅膀组合
@@ -125,6 +125,7 @@ public final class ExamplePlugin extends JavaPlugin {
 内置 `CIRCLE`、`HELIX`、`SPIRAL`、`WAVES`、`PULSE` 和 `SHIELD`。算法负责计算位置，`ParticleEmitter` 由调用方实现，可以发射任意
 Bukkit 粒子、彩色粒子或带额外数据的粒子。省略 `ParticleTrailOptions` 参数时使用默认值。
 参数值必须有限，半径和高度不能为负，长度、每帧增长高度及粒子数量等计数必须大于零；无效参数会抛出 `IllegalArgumentException`。
+为限制单轮计算量，`strands` 最多 200，`waveStrands` 最多 100，`baseParticles` 最多 50；内置轨迹单轮最多调用发射器 200 次，实际粒子数量由调用方决定。
 
 ## 生命周期
 

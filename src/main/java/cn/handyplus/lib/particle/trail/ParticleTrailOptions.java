@@ -10,6 +10,19 @@ import lombok.Getter;
 @Getter
 public final class ParticleTrailOptions {
     /**
+     * 螺旋轨迹每次刷新允许的最多旋臂数。
+     */
+    private static final int MAX_STRANDS = 200;
+    /**
+     * 波浪轨迹每次刷新允许的最多旋臂数。
+     */
+    private static final int MAX_WAVE_STRANDS = 100;
+    /**
+     * 波浪轨迹每侧允许的最多横向粒子数。
+     */
+    private static final int MAX_BASE_PARTICLES = 50;
+
+    /**
      * 相对玩家的纵向偏移。
      */
     private double y = 0.0D;
@@ -185,7 +198,7 @@ public final class ParticleTrailOptions {
      * @return 当前参数
      */
     public ParticleTrailOptions strands(int value) {
-        strands = positive(value, "strands");
+        strands = bounded(value, MAX_STRANDS, "strands");
         return this;
     }
 
@@ -196,7 +209,7 @@ public final class ParticleTrailOptions {
      * @return 当前参数
      */
     public ParticleTrailOptions waveStrands(int value) {
-        waveStrands = positive(value, "waveStrands");
+        waveStrands = bounded(value, MAX_WAVE_STRANDS, "waveStrands");
         return this;
     }
 
@@ -218,7 +231,7 @@ public final class ParticleTrailOptions {
      * @return 当前参数
      */
     public ParticleTrailOptions baseParticles(int value) {
-        baseParticles = positive(value, "baseParticles");
+        baseParticles = bounded(value, MAX_BASE_PARTICLES, "baseParticles");
         return this;
     }
 
@@ -296,6 +309,21 @@ public final class ParticleTrailOptions {
     private static int positive(int value, String name) {
         if (value <= 0) {
             throw new IllegalArgumentException(name + " must be positive");
+        }
+        return value;
+    }
+
+    /**
+     * 校验影响单轮发射量的正整数上限。
+     *
+     * @param value   输入值
+     * @param maximum 最大值
+     * @param name    参数名
+     * @return 输入值
+     */
+    private static int bounded(int value, int maximum, String name) {
+        if (positive(value, name) > maximum) {
+            throw new IllegalArgumentException(name + " must not exceed " + maximum);
         }
         return value;
     }
