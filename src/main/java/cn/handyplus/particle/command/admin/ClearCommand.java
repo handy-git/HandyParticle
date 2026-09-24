@@ -2,10 +2,11 @@ package cn.handyplus.particle.command.admin;
 
 import cn.handyplus.lib.command.HandyTab;
 import cn.handyplus.lib.command.IHandyCommandEvent;
+import cn.handyplus.lib.core.MapUtil;
+import cn.handyplus.lib.util.AssertUtil;
 import cn.handyplus.lib.util.BaseUtil;
 import cn.handyplus.lib.util.MessageUtil;
 import cn.handyplus.particle.api.HandyParticleApi;
-import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -35,17 +36,11 @@ public final class ClearCommand implements IHandyCommandEvent {
     @Override
     public void onCommand(CommandSender sender, Command command, String label, String[] args) {
         String playerName = this.getArg(args, 1).orElse(null);
-        if (playerName == null) {
-            MessageUtil.sendMessage(sender, BaseUtil.getLangMsg("clearUsage"));
-            return;
-        }
-        Player player = Bukkit.getPlayerExact(playerName);
-        if (player == null) {
-            MessageUtil.sendMessage(sender, BaseUtil.getLangMsg("playerOffline"));
-            return;
-        }
+        AssertUtil.notEmpty(playerName, BaseUtil.getLangMsg("clearUsage"));
+        Player player = BaseUtil.getOnlinePlayer(playerName).orElse(null);
+        AssertUtil.notNull(player, BaseUtil.getLangMsg("playerOffline"));
         HandyParticleApi.disable(player);
-        MessageUtil.sendMessage(sender, BaseUtil.getLangMsg("clearSuccess").replace("{player}", player.getName()));
+        MessageUtil.sendMessage(sender, BaseUtil.getLangMsg("clearSuccess", MapUtil.of("player", player.getName())));
     }
 
 }

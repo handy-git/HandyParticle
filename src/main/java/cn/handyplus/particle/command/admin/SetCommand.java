@@ -2,12 +2,13 @@ package cn.handyplus.particle.command.admin;
 
 import cn.handyplus.lib.command.HandyTab;
 import cn.handyplus.lib.command.IHandyCommandEvent;
+import cn.handyplus.lib.core.MapUtil;
+import cn.handyplus.lib.util.AssertUtil;
 import cn.handyplus.lib.util.BaseUtil;
 import cn.handyplus.lib.util.MessageUtil;
 import cn.handyplus.particle.api.HandyParticleApi;
 import cn.handyplus.particle.api.ParticleTypeEnum;
 import com.cryptomorin.xseries.particles.XParticle;
-import org.bukkit.Bukkit;
 import org.bukkit.Particle;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -16,7 +17,6 @@ import org.bukkit.entity.Player;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
 import java.util.stream.Collectors;
 
 /**
@@ -47,45 +47,27 @@ public final class SetCommand implements IHandyCommandEvent {
     public void onCommand(CommandSender sender, Command command, String label, String[] args) {
         String playerName = this.getArg(args, 1).orElse(null);
         String typeName = this.getArg(args, 2).orElse(null);
-        if (playerName == null || typeName == null) {
-            MessageUtil.sendMessage(sender, BaseUtil.getLangMsg("setUsage"));
-            return;
-        }
+        AssertUtil.notEmpty(playerName, BaseUtil.getLangMsg("setUsage"));
+        AssertUtil.notEmpty(typeName, BaseUtil.getLangMsg("setUsage"));
 
-        Player player = Bukkit.getPlayerExact(playerName);
-        if (player == null) {
-            MessageUtil.sendMessage(sender, BaseUtil.getLangMsg("playerOffline"));
-            return;
-        }
+        Player player = BaseUtil.getOnlinePlayer(playerName).orElse(null);
+        AssertUtil.notNull(player, BaseUtil.getLangMsg("playerOffline"));
 
-        ParticleTypeEnum type;
-        try {
-            type = ParticleTypeEnum.valueOf(typeName.toUpperCase(Locale.ROOT));
-        } catch (IllegalArgumentException exception) {
-            MessageUtil.sendMessage(sender, BaseUtil.getLangMsg("invalidParticleType"));
-            return;
-        }
+        ParticleTypeEnum type = ParticleTypeEnum.getEnumThrow(typeName);
 
         String particleName = this.getArg(args, 3).orElse(null);
-        if (type.isTrail() && (particleName == null || particleName.isEmpty())) {
-            MessageUtil.sendMessage(sender, BaseUtil.getLangMsg("particleRequired"));
-            return;
+        if (type.isTrail()) {
+            AssertUtil.notEmpty(particleName, BaseUtil.getLangMsg("particleRequired"));
         }
 
         try {
-            boolean enabled = type.isTrail()
-                    ? HandyParticleApi.enable(player, type, particleName)
-                    : HandyParticleApi.enable(player, type);
-            if (!enabled) {
-                MessageUtil.sendMessage(sender, BaseUtil.getLangMsg("playerOffline"));
-                return;
-            }
+            boolean enabled = type.isTrail() ? HandyParticleApi.enable(player, type, particleName) : HandyParticleApi.enable(player, type);
+            AssertUtil.isTrue(enabled, BaseUtil.getLangMsg("playerOffline"));
         } catch (IllegalArgumentException exception) {
             MessageUtil.sendMessage(sender, BaseUtil.getLangMsg("invalidParticleName"));
             return;
         }
-        MessageUtil.sendMessage(sender, BaseUtil.getLangMsg("setSuccess")
-                .replace("{player}", player.getName()).replace("{type}", type.name()));
+        MessageUtil.sendMessage(sender, BaseUtil.getLangMsg("setSuccess", MapUtil.of("player", player.getName(), "type", type.name())));
     }
 
     /**
@@ -100,10 +82,10 @@ public final class SetCommand implements IHandyCommandEvent {
             return Collections.emptyList();
         }
         try {
-            if (!ParticleTypeEnum.valueOf(typeName.toUpperCase(Locale.ROOT)).isTrail()) {
+            if (!ParticleTypeEnum.getEnumThrow(typeName).isTrail()) {
                 return Collections.emptyList();
             }
-        } catch (IllegalArgumentException exception) {
+        } catch (RuntimeException exception) {
             return Collections.emptyList();
         }
         return Arrays.stream(XParticle.values())

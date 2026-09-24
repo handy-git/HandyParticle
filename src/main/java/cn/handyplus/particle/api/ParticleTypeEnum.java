@@ -1,5 +1,6 @@
 package cn.handyplus.particle.api;
 
+import cn.handyplus.lib.util.BaseUtil;
 import cn.handyplus.particle.core.trail.ParticleTrailPatternEnum;
 import cn.handyplus.particle.core.wing.ParticleWingTypeEnum;
 import lombok.AccessLevel;
@@ -302,6 +303,23 @@ public enum ParticleTypeEnum {
      */
     public boolean isTrail() {
         return trailPattern != null;
+    }
+
+    /**
+     * 按枚举名称忽略大小写获取粒子类型。
+     *
+     * @param type 粒子类型名称
+     * @return 对应的粒子类型
+     * @throws RuntimeException 类型不存在时抛出
+     */
+    @NotNull
+    public static ParticleTypeEnum getEnumThrow(@NotNull String type) {
+        for (ParticleTypeEnum particleType : values()) {
+            if (particleType.name().equalsIgnoreCase(type)) {
+                return particleType;
+            }
+        }
+        throw new RuntimeException(BaseUtil.getLangMsg("invalidParticleType") + ": " + type);
     }
 
 }

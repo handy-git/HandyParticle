@@ -7,8 +7,8 @@ playerOffline: "&c玩家不在线"
 invalidParticleType: "&c未知的粒子类型"
 particleRequired: "&c轨迹类型必须填写粒子名"
 invalidParticleName: "&c粒子不存在、不受当前服务端支持或需要额外数据"
-setSuccess: "&a已为 {player} 设置 {type} 粒子效果"
-clearSuccess: "&a已清除 {player} 的粒子效果"
+setSuccess: "&a已为 ${player} 设置 ${type} 粒子效果"
+clearSuccess: "&a已清除 ${player} 的粒子效果"
 
 # 管理员帮助信息
 helps:
