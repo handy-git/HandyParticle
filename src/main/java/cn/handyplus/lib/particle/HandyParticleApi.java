@@ -113,23 +113,6 @@ public final class HandyParticleApi {
     }
 
     /**
-     * 按玩家 UUID 清理内部任务。
-     *
-     * @param playerId 玩家 UUID
-     */
-    private static void disable(@NotNull UUID playerId) {
-        HandyRunnable task = TASK_MAP.remove(playerId);
-        if (task == null) {
-            return;
-        }
-        try {
-            task.cancel();
-        } catch (IllegalStateException ignored) {
-            // 任务可能在调度器完成绑定前被替换。
-        }
-    }
-
-    /**
      * 关闭全部粒子效果。
      */
     public static synchronized void disableAll() {
@@ -162,5 +145,23 @@ public final class HandyParticleApi {
         EntitySchedulerUtil.runTaskTimer(player, task, 1L, 2L);
         TASK_MAP.put(playerId, task);
     }
+
+    /**
+     * 按玩家 UUID 清理内部任务。
+     *
+     * @param playerId 玩家 UUID
+     */
+    private static void disable(@NotNull UUID playerId) {
+        HandyRunnable task = TASK_MAP.remove(playerId);
+        if (task == null) {
+            return;
+        }
+        try {
+            task.cancel();
+        } catch (IllegalStateException ignored) {
+            // 任务可能在调度器完成绑定前被替换。
+        }
+    }
+
 
 }
