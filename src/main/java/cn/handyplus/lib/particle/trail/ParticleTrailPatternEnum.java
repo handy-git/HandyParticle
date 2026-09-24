@@ -5,7 +5,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
 /**
- * SuperTrails 风格的常用粒子运动算法。
+ * 常用粒子运动算法。
  *
  * @author handy
  */
