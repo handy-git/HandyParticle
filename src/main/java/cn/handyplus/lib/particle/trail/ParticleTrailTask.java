@@ -2,11 +2,8 @@ package cn.handyplus.lib.particle.trail;
 
 import cn.handyplus.lib.internal.HandyRunnable;
 import cn.handyplus.lib.particle.HandyParticleApi;
-import cn.handyplus.lib.util.BaseUtil;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.entity.Player;
-
-import java.util.UUID;
 
 /**
  * 玩家粒子轨迹定时任务。
@@ -16,9 +13,9 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public final class ParticleTrailTask extends HandyRunnable {
     /**
-     * 任务所属玩家的 UUID。
+     * 任务所属玩家。
      */
-    private final UUID playerId;
+    private final Player player;
     /**
      * 当前使用的运动算法。
      */
@@ -41,9 +38,8 @@ public final class ParticleTrailTask extends HandyRunnable {
      */
     @Override
     public void run() {
-        Player player = BaseUtil.getOnlinePlayer(playerId).orElse(null);
-        if (player == null) {
-            HandyParticleApi.disable(playerId);
+        if (!player.isOnline()) {
+            HandyParticleApi.disable(player);
             return;
         }
         pattern.render(player, player.getLocation().clone(), tick++, options, emitter);

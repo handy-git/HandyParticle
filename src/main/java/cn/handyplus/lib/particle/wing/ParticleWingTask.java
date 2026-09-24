@@ -1,9 +1,9 @@
 package cn.handyplus.lib.particle.wing;
 
 import cn.handyplus.lib.internal.HandyRunnable;
+import cn.handyplus.lib.particle.HandyParticleApi;
 import lombok.RequiredArgsConstructor;
-
-import java.util.UUID;
+import org.bukkit.entity.Player;
 
 /**
  * 玩家粒子翅膀定时任务。
@@ -13,9 +13,9 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public final class ParticleWingTask extends HandyRunnable {
     /**
-     * 任务所属玩家的 UUID。
+     * 任务所属玩家。
      */
-    private final UUID playerId;
+    private final Player player;
     /**
      * 当前使用的翅膀组合。
      */
@@ -26,6 +26,10 @@ public final class ParticleWingTask extends HandyRunnable {
      */
     @Override
     public void run() {
-        ParticleWingUtil.render(playerId, wingType);
+        if (!player.isOnline()) {
+            HandyParticleApi.disable(player);
+            return;
+        }
+        ParticleWingUtil.render(player, wingType);
     }
 }

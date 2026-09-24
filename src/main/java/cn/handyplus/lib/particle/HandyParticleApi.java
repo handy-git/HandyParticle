@@ -9,8 +9,8 @@ import cn.handyplus.lib.particle.trail.ParticleTrailPattern;
 import cn.handyplus.lib.particle.trail.ParticleTrailTask;
 import cn.handyplus.lib.particle.wing.ParticleWingTask;
 import cn.handyplus.lib.particle.wing.ParticleWingTypeEnum;
-import cn.handyplus.lib.util.BaseUtil;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
@@ -39,6 +39,9 @@ public final class HandyParticleApi {
      */
     private static boolean initialized;
 
+    /**
+     * 禁止实例化粒子 API。
+     */
     private HandyParticleApi() {
     }
 
@@ -59,53 +62,62 @@ public final class HandyParticleApi {
     /**
      * 启用指定组合的粒子翅膀。
      *
-     * @param playerId 玩家 UUID
+     * @param player 玩家
      * @param wingType 翅膀组合
-     * @return 玩家在线且成功创建任务时返回 true
+     * @return 模块已初始化、玩家在线且成功创建任务时返回 true
      */
-    public static boolean enable(@NotNull UUID playerId, @NotNull ParticleWingTypeEnum wingType) {
-        if (!BaseUtil.getOnlinePlayer(playerId).isPresent()) {
+    public static boolean enable(@NotNull Player player, @NotNull ParticleWingTypeEnum wingType) {
+        if (!initialized || !player.isOnline()) {
             return false;
         }
-        start(playerId, new ParticleWingTask(playerId, wingType));
+        start(player.getUniqueId(), new ParticleWingTask(player, wingType));
         return true;
     }
 
     /**
      * 使用默认参数启用玩家粒子轨迹。
      *
-     * @param playerId 玩家 UUID
+     * @param player 玩家
      * @param pattern  运动算法
      * @param emitter  粒子发射器
-     * @return 玩家在线且任务创建成功时返回 true
+     * @return 模块已初始化、玩家在线且任务创建成功时返回 true
      */
-    public static boolean enable(@NotNull UUID playerId, @NotNull ParticleTrailPattern pattern, @NotNull ParticleEmitter emitter) {
-        return enable(playerId, pattern, ParticleTrailOptions.defaults(), emitter);
+    public static boolean enable(@NotNull Player player, @NotNull ParticleTrailPattern pattern, @NotNull ParticleEmitter emitter) {
+        return enable(player, pattern, ParticleTrailOptions.defaults(), emitter);
     }
 
     /**
      * 启用玩家粒子轨迹。
      *
-     * @param playerId 玩家 UUID
+     * @param player 玩家
      * @param pattern  运动算法
      * @param options  轨迹参数
      * @param emitter  粒子发射器
-     * @return 玩家在线且任务创建成功时返回 true
+     * @return 模块已初始化、玩家在线且任务创建成功时返回 true
      */
-    public static boolean enable(@NotNull UUID playerId, @NotNull ParticleTrailPattern pattern, @NotNull ParticleTrailOptions options, @NotNull ParticleEmitter emitter) {
-        if (!BaseUtil.getOnlinePlayer(playerId).isPresent()) {
+    public static boolean enable(@NotNull Player player, @NotNull ParticleTrailPattern pattern, @NotNull ParticleTrailOptions options, @NotNull ParticleEmitter emitter) {
+        if (!initialized || !player.isOnline()) {
             return false;
         }
-        start(playerId, new ParticleTrailTask(playerId, pattern, options, emitter));
+        start(player.getUniqueId(), new ParticleTrailTask(player, pattern, options, emitter));
         return true;
     }
 
     /**
      * 关闭指定玩家的粒子效果。
      *
+     * @param player 玩家
+     */
+    public static void disable(@NotNull Player player) {
+        disable(player.getUniqueId());
+    }
+
+    /**
+     * 按玩家 UUID 清理内部任务。
+     *
      * @param playerId 玩家 UUID
      */
-    public static void disable(@NotNull UUID playerId) {
+    private static void disable(@NotNull UUID playerId) {
         HandyRunnable task = TASK_MAP.remove(playerId);
         if (task == null) {
             return;
@@ -146,8 +158,8 @@ public final class HandyParticleApi {
      */
     private static void start(@NotNull UUID playerId, @NotNull HandyRunnable task) {
         disable(playerId);
-        TASK_MAP.put(playerId, task);
         HandySchedulerUtil.runTaskTimer(task, 1L, 2L);
+        TASK_MAP.put(playerId, task);
     }
 
 }

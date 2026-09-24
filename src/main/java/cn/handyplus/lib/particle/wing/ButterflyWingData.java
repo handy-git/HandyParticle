@@ -564,6 +564,9 @@ final class ButterflyWingData {
             new WingPoint(13, 4, 1, 0xED9205)
     };
 
+    /**
+     * 禁止实例化点阵数据类。
+     */
     private ButterflyWingData() {
     }
 }

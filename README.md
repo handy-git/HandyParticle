@@ -5,6 +5,7 @@ HandyParticle 是基于 HandyLib 的粒子翅膀与运动轨迹依赖库。
 ## 包结构
 
 - `cn.handyplus.lib.particle`：统一的 `HandyParticleApi`。
+- `cn.handyplus.lib.particle.listener`：粒子任务的生命周期监听器。
 - `cn.handyplus.lib.particle.trail`：轨迹参数、发射器与运动算法。
 - `cn.handyplus.lib.particle.wing`：翅膀组合枚举、点阵数据和渲染实现。
 
@@ -19,14 +20,13 @@ HandyParticle 是基于 HandyLib 的粒子翅膀与运动轨迹依赖库。
 
 - Java 8 目标字节码。
 - HandyLib 3.43.2。
-- Bukkit API 兼容服务端。
+- Bukkit/Spigot/Paper 服务端。翅膀彩色粒子使用 `Particle.DustOptions`，不兼容缺少该类的 1.13 以下版本；Folia 尚未验证线程安全。
 
 ## Maven
 
 在业务插件的 `pom.xml` 中添加以下依赖，业务插件还需提供对应版本的 HandyLib：
 
 ```xml
-
 <dependencies>
     <dependency>
         <groupId>cn.handyplus.lib.particle</groupId>
@@ -57,12 +57,14 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public final class ExamplePlugin extends JavaPlugin {
 
+    /** {@inheritDoc} */
     @Override
     public void onEnable() {
         InitApi.getInstance(this);
         HandyParticleApi.init(this);
     }
 
+    /** {@inheritDoc} */
     @Override
     public void onDisable() {
         HandyParticleApi.shutdown();
@@ -76,7 +78,7 @@ public final class ExamplePlugin extends JavaPlugin {
      * @return 启用是否成功
      */
     public boolean enableWing(Player player) {
-        return HandyParticleApi.enable(player.getUniqueId(), ParticleWingTypeEnum.ANGEL_FIRE);
+        return HandyParticleApi.enable(player, ParticleWingTypeEnum.ANGEL_FIRE);
     }
 
     /**
@@ -87,7 +89,7 @@ public final class ExamplePlugin extends JavaPlugin {
      */
     public boolean enableTrail(Player player) {
         return HandyParticleApi.enable(
-                player.getUniqueId(),
+                player,
                 ParticleTrailPatternEnum.HELIX,
                 ParticleTrailOptions.defaults().radius(4).particles(40),
                 (target, location, tick) -> target.spawnParticle(Particle.FLAME, location, 1)
@@ -100,12 +102,12 @@ public final class ExamplePlugin extends JavaPlugin {
      * @param player 玩家
      */
     public void disableEffect(Player player) {
-        HandyParticleApi.disable(player.getUniqueId());
+        HandyParticleApi.disable(player);
     }
 }
 ```
 
-玩家在线且任务创建成功时，`enable` 返回 `true`；玩家离线时返回 `false`。同一玩家启用翅膀或轨迹时，旧效果会被替换，两种效果不能同时启用。调用
+模块已初始化、玩家在线且任务创建成功时，`enable` 返回 `true`；模块未初始化或玩家离线时返回 `false`。同一玩家启用翅膀或轨迹时，旧效果会被替换，两种效果不能同时启用。调用
 `HandyParticleApi.disableAll()` 可关闭全部玩家的效果。
 
 ## 翅膀组合
@@ -122,6 +124,7 @@ public final class ExamplePlugin extends JavaPlugin {
 
 内置 `CIRCLE`、`HELIX`、`SPIRAL`、`WAVES`、`PULSE` 和 `SHIELD`。算法负责计算位置，`ParticleEmitter` 由调用方实现，可以发射任意
 Bukkit 粒子、彩色粒子或带额外数据的粒子。省略 `ParticleTrailOptions` 参数时使用默认值。
+参数值必须有限，半径和高度不能为负，长度、每帧增长高度及粒子数量等计数必须大于零；无效参数会抛出 `IllegalArgumentException`。
 
 ## 生命周期
 

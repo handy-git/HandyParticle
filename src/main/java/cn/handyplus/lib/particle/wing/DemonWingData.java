@@ -522,6 +522,9 @@ final class DemonWingData {
             new WingPoint(13, 9, 1, 0xA93900)
     };
 
+    /**
+     * 禁止实例化点阵数据类。
+     */
     private DemonWingData() {
     }
 }

@@ -578,6 +578,9 @@ final class ElfWingData {
             new WingPoint(13, 6, 1, 0xFFAD00)
     };
 
+    /**
+     * 禁止实例化点阵数据类。
+     */
     private ElfWingData() {
     }
 }

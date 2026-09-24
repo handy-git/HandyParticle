@@ -19,7 +19,7 @@ public final class PlayerQuitEventListener implements Listener {
      */
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {
-        HandyParticleApi.disable(event.getPlayer().getUniqueId());
+        HandyParticleApi.disable(event.getPlayer());
     }
 
 }

@@ -571,6 +571,9 @@ final class AngelWingData {
             new WingPoint(11, 2, 1, 0xC97F04)
     };
 
+    /**
+     * 禁止实例化点阵数据类。
+     */
     private AngelWingData() {
     }
 }

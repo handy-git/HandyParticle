@@ -396,6 +396,9 @@ final class LongWingData {
             new WingPoint(11, 0, 2, 0xA16101)
     };
 
+    /**
+     * 禁止实例化点阵数据类。
+     */
     private LongWingData() {
     }
 }

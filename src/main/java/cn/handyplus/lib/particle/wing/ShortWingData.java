@@ -284,6 +284,9 @@ final class ShortWingData {
             new WingPoint(9, 4, 1, 0xFA9F01)
     };
 
+    /**
+     * 禁止实例化点阵数据类。
+     */
     private ShortWingData() {
     }
 }

@@ -424,6 +424,9 @@ final class NightWingData {
             new WingPoint(13, 5, 3, 0xFFB500)
     };
 
+    /**
+     * 禁止实例化点阵数据类。
+     */
     private NightWingData() {
     }
 }

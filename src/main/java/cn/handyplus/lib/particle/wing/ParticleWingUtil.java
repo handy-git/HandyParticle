@@ -2,15 +2,11 @@ package cn.handyplus.lib.particle.wing;
 
 import cn.handyplus.lib.constants.BaseConstants;
 import cn.handyplus.lib.constants.VersionCheckEnum;
-import cn.handyplus.lib.particle.HandyParticleApi;
-import cn.handyplus.lib.util.BaseUtil;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.UUID;
 
 /**
  * 粒子翅膀内部渲染工具。
@@ -39,21 +35,19 @@ final class ParticleWingUtil {
      */
     private static final Particle CRIT_PARTICLE = getParticle("CRIT_MAGIC");
 
+    /**
+     * 禁止实例化渲染工具。
+     */
     private ParticleWingUtil() {
     }
 
     /**
      * 渲染指定玩家的翅膀。
      *
-     * @param playerId 玩家 UUID
+     * @param player 玩家
      * @param wingType 翅膀组合
      */
-    static void render(@NotNull UUID playerId, @NotNull ParticleWingTypeEnum wingType) {
-        Player player = BaseUtil.getOnlinePlayer(playerId).orElse(null);
-        if (player == null) {
-            HandyParticleApi.disable(playerId);
-            return;
-        }
+    static void render(@NotNull Player player, @NotNull ParticleWingTypeEnum wingType) {
         Location origin = player.getLocation().clone();
         origin.setPitch(0.0F);
         origin.add(origin.getDirection().multiply(-0.3D));
@@ -61,6 +55,14 @@ final class ParticleWingUtil {
         drawWing(player, origin, wingType.getPoints(), 120.0F);
     }
 
+    /**
+     * 按点阵绘制单侧翅膀。
+     *
+     * @param player 玩家
+     * @param origin 翅膀原点
+     * @param points 翅膀点阵
+     * @param angle 翅膀旋转角度
+     */
     private static void drawWing(@NotNull Player player, @NotNull Location origin, @NotNull WingPoint[] points, float angle) {
         for (WingPoint point : points) {
             Location location = origin.clone();
@@ -71,15 +73,19 @@ final class ParticleWingUtil {
         }
     }
 
+    /**
+     * 根据点阵类型发射粒子。
+     *
+     * @param player 玩家
+     * @param location 发射位置
+     * @param point 点阵数据
+     */
     private static void spawn(@NotNull Player player, @NotNull Location location, @NotNull WingPoint point) {
         switch (point.getType()) {
             // 图案 RGB 彩色粒子
             case 1:
             case 2:
             case 3:
-                if (COLOR_PARTICLE == null) {
-                    return;
-                }
                 int rgb = point.getColor();
                 Color color = Color.fromRGB((rgb >> 16) & 255, (rgb >> 8) & 255, rgb & 255);
                 player.spawnParticle(COLOR_PARTICLE, location, 1, 0.0D, 0.0D, 0.0D, 0.0D, new Particle.DustOptions(color, 1.0F));
@@ -105,10 +111,15 @@ final class ParticleWingUtil {
         }
     }
 
-    private static void spawnSimple(@NotNull Player player, Particle particle, @NotNull Location location) {
-        if (particle != null) {
-            player.spawnParticle(particle, location, 1);
-        }
+    /**
+     * 发射一个无需额外数据的粒子。
+     *
+     * @param player 玩家
+     * @param particle 粒子类型
+     * @param location 发射位置
+     */
+    private static void spawnSimple(@NotNull Player player, @NotNull Particle particle, @NotNull Location location) {
+        player.spawnParticle(particle, location, 1);
     }
 
     /**
