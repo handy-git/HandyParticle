@@ -5,6 +5,7 @@ author: handy
 api-version: 1.13
 description: 一个有点好用的玩家粒子插件
 website: https://ricedoc.handyplus.cn/wiki/HandyParticle/log/
+softdepend: [ AuthMe, CatSeedLogin, OauthLogin ]
 folia-supported: true
 commands:
   handyParticle:

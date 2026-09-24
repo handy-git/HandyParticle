@@ -115,9 +115,10 @@ public final class ExamplePlugin extends JavaPlugin {
 
 ## 生命周期
 
-- HandyParticle 插件启动时自动注册玩家退出监听器并初始化 HandyLib。
-- 粒子任务每 2 Tick 刷新一次，玩家退出时自动停止并移除。
-- HandyParticle 插件关闭时停止全部任务并释放 HandyLib 资源。
+- HandyParticle 插件启动时初始化 HandyLib 和玩家粒子设置表，并注册登录、退出监听器。
+- 启用效果时按玩家 UUID 保存类型和轨迹粒子名；主动关闭效果时删除设置。
+- 粒子任务每 2 Tick 刷新一次，玩家退出时只停止任务，下次登录自动恢复已保存的设置。
+- HandyParticle 插件关闭时停止全部任务并释放 HandyLib 资源，保留已保存的设置。
 
 ## 管理员指令
 

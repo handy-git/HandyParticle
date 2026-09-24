@@ -23,6 +23,7 @@ public final class HandyParticle extends JavaPlugin {
 
         initApi.initCommand("cn.handyplus.particle.command")
                 .initListener("cn.handyplus.particle.listener")
+                .enableSql("cn.handyplus.particle.entity")
                 .checkVersion();
 
         MessageUtil.sendConsoleMessage("&a已成功载入服务器!");

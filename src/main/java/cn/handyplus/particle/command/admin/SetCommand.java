@@ -8,15 +8,20 @@ import cn.handyplus.lib.util.BaseUtil;
 import cn.handyplus.lib.util.MessageUtil;
 import cn.handyplus.particle.api.HandyParticleApi;
 import cn.handyplus.particle.api.ParticleTypeEnum;
+import cn.handyplus.particle.entity.PlayerParticleEntity;
+import cn.handyplus.particle.service.PlayerParticleService;
 import com.cryptomorin.xseries.particles.XParticle;
 import org.bukkit.Particle;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -67,7 +72,27 @@ public final class SetCommand implements IHandyCommandEvent {
             MessageUtil.sendMessage(sender, BaseUtil.getLangMsg("invalidParticleName"));
             return;
         }
+        this.save(player, type, particleName);
         MessageUtil.sendMessage(sender, BaseUtil.getLangMsg("setSuccess", MapUtil.of("player", player.getName(), "type", type.name())));
+    }
+
+    /**
+     * 保存命令设置的玩家粒子，已有设置先删除再新增。
+     *
+     * @param player       玩家
+     * @param type         粒子类型
+     * @param particleName 轨迹粒子名称，翅膀时为空
+     */
+    private void save(@NotNull Player player, @NotNull ParticleTypeEnum type, @Nullable String particleName) {
+        Optional<PlayerParticleEntity> existing = PlayerParticleService.findByUuid(player.getUniqueId());
+        if (existing.isPresent()) {
+            PlayerParticleService.delete(player.getUniqueId());
+        }
+        PlayerParticleService.add(PlayerParticleEntity.builder()
+                .playerUuid(player.getUniqueId())
+                .particleType(type.name())
+                .particleName(particleName)
+                .build());
     }
 
     /**

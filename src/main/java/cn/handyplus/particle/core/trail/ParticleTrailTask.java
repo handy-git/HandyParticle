@@ -1,7 +1,7 @@
 package cn.handyplus.particle.core.trail;
 
 import cn.handyplus.lib.internal.HandyRunnable;
-import cn.handyplus.particle.api.HandyParticleApi;
+import cn.handyplus.particle.core.HandyParticleCore;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.entity.Player;
 
@@ -39,7 +39,7 @@ public final class ParticleTrailTask extends HandyRunnable {
     @Override
     public void run() {
         if (!player.isOnline()) {
-            HandyParticleApi.disable(player);
+            HandyParticleCore.disable(player);
             return;
         }
         pattern.render(player, player.getLocation().clone(), tick++, options, emitter);

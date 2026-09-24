@@ -22,14 +22,14 @@ public final class HandyParticleApi {
     }
 
     /**
-     * 启用翅膀或使用默认红色粉尘启用轨迹。
+     * 启用翅膀；轨迹类型因缺少粒子名称会抛出异常。
      *
      * @param player 玩家
      * @param type   翅膀组合或轨迹算法
      * @return 玩家在线且已发起调度请求时返回 true
      */
     public static boolean enable(@NotNull Player player, @NotNull ParticleTypeEnum type) {
-        return enable(player, type, "DUST");
+        return enable(player, type, null);
     }
 
     /**

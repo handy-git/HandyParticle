@@ -7,6 +7,7 @@ import cn.handyplus.lib.util.AssertUtil;
 import cn.handyplus.lib.util.BaseUtil;
 import cn.handyplus.lib.util.MessageUtil;
 import cn.handyplus.particle.api.HandyParticleApi;
+import cn.handyplus.particle.service.PlayerParticleService;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -40,6 +41,7 @@ public final class ClearCommand implements IHandyCommandEvent {
         Player player = BaseUtil.getOnlinePlayer(playerName).orElse(null);
         AssertUtil.notNull(player, BaseUtil.getLangMsg("playerOffline"));
         HandyParticleApi.disable(player);
+        PlayerParticleService.delete(player.getUniqueId());
         MessageUtil.sendMessage(sender, BaseUtil.getLangMsg("clearSuccess", MapUtil.of("player", player.getName())));
     }
 
