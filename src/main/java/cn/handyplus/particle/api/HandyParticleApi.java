@@ -33,6 +33,19 @@ public final class HandyParticleApi {
     }
 
     /**
+     * 使用默认参数和普通粒子启用玩家轨迹。
+     *
+     * @param player       玩家
+     * @param pattern      运动算法
+     * @param particleName XParticle 粒子名称
+     * @return 玩家在线且已发起调度请求时返回 true
+     * @throws IllegalArgumentException 粒子不存在、不受当前服务端支持或需要额外数据
+     */
+    public static boolean enable(@NotNull Player player, @NotNull ParticleTrailPattern pattern, @NotNull String particleName) {
+        return HandyParticleCore.enable(player, pattern, particleName);
+    }
+
+    /**
      * 使用默认参数启用玩家粒子轨迹。
      *
      * @param player  玩家

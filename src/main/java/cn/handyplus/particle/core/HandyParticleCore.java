@@ -8,6 +8,8 @@ import cn.handyplus.particle.core.trail.ParticleTrailPattern;
 import cn.handyplus.particle.core.trail.ParticleTrailTask;
 import cn.handyplus.particle.core.wing.ParticleWingTask;
 import cn.handyplus.particle.core.wing.ParticleWingTypeEnum;
+import com.cryptomorin.xseries.particles.XParticle;
+import org.bukkit.Particle;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
@@ -47,6 +49,27 @@ public class HandyParticleCore {
         }
         start(player, new ParticleWingTask(player, wingType));
         return true;
+    }
+
+    /**
+     * 使用默认参数和普通粒子启用玩家轨迹。
+     *
+     * @param player       玩家
+     * @param pattern      运动算法
+     * @param particleName XParticle 粒子名称
+     * @return 玩家在线且已发起调度请求时返回 true
+     * @throws IllegalArgumentException 粒子不存在、不受当前服务端支持或需要额外数据
+     */
+    public static boolean enable(@NotNull Player player, @NotNull ParticleTrailPattern pattern, @NotNull String particleName) {
+        XParticle xParticle = XParticle.of(particleName).orElseThrow(() -> new IllegalArgumentException("Unknown particle: " + particleName));
+        Particle particle = xParticle.get();
+        if (particle == null) {
+            throw new IllegalArgumentException("Unsupported particle: " + particleName);
+        }
+        if (particle.getDataType() != Void.class) {
+            throw new IllegalArgumentException("Particle requires data: " + particleName);
+        }
+        return enable(player, pattern, (target, location, tick) -> target.spawnParticle(particle, location, 1));
     }
 
     /**

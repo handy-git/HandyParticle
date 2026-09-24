@@ -47,10 +47,8 @@ HandyParticle 会在插件启动时自动初始化。以下示例展示翅膀、
 
 ```java
 import cn.handyplus.particle.api.HandyParticleApi;
-import cn.handyplus.particle.core.trail.ParticleTrailOptions;
 import cn.handyplus.particle.core.trail.ParticleTrailPatternEnum;
 import cn.handyplus.particle.core.wing.ParticleWingTypeEnum;
-import org.bukkit.Particle;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -73,12 +71,7 @@ public final class ExamplePlugin extends JavaPlugin {
      * @return 启用是否成功
      */
     public boolean enableTrail(Player player) {
-        return HandyParticleApi.enable(
-                player,
-                ParticleTrailPatternEnum.HELIX,
-                ParticleTrailOptions.defaults().radius(4).particles(40),
-                (target, location, tick) -> target.spawnParticle(Particle.FLAME, location, 1)
-        );
+        return HandyParticleApi.enable(player, ParticleTrailPatternEnum.HELIX, "FLAME");
     }
 
     /**
@@ -110,6 +103,7 @@ public final class ExamplePlugin extends JavaPlugin {
 
 内置 `CIRCLE`、`HELIX`、`SPIRAL`、`WAVES`、`PULSE` 和 `SHIELD`。算法负责计算位置，`ParticleEmitter` 由调用方实现，可以发射任意
 Bukkit 粒子、彩色粒子或带额外数据的粒子。省略 `ParticleTrailOptions` 参数时使用默认值。
+普通粒子可直接传 XParticle 名称，例如 `"FLAME"`；名称不存在、当前服务端不支持或粒子需要额外数据时，启用时抛出 `IllegalArgumentException`。彩色粉尘等带数据的粒子仍需使用 `ParticleEmitter` 重载。
 参数值必须有限，半径和高度不能为负，长度、每帧增长高度及粒子数量等计数必须大于零；无效参数会抛出 `IllegalArgumentException`。
 为限制单轮计算量，`strands` 最多 200，`waveStrands` 最多 100，`baseParticles` 最多 50；内置轨迹单轮最多调用发射器 200 次，实际粒子数量由调用方决定。
 
