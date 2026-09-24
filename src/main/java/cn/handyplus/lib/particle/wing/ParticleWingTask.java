@@ -1,4 +1,4 @@
-package cn.handyplus.lib.particle;
+package cn.handyplus.lib.particle.wing;
 
 import cn.handyplus.lib.internal.HandyRunnable;
 import lombok.RequiredArgsConstructor;
@@ -11,9 +11,15 @@ import java.util.UUID;
  * @author handy
  */
 @RequiredArgsConstructor
-final class ParticleWingTask extends HandyRunnable {
+public final class ParticleWingTask extends HandyRunnable {
+    /**
+     * 任务所属玩家的 UUID。
+     */
     private final UUID playerId;
-    private final ParticleWingType wingType;
+    /**
+     * 当前使用的翅膀组合。
+     */
+    private final ParticleWingTypeEnum wingType;
 
     /**
      * 刷新玩家当前坐标处的固定翅膀。

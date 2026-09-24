@@ -1,15 +1,16 @@
-package cn.handyplus.lib.particle;
+package cn.handyplus.lib.particle.listener;
 
+import cn.handyplus.lib.particle.HandyParticleApi;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 /**
- * 粒子翅膀生命周期监听器。
+ * 粒子效果生命周期监听器。
  *
  * @author handy
  */
-final class ParticleWingListener implements Listener {
+public final class PlayerQuitEventListener implements Listener {
 
     /**
      * 处理玩家退出。
@@ -18,7 +19,7 @@ final class ParticleWingListener implements Listener {
      */
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {
-        ParticleWingApi.disable(event.getPlayer().getUniqueId());
+        HandyParticleApi.disable(event.getPlayer().getUniqueId());
     }
 
 }

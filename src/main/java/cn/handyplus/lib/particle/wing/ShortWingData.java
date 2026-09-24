@@ -1,4 +1,4 @@
-package cn.handyplus.lib.particle;
+package cn.handyplus.lib.particle.wing;
 
 /**
  * Short 模型的固定粒子点数据。

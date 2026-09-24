@@ -1,7 +1,8 @@
-package cn.handyplus.lib.particle;
+package cn.handyplus.lib.particle.wing;
 
 import cn.handyplus.lib.constants.BaseConstants;
 import cn.handyplus.lib.constants.VersionCheckEnum;
+import cn.handyplus.lib.particle.HandyParticleApi;
 import cn.handyplus.lib.util.BaseUtil;
 import org.bukkit.Color;
 import org.bukkit.Location;
@@ -17,10 +18,25 @@ import java.util.UUID;
  * @author handy
  */
 final class ParticleWingUtil {
+    /**
+     * 彩色翅膀点使用的粒子。
+     */
     private static final Particle COLOR_PARTICLE = getParticle("REDSTONE");
+    /**
+     * 火焰翅膀点使用的粒子。
+     */
     private static final Particle FLAME_PARTICLE = getParticle("FLAME");
+    /**
+     * 女巫法术翅膀点使用的粒子。
+     */
     private static final Particle WITCH_PARTICLE = getParticle("WITCH");
+    /**
+     * 熔岩滴落翅膀点使用的粒子。
+     */
     private static final Particle DRIP_LAVA_PARTICLE = getParticle("DRIPPING_LAVA");
+    /**
+     * 魔法暴击翅膀点使用的粒子。
+     */
     private static final Particle CRIT_PARTICLE = getParticle("CRIT_MAGIC");
 
     private ParticleWingUtil() {
@@ -32,10 +48,10 @@ final class ParticleWingUtil {
      * @param playerId 玩家 UUID
      * @param wingType 翅膀组合
      */
-    static void render(@NotNull UUID playerId, @NotNull ParticleWingType wingType) {
+    static void render(@NotNull UUID playerId, @NotNull ParticleWingTypeEnum wingType) {
         Player player = BaseUtil.getOnlinePlayer(playerId).orElse(null);
         if (player == null) {
-            ParticleWingApi.disable(playerId);
+            HandyParticleApi.disable(playerId);
             return;
         }
         Location origin = player.getLocation().clone();

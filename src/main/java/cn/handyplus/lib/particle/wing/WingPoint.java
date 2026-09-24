@@ -1,4 +1,4 @@
-package cn.handyplus.lib.particle;
+package cn.handyplus.lib.particle.wing;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
