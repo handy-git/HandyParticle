@@ -4,6 +4,7 @@ import cn.handyplus.lib.command.HandyTab;
 import cn.handyplus.lib.command.IHandyCommandEvent;
 import cn.handyplus.lib.constants.BaseConstants;
 import cn.handyplus.lib.core.MapUtil;
+import cn.handyplus.lib.core.StrUtil;
 import cn.handyplus.lib.util.AssertUtil;
 import cn.handyplus.lib.util.BaseUtil;
 import cn.handyplus.lib.util.MessageUtil;
@@ -85,7 +86,8 @@ public final class SetCommand implements IHandyCommandEvent {
             return;
         }
         this.save(player, type, particleName);
-        MessageUtil.sendMessage(sender, BaseUtil.getLangMsg("setSuccess", MapUtil.of("player", player.getName(), "type", type.name())));
+        String description = StrUtil.isEmpty(type.getDesc()) ? type.getDesc() : type.name();
+        MessageUtil.sendMessage(sender, BaseUtil.getLangMsg("setSuccess", MapUtil.of("player", player.getName(), "type", description)));
     }
 
     /**
