@@ -3,10 +3,8 @@ package cn.handyplus.particle.listener;
 import cn.handyplus.lib.annotation.HandyListener;
 import cn.handyplus.lib.internal.HandyLoginEvent;
 import cn.handyplus.lib.internal.HandySchedulerUtil;
+import cn.handyplus.particle.api.HandyParticleApi;
 import cn.handyplus.particle.api.ParticleTypeEnum;
-import cn.handyplus.particle.core.HandyParticleCore;
-import cn.handyplus.particle.core.trail.ParticleTrailPatternEnum;
-import cn.handyplus.particle.core.wing.ParticleWingTypeEnum;
 import cn.handyplus.particle.entity.PlayerParticleEntity;
 import cn.handyplus.particle.service.PlayerParticleService;
 import org.bukkit.entity.Player;
@@ -38,13 +36,7 @@ public final class HandyLoginEventListener implements Listener {
             }
             PlayerParticleEntity entity = saved.get();
             ParticleTypeEnum type = ParticleTypeEnum.getEnumThrow(entity.getParticleType());
-            if (type.isTrail()) {
-                ParticleTrailPatternEnum pattern = ParticleTrailPatternEnum.valueOf(type.name());
-                HandyParticleCore.setTrail(player, pattern, entity.getParticleName());
-                return;
-            }
-            ParticleWingTypeEnum wingType = ParticleWingTypeEnum.valueOf(type.name());
-            HandyParticleCore.setWings(player, wingType);
+            HandyParticleApi.enable(player, type, entity.getParticleName());
         });
     }
 

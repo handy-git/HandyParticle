@@ -2,6 +2,7 @@ package cn.handyplus.particle.command.admin;
 
 import cn.handyplus.lib.command.HandyTab;
 import cn.handyplus.lib.command.IHandyCommandEvent;
+import cn.handyplus.lib.constants.BaseConstants;
 import cn.handyplus.lib.core.MapUtil;
 import cn.handyplus.lib.util.AssertUtil;
 import cn.handyplus.lib.util.BaseUtil;
@@ -44,7 +45,18 @@ public final class SetCommand implements IHandyCommandEvent {
     @Override
     public void tab(HandyTab tab) {
         tab.nextNull()
-                .next(Arrays.stream(ParticleTypeEnum.values()).map(Enum::name).collect(Collectors.toList()))
+                .next(context -> {
+                    boolean chinese = "zh_CN".equalsIgnoreCase(BaseConstants.CONFIG.getString("language", "zh_CN"));
+                    return Arrays.stream(ParticleTypeEnum.values())
+                            .map(type -> {
+                                if (!chinese) {
+                                    return type.name();
+                                }
+                                String desc = type.getDesc();
+                                return desc.isEmpty() ? type.name() : type.name() + "(" + desc + ")";
+                            })
+                            .collect(Collectors.toList());
+                })
                 .next(context -> particleSuggestions(context.getArgs()));
     }
 
