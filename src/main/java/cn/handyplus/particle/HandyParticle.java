@@ -26,6 +26,17 @@ public final class HandyParticle extends JavaPlugin {
                 .enableSql("cn.handyplus.particle.entity")
                 .checkVersion();
 
+        String[] logo = {
+                " _   _                 _       ____            _   _      _",
+                "| | | | __ _ _ __   __| |_   _|  _ \\ __ _ _ __| |_(_) ___| | ___",
+                "| |_| |/ _` | '_ \\ / _` | | | | |_) / _` | '__| __| |/ __| |/ _ \\",
+                "|  _  | (_| | | | | (_| | |_| |  __/ (_| | |  | |_| | (__| |  __/",
+                "|_| |_|\\__,_|_| |_|\\__,_|\\__, |_|   \\__,_|_|   \\__|_|\\___|_|\\___|",
+                "                         |___/"
+        };
+        for (String line : logo) {
+            MessageUtil.sendConsoleMessage("&3" + line);
+        }
         MessageUtil.sendConsoleMessage("&a已成功载入服务器!");
         MessageUtil.sendConsoleMessage("&aAuthor:handy WIKI: https://ricedoc.handyplus.cn/wiki/HandyParticle/README/");
     }
