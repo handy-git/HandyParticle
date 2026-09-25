@@ -86,7 +86,7 @@ public final class SetCommand implements IHandyCommandEvent {
             return;
         }
         this.save(player, type, particleName);
-        String description = StrUtil.isEmpty(type.getDesc()) ? type.getDesc() : type.name();
+        String description = StrUtil.isNotEmpty(type.getDesc()) ? type.getDesc() : type.name();
         MessageUtil.sendMessage(sender, BaseUtil.getLangMsg("setSuccess", MapUtil.of("player", player.getName(), "type", description)));
     }
 
