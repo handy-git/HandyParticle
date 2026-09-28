@@ -1,5 +1,6 @@
 package cn.handyplus.particle.core.trail;
 
+import com.cryptomorin.xseries.particles.ParticleDisplay;
 import com.cryptomorin.xseries.particles.XParticle;
 import lombok.AllArgsConstructor;
 import org.bukkit.Color;
@@ -149,15 +150,6 @@ public enum TrailTypeEnum {
     TRAIL_PINK_CONFETTI("CHERRY_LEAVES", 0.2D);
 
     /**
-     * 红石粒子的固定颜色与大小。
-     */
-    private static final Particle.DustOptions RED_DUST = new Particle.DustOptions(Color.RED, 1.0F);
-    /**
-     * 生物法术粒子的固定颜色。
-     */
-    private static final Color SPELL_COLOR = Color.fromRGB(255, 0, 255);
-
-    /**
      * XParticle 粒子名称。
      */
     @NotNull
@@ -205,20 +197,19 @@ public enum TrailTypeEnum {
      */
     public void spawn(@NotNull Player player, @NotNull Particle particle) {
         Location location = player.getLocation().clone().add(0.0D, y, 0.0D);
-        spawn(player, particle, location, 4, 1.0D);
+        spawn(particle, location, 4, 1.0D);
     }
 
     /**
      * 在指定位置生成一次拖尾粒子。
      *
-     * @param player   玩家
      * @param particle 已解析粒子
      * @param location 生成位置
      * @param amount   数量
      * @param offset   扩散范围
      */
-    public void spawnAt(@NotNull Player player, @NotNull Particle particle, @NotNull Location location, int amount, double offset) {
-        spawn(player, particle, location, amount, offset);
+    public void spawnAt(@NotNull Particle particle, @NotNull Location location, int amount, double offset) {
+        spawn(particle, location, amount, offset);
     }
 
     /**
@@ -242,20 +233,35 @@ public enum TrailTypeEnum {
     /**
      * 使用对应附加数据生成粒子。
      *
-     * @param player   玩家
      * @param particle 已解析的粒子
      * @param location 粒子位置
      * @param amount   粒子数量
      * @param offset   三个坐标轴的扩散范围
      */
-    private void spawn(@NotNull Player player, @NotNull Particle particle, @NotNull Location location, int amount, double offset) {
+    private void spawn(@NotNull Particle particle, @NotNull Location location, int amount, double offset) {
+        XParticle xParticle = XParticle.of(particle.name())
+                .orElseThrow(() -> new IllegalArgumentException("Unsupported particle: " + particle));
         // 红石和生物法术需要与 Bukkit 粒子数据类型一致的附加数据。
         if (dataType == Particle.DustOptions.class) {
-            player.spawnParticle(particle, location, amount, offset, offset, offset, speed, RED_DUST);
+            ParticleDisplay.of(xParticle)
+                    .withCount(amount)
+                    .offset(offset)
+                    .withExtra(speed)
+                    .withColor(java.awt.Color.RED, 1.0F)
+                    .spawn(location);
         } else if (dataType == Color.class) {
-            player.spawnParticle(particle, location, amount, offset, offset, offset, speed, SPELL_COLOR);
+            ParticleDisplay.of(xParticle)
+                    .withCount(amount)
+                    .offset(offset)
+                    .withExtra(speed)
+                    .withColor(new java.awt.Color(255, 0, 255), 1.0F)
+                    .spawn(location);
         } else {
-            player.spawnParticle(particle, location, amount, offset, offset, offset, speed);
+            ParticleDisplay.of(xParticle)
+                    .withCount(amount)
+                    .offset(offset)
+                    .withExtra(speed)
+                    .spawn(location);
         }
     }
 

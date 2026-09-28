@@ -1,6 +1,7 @@
 package cn.handyplus.particle.core.wing;
 
 import com.cryptomorin.xseries.particles.XParticle;
+import com.cryptomorin.xseries.particles.ParticleDisplay;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Particle;
@@ -16,23 +17,23 @@ final class WingUtil {
     /**
      * 彩色翅膀点使用的粒子。
      */
-    private static final Particle COLOR_PARTICLE = XParticle.DUST.get();
+    private static final XParticle COLOR_PARTICLE = XParticle.DUST;
     /**
      * 火焰翅膀点使用的粒子。
      */
-    private static final Particle FLAME_PARTICLE = XParticle.FLAME.get();
+    private static final XParticle FLAME_PARTICLE = XParticle.FLAME;
     /**
      * 女巫法术翅膀点使用的粒子。
      */
-    private static final Particle WITCH_PARTICLE = XParticle.WITCH.get();
+    private static final XParticle WITCH_PARTICLE = XParticle.WITCH;
     /**
      * 熔岩滴落翅膀点使用的粒子。
      */
-    private static final Particle DRIP_LAVA_PARTICLE = XParticle.DRIPPING_LAVA.get();
+    private static final XParticle DRIP_LAVA_PARTICLE = XParticle.DRIPPING_LAVA;
     /**
      * 魔法暴击翅膀点使用的粒子。
      */
-    private static final Particle CRIT_PARTICLE = XParticle.ENCHANTED_HIT.get();
+    private static final XParticle CRIT_PARTICLE = XParticle.ENCHANTED_HIT;
 
     /**
      * 禁止实例化渲染工具。
@@ -50,36 +51,34 @@ final class WingUtil {
         Location origin = player.getLocation().clone();
         origin.setPitch(0.0F);
         origin.add(origin.getDirection().multiply(-0.3D));
-        drawWing(player, origin, wingType.getPoints(), -120.0F);
-        drawWing(player, origin, wingType.getPoints(), 120.0F);
+        drawWing(origin, wingType.getPoints(), -120.0F);
+        drawWing(origin, wingType.getPoints(), 120.0F);
     }
 
     /**
      * 按点阵绘制单侧翅膀。
      *
-     * @param player 玩家
      * @param origin 翅膀原点
      * @param points 翅膀点阵
      * @param angle  翅膀旋转角度
      */
-    private static void drawWing(@NotNull Player player, @NotNull Location origin, @NotNull WingPoint[] points, float angle) {
+    private static void drawWing(@NotNull Location origin, @NotNull WingPoint[] points, float angle) {
         for (WingPoint point : points) {
             Location location = origin.clone();
             location.setYaw(location.getYaw() - angle);
             location.add(0.0D, 0.2D * (14 - point.getRow()), 0.0D);
             location.add(location.getDirection().multiply(point.getColumn() * 0.2D));
-            spawn(player, location, point);
+            spawn(location, point);
         }
     }
 
     /**
      * 根据点阵类型发射粒子。
      *
-     * @param player   玩家
      * @param location 发射位置
      * @param point    点阵数据
      */
-    private static void spawn(@NotNull Player player, @NotNull Location location, @NotNull WingPoint point) {
+    private static void spawn(@NotNull Location location, @NotNull WingPoint point) {
         switch (point.getType()) {
             // 图案 RGB 彩色粒子
             case 1:
@@ -87,23 +86,25 @@ final class WingUtil {
             case 3:
                 int rgb = point.getColor();
                 Color color = Color.fromRGB((rgb >> 16) & 255, (rgb >> 8) & 255, rgb & 255);
-                player.spawnParticle(COLOR_PARTICLE, location, 1, 0.0D, 0.0D, 0.0D, 0.0D, new Particle.DustOptions(color, 1.0F));
+                ParticleDisplay.of(COLOR_PARTICLE)
+                        .withColor(new java.awt.Color(color.getRed(), color.getGreen(), color.getBlue()), 1.0F)
+                        .spawn(location);
                 return;
             // 火焰粒子
             case 4:
-                spawnSimple(player, FLAME_PARTICLE, location);
+                spawnSimple(FLAME_PARTICLE, location);
                 return;
             // 女巫法术粒子
             case 5:
-                spawnSimple(player, WITCH_PARTICLE, location);
+                spawnSimple(WITCH_PARTICLE, location);
                 return;
             // 熔岩滴落粒子
             case 6:
-                spawnSimple(player, DRIP_LAVA_PARTICLE, location);
+                spawnSimple(DRIP_LAVA_PARTICLE, location);
                 return;
             // 魔法暴击粒子
             case 7:
-                spawnSimple(player, CRIT_PARTICLE, location);
+                spawnSimple(CRIT_PARTICLE, location);
                 return;
             default:
                 return;
@@ -117,8 +118,8 @@ final class WingUtil {
      * @param particle 粒子类型
      * @param location 发射位置
      */
-    private static void spawnSimple(@NotNull Player player, @NotNull Particle particle, @NotNull Location location) {
-        player.spawnParticle(particle, location, 1);
+    private static void spawnSimple(@NotNull XParticle particle, @NotNull Location location) {
+        ParticleDisplay.of(particle).withCount(1).spawn(location);
     }
 
 }
