@@ -55,7 +55,7 @@ public final class SetCommand implements IHandyCommandEvent {
     @Override
     public void onCommand(CommandSender sender, Command command, String label, String[] args) {
         // 参数是否正常
-        AssertUtil.notTrue(args.length < 3, BaseUtil.getLangMsg("setUsage"));
+        AssertUtil.notTrue(args.length < 4, BaseUtil.getLangMsg("setUsage"));
         // 先校验命令结构，再解析类别和完整效果枚举名。
         String playerName = args[1];
         String effectName = args[3];
