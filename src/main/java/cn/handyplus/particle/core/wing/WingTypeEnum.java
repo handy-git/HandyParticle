@@ -4,11 +4,11 @@ import lombok.AccessLevel;
 import lombok.Getter;
 
 /**
- * 固定粒子翅膀组合。
+ * 粒子翅膀组合。
  *
  * @author handy
  */
-public enum ParticleWingTypeEnum {
+public enum WingTypeEnum {
     /**
      * Angel 模型 + Gradient1 图案。
      */
@@ -253,12 +253,12 @@ public enum ParticleWingTypeEnum {
     /**
      * 将模型点位和图案颜色组合成渲染点阵。
      *
-     * @param modelName 模型名称
+     * @param modelName   模型名称
      * @param patternName 图案名称
-     * @param shape 模型点位及粒子类型
-     * @param palette 图案颜色
+     * @param shape       模型点位及粒子类型
+     * @param palette     图案颜色
      */
-    ParticleWingTypeEnum(String modelName, String patternName, int[][] shape, int[][] palette) {
+    WingTypeEnum(String modelName, String patternName, int[][] shape, int[][] palette) {
         this.modelName = modelName;
         this.patternName = patternName;
         this.points = new WingPoint[shape.length];

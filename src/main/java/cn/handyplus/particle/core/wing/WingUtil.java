@@ -8,11 +8,11 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * 粒子翅膀内部渲染工具。
+ * 粒子翅膀渲染工具。
  *
  * @author handy
  */
-final class ParticleWingUtil {
+final class WingUtil {
     /**
      * 彩色翅膀点使用的粒子。
      */
@@ -37,16 +37,16 @@ final class ParticleWingUtil {
     /**
      * 禁止实例化渲染工具。
      */
-    private ParticleWingUtil() {
+    private WingUtil() {
     }
 
     /**
      * 渲染指定玩家的翅膀。
      *
-     * @param player 玩家
+     * @param player   玩家
      * @param wingType 翅膀组合
      */
-    static void render(@NotNull Player player, @NotNull ParticleWingTypeEnum wingType) {
+    static void render(@NotNull Player player, @NotNull WingTypeEnum wingType) {
         Location origin = player.getLocation().clone();
         origin.setPitch(0.0F);
         origin.add(origin.getDirection().multiply(-0.3D));
@@ -60,7 +60,7 @@ final class ParticleWingUtil {
      * @param player 玩家
      * @param origin 翅膀原点
      * @param points 翅膀点阵
-     * @param angle 翅膀旋转角度
+     * @param angle  翅膀旋转角度
      */
     private static void drawWing(@NotNull Player player, @NotNull Location origin, @NotNull WingPoint[] points, float angle) {
         for (WingPoint point : points) {
@@ -75,9 +75,9 @@ final class ParticleWingUtil {
     /**
      * 根据点阵类型发射粒子。
      *
-     * @param player 玩家
+     * @param player   玩家
      * @param location 发射位置
-     * @param point 点阵数据
+     * @param point    点阵数据
      */
     private static void spawn(@NotNull Player player, @NotNull Location location, @NotNull WingPoint point) {
         switch (point.getType()) {
@@ -113,7 +113,7 @@ final class ParticleWingUtil {
     /**
      * 发射一个无需额外数据的粒子。
      *
-     * @param player 玩家
+     * @param player   玩家
      * @param particle 粒子类型
      * @param location 发射位置
      */

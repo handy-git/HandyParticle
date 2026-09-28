@@ -1,7 +1,9 @@
 package cn.handyplus.particle.core.wing;
 
 /**
- * 七种翅膀图案共用的 RGB 颜色数据，按行列索引；空位的 0 不参与渲染。
+ * 翅膀图案共用的 RGB 颜色数据
+ *
+ * @author handy
  */
 final class WingPaletteData {
     /**

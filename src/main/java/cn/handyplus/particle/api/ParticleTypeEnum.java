@@ -1,15 +1,15 @@
 package cn.handyplus.particle.api;
 
 import cn.handyplus.lib.util.BaseUtil;
-import cn.handyplus.particle.core.trail.ParticleTrailPatternEnum;
-import cn.handyplus.particle.core.wing.ParticleWingTypeEnum;
+import cn.handyplus.particle.core.trail.TrailTypeEnum;
+import cn.handyplus.particle.core.wing.WingTypeEnum;
 import lombok.AccessLevel;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * 可启用的翅膀组合与轨迹算法。
+ * 可直接启用的翅膀组合与内置粒子效果。
  *
  * @author handy
  */
@@ -17,283 +17,391 @@ public enum ParticleTypeEnum {
     /**
      * 天使渐变一翅膀。
      */
-    WING_GRADIENT1_ANGEL(ParticleWingTypeEnum.ANGEL_GRADIENT1),
+    WING_GRADIENT1_ANGEL(WingTypeEnum.ANGEL_GRADIENT1),
     /**
      * 天使渐变二翅膀。
      */
-    WING_GRADIENT2_ANGEL(ParticleWingTypeEnum.ANGEL_GRADIENT2),
+    WING_GRADIENT2_ANGEL(WingTypeEnum.ANGEL_GRADIENT2),
     /**
      * 天使渐变三翅膀。
      */
-    WING_GRADIENT3_ANGEL(ParticleWingTypeEnum.ANGEL_GRADIENT3),
+    WING_GRADIENT3_ANGEL(WingTypeEnum.ANGEL_GRADIENT3),
     /**
      * 天使蘑菇翅膀。
      */
-    WING_MUSHROOM_ANGEL(ParticleWingTypeEnum.ANGEL_MUSHROOM),
+    WING_MUSHROOM_ANGEL(WingTypeEnum.ANGEL_MUSHROOM),
     /**
      * 天使火焰翅膀。
      */
-    WING_FIRE_ANGEL(ParticleWingTypeEnum.ANGEL_FIRE),
+    WING_FIRE_ANGEL(WingTypeEnum.ANGEL_FIRE),
     /**
      * 天使彩色翅膀。
      */
-    WING_COLORS_ANGEL(ParticleWingTypeEnum.ANGEL_COLORS),
+    WING_COLORS_ANGEL(WingTypeEnum.ANGEL_COLORS),
     /**
      * 天使飞行翅膀。
      */
-    WING_FLY_ANGEL(ParticleWingTypeEnum.ANGEL_FLY),
+    WING_FLY_ANGEL(WingTypeEnum.ANGEL_FLY),
     /**
      * 蝴蝶渐变一翅膀。
      */
-    WING_GRADIENT1_BUTTERFLY(ParticleWingTypeEnum.BUTTERFLY_GRADIENT1),
+    WING_GRADIENT1_BUTTERFLY(WingTypeEnum.BUTTERFLY_GRADIENT1),
     /**
      * 蝴蝶渐变二翅膀。
      */
-    WING_GRADIENT2_BUTTERFLY(ParticleWingTypeEnum.BUTTERFLY_GRADIENT2),
+    WING_GRADIENT2_BUTTERFLY(WingTypeEnum.BUTTERFLY_GRADIENT2),
     /**
      * 蝴蝶渐变三翅膀。
      */
-    WING_GRADIENT3_BUTTERFLY(ParticleWingTypeEnum.BUTTERFLY_GRADIENT3),
+    WING_GRADIENT3_BUTTERFLY(WingTypeEnum.BUTTERFLY_GRADIENT3),
     /**
      * 蝴蝶蘑菇翅膀。
      */
-    WING_MUSHROOM_BUTTERFLY(ParticleWingTypeEnum.BUTTERFLY_MUSHROOM),
+    WING_MUSHROOM_BUTTERFLY(WingTypeEnum.BUTTERFLY_MUSHROOM),
     /**
      * 蝴蝶火焰翅膀。
      */
-    WING_FIRE_BUTTERFLY(ParticleWingTypeEnum.BUTTERFLY_FIRE),
+    WING_FIRE_BUTTERFLY(WingTypeEnum.BUTTERFLY_FIRE),
     /**
      * 蝴蝶彩色翅膀。
      */
-    WING_COLORS_BUTTERFLY(ParticleWingTypeEnum.BUTTERFLY_COLORS),
+    WING_COLORS_BUTTERFLY(WingTypeEnum.BUTTERFLY_COLORS),
     /**
      * 蝴蝶飞行翅膀。
      */
-    WING_FLY_BUTTERFLY(ParticleWingTypeEnum.BUTTERFLY_FLY),
+    WING_FLY_BUTTERFLY(WingTypeEnum.BUTTERFLY_FLY),
     /**
      * 精灵渐变一翅膀。
      */
-    WING_GRADIENT1_ELF(ParticleWingTypeEnum.ELF_GRADIENT1),
+    WING_GRADIENT1_ELF(WingTypeEnum.ELF_GRADIENT1),
     /**
      * 精灵渐变二翅膀。
      */
-    WING_GRADIENT2_ELF(ParticleWingTypeEnum.ELF_GRADIENT2),
+    WING_GRADIENT2_ELF(WingTypeEnum.ELF_GRADIENT2),
     /**
      * 精灵渐变三翅膀。
      */
-    WING_GRADIENT3_ELF(ParticleWingTypeEnum.ELF_GRADIENT3),
+    WING_GRADIENT3_ELF(WingTypeEnum.ELF_GRADIENT3),
     /**
      * 精灵蘑菇翅膀。
      */
-    WING_MUSHROOM_ELF(ParticleWingTypeEnum.ELF_MUSHROOM),
+    WING_MUSHROOM_ELF(WingTypeEnum.ELF_MUSHROOM),
     /**
      * 精灵火焰翅膀。
      */
-    WING_FIRE_ELF(ParticleWingTypeEnum.ELF_FIRE),
+    WING_FIRE_ELF(WingTypeEnum.ELF_FIRE),
     /**
      * 精灵彩色翅膀。
      */
-    WING_COLORS_ELF(ParticleWingTypeEnum.ELF_COLORS),
+    WING_COLORS_ELF(WingTypeEnum.ELF_COLORS),
     /**
      * 精灵飞行翅膀。
      */
-    WING_FLY_ELF(ParticleWingTypeEnum.ELF_FLY),
+    WING_FLY_ELF(WingTypeEnum.ELF_FLY),
     /**
      * 长翼渐变一翅膀。
      */
-    WING_GRADIENT1_LONG(ParticleWingTypeEnum.LONG_GRADIENT1),
+    WING_GRADIENT1_LONG(WingTypeEnum.LONG_GRADIENT1),
     /**
      * 长翼渐变二翅膀。
      */
-    WING_GRADIENT2_LONG(ParticleWingTypeEnum.LONG_GRADIENT2),
+    WING_GRADIENT2_LONG(WingTypeEnum.LONG_GRADIENT2),
     /**
      * 长翼渐变三翅膀。
      */
-    WING_GRADIENT3_LONG(ParticleWingTypeEnum.LONG_GRADIENT3),
+    WING_GRADIENT3_LONG(WingTypeEnum.LONG_GRADIENT3),
     /**
      * 长翼蘑菇翅膀。
      */
-    WING_MUSHROOM_LONG(ParticleWingTypeEnum.LONG_MUSHROOM),
+    WING_MUSHROOM_LONG(WingTypeEnum.LONG_MUSHROOM),
     /**
      * 长翼火焰翅膀。
      */
-    WING_FIRE_LONG(ParticleWingTypeEnum.LONG_FIRE),
+    WING_FIRE_LONG(WingTypeEnum.LONG_FIRE),
     /**
      * 长翼彩色翅膀。
      */
-    WING_COLORS_LONG(ParticleWingTypeEnum.LONG_COLORS),
+    WING_COLORS_LONG(WingTypeEnum.LONG_COLORS),
     /**
      * 长翼飞行翅膀。
      */
-    WING_FLY_LONG(ParticleWingTypeEnum.LONG_FLY),
+    WING_FLY_LONG(WingTypeEnum.LONG_FLY),
     /**
      * 蝴蝶二渐变一翅膀。
      */
-    WING_GRADIENT1_BUTTERFLY2(ParticleWingTypeEnum.BUTTERFLY2_GRADIENT1),
+    WING_GRADIENT1_BUTTERFLY2(WingTypeEnum.BUTTERFLY2_GRADIENT1),
     /**
      * 蝴蝶二渐变二翅膀。
      */
-    WING_GRADIENT2_BUTTERFLY2(ParticleWingTypeEnum.BUTTERFLY2_GRADIENT2),
+    WING_GRADIENT2_BUTTERFLY2(WingTypeEnum.BUTTERFLY2_GRADIENT2),
     /**
      * 蝴蝶二渐变三翅膀。
      */
-    WING_GRADIENT3_BUTTERFLY2(ParticleWingTypeEnum.BUTTERFLY2_GRADIENT3),
+    WING_GRADIENT3_BUTTERFLY2(WingTypeEnum.BUTTERFLY2_GRADIENT3),
     /**
      * 蝴蝶二蘑菇翅膀。
      */
-    WING_MUSHROOM_BUTTERFLY2(ParticleWingTypeEnum.BUTTERFLY2_MUSHROOM),
+    WING_MUSHROOM_BUTTERFLY2(WingTypeEnum.BUTTERFLY2_MUSHROOM),
     /**
      * 蝴蝶二火焰翅膀。
      */
-    WING_FIRE_BUTTERFLY2(ParticleWingTypeEnum.BUTTERFLY2_FIRE),
+    WING_FIRE_BUTTERFLY2(WingTypeEnum.BUTTERFLY2_FIRE),
     /**
      * 蝴蝶二彩色翅膀。
      */
-    WING_COLORS_BUTTERFLY2(ParticleWingTypeEnum.BUTTERFLY2_COLORS),
+    WING_COLORS_BUTTERFLY2(WingTypeEnum.BUTTERFLY2_COLORS),
     /**
      * 蝴蝶二飞行翅膀。
      */
-    WING_FLY_BUTTERFLY2(ParticleWingTypeEnum.BUTTERFLY2_FLY),
+    WING_FLY_BUTTERFLY2(WingTypeEnum.BUTTERFLY2_FLY),
     /**
      * 短翼渐变一翅膀。
      */
-    WING_GRADIENT1_SHORT(ParticleWingTypeEnum.SHORT_GRADIENT1),
+    WING_GRADIENT1_SHORT(WingTypeEnum.SHORT_GRADIENT1),
     /**
      * 短翼渐变二翅膀。
      */
-    WING_GRADIENT2_SHORT(ParticleWingTypeEnum.SHORT_GRADIENT2),
+    WING_GRADIENT2_SHORT(WingTypeEnum.SHORT_GRADIENT2),
     /**
      * 短翼渐变三翅膀。
      */
-    WING_GRADIENT3_SHORT(ParticleWingTypeEnum.SHORT_GRADIENT3),
+    WING_GRADIENT3_SHORT(WingTypeEnum.SHORT_GRADIENT3),
     /**
      * 短翼蘑菇翅膀。
      */
-    WING_MUSHROOM_SHORT(ParticleWingTypeEnum.SHORT_MUSHROOM),
+    WING_MUSHROOM_SHORT(WingTypeEnum.SHORT_MUSHROOM),
     /**
      * 短翼火焰翅膀。
      */
-    WING_FIRE_SHORT(ParticleWingTypeEnum.SHORT_FIRE),
+    WING_FIRE_SHORT(WingTypeEnum.SHORT_FIRE),
     /**
      * 短翼彩色翅膀。
      */
-    WING_COLORS_SHORT(ParticleWingTypeEnum.SHORT_COLORS),
+    WING_COLORS_SHORT(WingTypeEnum.SHORT_COLORS),
     /**
      * 短翼飞行翅膀。
      */
-    WING_FLY_SHORT(ParticleWingTypeEnum.SHORT_FLY),
+    WING_FLY_SHORT(WingTypeEnum.SHORT_FLY),
     /**
      * 恶魔渐变一翅膀。
      */
-    WING_GRADIENT1_DEMON(ParticleWingTypeEnum.DEMON_GRADIENT1),
+    WING_GRADIENT1_DEMON(WingTypeEnum.DEMON_GRADIENT1),
     /**
      * 恶魔渐变二翅膀。
      */
-    WING_GRADIENT2_DEMON(ParticleWingTypeEnum.DEMON_GRADIENT2),
+    WING_GRADIENT2_DEMON(WingTypeEnum.DEMON_GRADIENT2),
     /**
      * 恶魔渐变三翅膀。
      */
-    WING_GRADIENT3_DEMON(ParticleWingTypeEnum.DEMON_GRADIENT3),
+    WING_GRADIENT3_DEMON(WingTypeEnum.DEMON_GRADIENT3),
     /**
      * 恶魔蘑菇翅膀。
      */
-    WING_MUSHROOM_DEMON(ParticleWingTypeEnum.DEMON_MUSHROOM),
+    WING_MUSHROOM_DEMON(WingTypeEnum.DEMON_MUSHROOM),
     /**
      * 恶魔火焰翅膀。
      */
-    WING_FIRE_DEMON(ParticleWingTypeEnum.DEMON_FIRE),
+    WING_FIRE_DEMON(WingTypeEnum.DEMON_FIRE),
     /**
      * 恶魔彩色翅膀。
      */
-    WING_COLORS_DEMON(ParticleWingTypeEnum.DEMON_COLORS),
+    WING_COLORS_DEMON(WingTypeEnum.DEMON_COLORS),
     /**
      * 恶魔飞行翅膀。
      */
-    WING_FLY_DEMON(ParticleWingTypeEnum.DEMON_FLY),
+    WING_FLY_DEMON(WingTypeEnum.DEMON_FLY),
     /**
      * 暗夜渐变一翅膀。
      */
-    WING_GRADIENT1_NIGHT(ParticleWingTypeEnum.NIGHT_GRADIENT1),
+    WING_GRADIENT1_NIGHT(WingTypeEnum.NIGHT_GRADIENT1),
     /**
      * 暗夜渐变二翅膀。
      */
-    WING_GRADIENT2_NIGHT(ParticleWingTypeEnum.NIGHT_GRADIENT2),
+    WING_GRADIENT2_NIGHT(WingTypeEnum.NIGHT_GRADIENT2),
     /**
      * 暗夜渐变三翅膀。
      */
-    WING_GRADIENT3_NIGHT(ParticleWingTypeEnum.NIGHT_GRADIENT3),
+    WING_GRADIENT3_NIGHT(WingTypeEnum.NIGHT_GRADIENT3),
     /**
      * 暗夜蘑菇翅膀。
      */
-    WING_MUSHROOM_NIGHT(ParticleWingTypeEnum.NIGHT_MUSHROOM),
+    WING_MUSHROOM_NIGHT(WingTypeEnum.NIGHT_MUSHROOM),
     /**
      * 暗夜火焰翅膀。
      */
-    WING_FIRE_NIGHT(ParticleWingTypeEnum.NIGHT_FIRE),
+    WING_FIRE_NIGHT(WingTypeEnum.NIGHT_FIRE),
     /**
      * 暗夜彩色翅膀。
      */
-    WING_COLORS_NIGHT(ParticleWingTypeEnum.NIGHT_COLORS),
+    WING_COLORS_NIGHT(WingTypeEnum.NIGHT_COLORS),
     /**
      * 暗夜飞行翅膀。
      */
-    WING_FLY_NIGHT(ParticleWingTypeEnum.NIGHT_FLY),
+    WING_FLY_NIGHT(WingTypeEnum.NIGHT_FLY),
     /**
-     * 圆形轨迹。
+     * 爱心拖尾。
      */
-    TRAIL_CIRCLE(ParticleTrailPatternEnum.CIRCLE),
+    TRAIL_HEART(TrailTypeEnum.TRAIL_HEART),
     /**
-     * 螺旋臂轨迹。
+     * 愤怒村民拖尾。
      */
-    TRAIL_HELIX(ParticleTrailPatternEnum.HELIX),
+    TRAIL_ANGRY(TrailTypeEnum.TRAIL_ANGRY),
     /**
-     * 升降螺旋轨迹。
+     * 魔法暴击拖尾。
      */
-    TRAIL_SPIRAL(ParticleTrailPatternEnum.SPIRAL),
+    TRAIL_MAGIC(TrailTypeEnum.TRAIL_MAGIC),
     /**
-     * 波浪轨迹。
+     * 红石拖尾。
      */
-    TRAIL_WAVES(ParticleTrailPatternEnum.WAVES),
+    TRAIL_FUN(TrailTypeEnum.TRAIL_FUN),
     /**
-     * 脉冲轨迹。
+     * 云拖尾。
      */
-    TRAIL_PULSE(ParticleTrailPatternEnum.PULSE),
+    TRAIL_CLOUD(TrailTypeEnum.TRAIL_CLOUD),
     /**
-     * 护盾轨迹。
+     * 女巫拖尾。
      */
-    TRAIL_SHIELD(ParticleTrailPatternEnum.SHIELD);
+    TRAIL_WITCH(TrailTypeEnum.TRAIL_WITCH),
+    /**
+     * 末影拖尾。
+     */
+    TRAIL_ENDER(TrailTypeEnum.TRAIL_ENDER),
+    /**
+     * 绿色拖尾。
+     */
+    TRAIL_GREEN(TrailTypeEnum.TRAIL_GREEN),
+    /**
+     * 火花拖尾。
+     */
+    TRAIL_SPARK(TrailTypeEnum.TRAIL_SPARK),
+    /**
+     * 火焰拖尾。
+     */
+    TRAIL_FLAME(TrailTypeEnum.TRAIL_FLAME),
+    /**
+     * 白色魔法拖尾。
+     */
+    TRAIL_WHITE(TrailTypeEnum.TRAIL_WHITE),
+    /**
+     * 音符拖尾。
+     */
+    TRAIL_NOTE(TrailTypeEnum.TRAIL_NOTE),
+    /**
+     * 雪花拖尾。
+     */
+    TRAIL_SNOW(TrailTypeEnum.TRAIL_SNOW),
+    /**
+     * 水滴拖尾。
+     */
+    TRAIL_WATER(TrailTypeEnum.TRAIL_WATER),
+    /**
+     * 熔岩滴落拖尾。
+     */
+    TRAIL_LAVA(TrailTypeEnum.TRAIL_LAVA),
+    /**
+     * 暴击拖尾。
+     */
+    TRAIL_CRIT(TrailTypeEnum.TRAIL_CRIT),
+    /**
+     * 烟雾拖尾。
+     */
+    TRAIL_SMOKE(TrailTypeEnum.TRAIL_SMOKE),
+    /**
+     * 药水拖尾。
+     */
+    TRAIL_SPELL(TrailTypeEnum.TRAIL_SPELL),
+    /**
+     * 附魔拖尾。
+     */
+    TRAIL_ENCHANT(TrailTypeEnum.TRAIL_ENCHANT),
+    /**
+     * 水花拖尾。
+     */
+    TRAIL_SPLASH(TrailTypeEnum.TRAIL_SPLASH),
+    /**
+     * 史莱姆拖尾。
+     */
+    TRAIL_SLIME(TrailTypeEnum.TRAIL_SLIME),
+    /**
+     * 雪球拖尾。
+     */
+    TRAIL_SNOWBALL(TrailTypeEnum.TRAIL_SNOWBALL),
+    /**
+     * 虚空拖尾。
+     */
+    TRAIL_VOID(TrailTypeEnum.TRAIL_VOID),
+    /**
+     * 熔岩爆裂拖尾。
+     */
+    TRAIL_LAVA_POP(TrailTypeEnum.TRAIL_LAVA_POP),
+    /**
+     * 龙息拖尾。
+     */
+    TRAIL_BREATH(TrailTypeEnum.TRAIL_BREATH),
+    /**
+     * 伤害拖尾。
+     */
+    TRAIL_DAMAGE(TrailTypeEnum.TRAIL_DAMAGE),
+    /**
+     * 末地烛拖尾。
+     */
+    TRAIL_END_ROD(TrailTypeEnum.TRAIL_END_ROD),
+    /**
+     * 不死图腾拖尾。
+     */
+    TRAIL_TOTEM(TrailTypeEnum.TRAIL_TOTEM),
+    /**
+     * 灵魂拖尾。
+     */
+    TRAIL_SOUL(TrailTypeEnum.TRAIL_SOUL),
+    /**
+     * 灵魂火拖尾。
+     */
+    TRAIL_SOUL_FIRE(TrailTypeEnum.TRAIL_SOUL_FIRE),
+    /**
+     * 金色火花拖尾。
+     */
+    TRAIL_GOLD_SPARKS(TrailTypeEnum.TRAIL_GOLD_SPARKS),
+    /**
+     * 发光鱿鱼拖尾。
+     */
+    TRAIL_GLOW_SQUID(TrailTypeEnum.TRAIL_GLOW_SQUID),
+    /**
+     * 粉色粒子拖尾。
+     */
+    TRAIL_PINK_CONFETTI(TrailTypeEnum.TRAIL_PINK_CONFETTI);
 
     /**
-     * 固定翅膀组合，轨迹类型时为空。
+     * 固定翅膀组合，粒子类型时为空。
      */
     @Getter(AccessLevel.PACKAGE)
     @Nullable
-    private final ParticleWingTypeEnum wingType;
+    private final WingTypeEnum wingType;
     /**
-     * 轨迹算法，翅膀类型时为空。
+     * 固定参数的内置粒子类型，翅膀类型时为空。
      */
     @Getter(AccessLevel.PACKAGE)
     @Nullable
-    private final ParticleTrailPatternEnum trailPattern;
+    private final TrailTypeEnum builtinTrail;
 
     /**
      * 创建翅膀类型。
      *
      * @param wingType 翅膀组合
      */
-    ParticleTypeEnum(@NotNull ParticleWingTypeEnum wingType) {
+    ParticleTypeEnum(@NotNull WingTypeEnum wingType) {
         this.wingType = wingType;
-        this.trailPattern = null;
+        this.builtinTrail = null;
     }
 
     /**
-     * 创建轨迹类型。
+     * 创建内置拖尾类型。
      *
-     * @param trailPattern 轨迹算法
+     * @param builtinTrail 内置拖尾
      */
-    ParticleTypeEnum(@NotNull ParticleTrailPatternEnum trailPattern) {
+    ParticleTypeEnum(@NotNull TrailTypeEnum builtinTrail) {
         this.wingType = null;
-        this.trailPattern = trailPattern;
+        this.builtinTrail = builtinTrail;
     }
 
     /**
@@ -304,40 +412,6 @@ public enum ParticleTypeEnum {
     @NotNull
     public String getDesc() {
         return BaseUtil.getLangMsg("particleTypeDesc." + name());
-    }
-
-    /**
-     * 判断当前类型是否为需要指定粒子的轨迹。
-     *
-     * @return 是轨迹时返回 true
-     */
-    public boolean isTrail() {
-        return trailPattern != null;
-    }
-
-    /**
-     * 按枚举名称或旧名称忽略大小写获取粒子类型，兼容补全描述。
-     *
-     * @param type 粒子类型名称
-     * @return 对应的粒子类型
-     * @throws RuntimeException 类型不存在时抛出
-     */
-    @NotNull
-    public static ParticleTypeEnum getEnumThrow(@NotNull String type) {
-        int descStart = type.indexOf('(');
-        String name = descStart < 0 ? type : type.substring(0, descStart);
-        for (ParticleTypeEnum particleType : values()) {
-            if (particleType.name().equalsIgnoreCase(name)) {
-                return particleType;
-            }
-            if (particleType.wingType != null && particleType.wingType.name().equalsIgnoreCase(name)) {
-                return particleType;
-            }
-            if (particleType.trailPattern != null && particleType.trailPattern.name().equalsIgnoreCase(name)) {
-                return particleType;
-            }
-        }
-        throw new RuntimeException(BaseUtil.getLangMsg("invalidParticleType") + ": " + type);
     }
 
 }

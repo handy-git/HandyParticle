@@ -2,6 +2,8 @@ package cn.handyplus.particle.core.wing;
 
 /**
  * 翅膀模型的固定粒子点位。
+ *
+ * @author handy
  */
 final class WingModelData {
     /**

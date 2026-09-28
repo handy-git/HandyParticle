@@ -1,10 +1,9 @@
 package cn.handyplus.particle.api;
 
 import cn.handyplus.particle.core.HandyParticleCore;
-import cn.handyplus.particle.core.wing.ParticleWingTypeEnum;
+import cn.handyplus.particle.core.wing.WingTypeEnum;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 
@@ -22,35 +21,19 @@ public final class HandyParticleApi {
     }
 
     /**
-     * 启用翅膀；轨迹类型因缺少粒子名称会抛出异常。
+     * 启用翅膀或内置拖尾。
      *
      * @param player 玩家
-     * @param type   翅膀组合或轨迹算法
+     * @param type   翅膀组合或内置拖尾
      * @return 玩家在线且已发起调度请求时返回 true
      */
     public static boolean enable(@NotNull Player player, @NotNull ParticleTypeEnum type) {
-        return enable(player, type, null);
-    }
-
-    /**
-     * 启用翅膀或指定粒子的轨迹；翅膀类型忽略粒子名称。
-     *
-     * @param player       玩家
-     * @param type         翅膀组合或轨迹算法
-     * @param particleName XParticle 粒子名称；翅膀类型可为空
-     * @return 玩家在线且已发起调度请求时返回 true
-     * @throws IllegalArgumentException 粒子不存在、不受当前服务端支持或需要额外数据
-     */
-    public static boolean enable(@NotNull Player player, @NotNull ParticleTypeEnum type, @Nullable String particleName) {
         Objects.requireNonNull(type, "type");
-        ParticleWingTypeEnum wingType = type.getWingType();
+        WingTypeEnum wingType = type.getWingType();
         if (wingType != null) {
             return HandyParticleCore.setWings(player, wingType);
         }
-        if (particleName == null) {
-            throw new IllegalArgumentException("Particle name is required for trails");
-        }
-        return HandyParticleCore.setTrail(player, Objects.requireNonNull(type.getTrailPattern(), "trailPattern"), particleName);
+        return HandyParticleCore.setTrail(player, Objects.requireNonNull(type.getBuiltinTrail(), "builtinTrail"));
     }
 
     /**

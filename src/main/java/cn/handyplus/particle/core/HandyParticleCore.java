@@ -2,13 +2,10 @@ package cn.handyplus.particle.core;
 
 import cn.handyplus.lib.internal.EntitySchedulerUtil;
 import cn.handyplus.lib.internal.HandyRunnable;
-import cn.handyplus.particle.core.trail.ParticleEmitter;
-import cn.handyplus.particle.core.trail.ParticleTrailOptions;
-import cn.handyplus.particle.core.trail.ParticleTrailPattern;
-import cn.handyplus.particle.core.trail.ParticleTrailTask;
-import cn.handyplus.particle.core.wing.ParticleWingTask;
-import cn.handyplus.particle.core.wing.ParticleWingTypeEnum;
-import com.cryptomorin.xseries.particles.XParticle;
+import cn.handyplus.particle.core.trail.TrailTask;
+import cn.handyplus.particle.core.trail.TrailTypeEnum;
+import cn.handyplus.particle.core.wing.WingTask;
+import cn.handyplus.particle.core.wing.WingTypeEnum;
 import org.bukkit.Particle;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -43,61 +40,27 @@ public class HandyParticleCore {
      * @param wingType 翅膀组合
      * @return 玩家在线且已发起调度请求时返回 true
      */
-    public static synchronized boolean setWings(@NotNull Player player, @NotNull ParticleWingTypeEnum wingType) {
+    public static synchronized boolean setWings(@NotNull Player player, @NotNull WingTypeEnum wingType) {
         if (!player.isOnline()) {
             return false;
         }
-        start(player, new ParticleWingTask(player, wingType));
+        start(player, new WingTask(player, wingType));
         return true;
     }
 
     /**
-     * 使用默认参数和指定粒子启用玩家轨迹。
+     * 启用固定参数的内置粒子拖尾。
      *
-     * @param player       玩家
-     * @param pattern      运动算法
-     * @param particleName XParticle 粒子名称
-     * @return 玩家在线且已发起调度请求时返回 true
-     * @throws IllegalArgumentException 粒子不存在、不受当前服务端支持或需要额外数据
-     */
-    public static boolean setTrail(@NotNull Player player, @NotNull ParticleTrailPattern pattern, @NotNull String particleName) {
-        XParticle xParticle = XParticle.of(particleName).orElseThrow(() -> new IllegalArgumentException("Unknown particle: " + particleName));
-        Particle particle = xParticle.get();
-        if (particle == null) {
-            throw new IllegalArgumentException("Unsupported particle: " + particleName);
-        }
-        if (particle.getDataType() != Void.class) {
-            throw new IllegalArgumentException("Particle requires data: " + particleName);
-        }
-        return setTrail(player, pattern, (target, location, tick) -> target.spawnParticle(particle, location, 1));
-    }
-
-    /**
-     * 使用默认参数启用玩家粒子轨迹。
-     *
-     * @param player  玩家
-     * @param pattern 运动算法
-     * @param emitter 粒子发射器
+     * @param player 玩家
+     * @param type   内置拖尾类型
      * @return 玩家在线且已发起调度请求时返回 true
      */
-    public static boolean setTrail(@NotNull Player player, @NotNull ParticleTrailPattern pattern, @NotNull ParticleEmitter emitter) {
-        return setTrail(player, pattern, ParticleTrailOptions.defaults(), emitter);
-    }
-
-    /**
-     * 启用玩家粒子轨迹。
-     *
-     * @param player  玩家
-     * @param pattern 运动算法
-     * @param options 轨迹参数
-     * @param emitter 粒子发射器
-     * @return 玩家在线且已发起调度请求时返回 true
-     */
-    public static synchronized boolean setTrail(@NotNull Player player, @NotNull ParticleTrailPattern pattern, @NotNull ParticleTrailOptions options, @NotNull ParticleEmitter emitter) {
+    public static synchronized boolean setTrail(@NotNull Player player, @NotNull TrailTypeEnum type) {
+        Particle particle = type.resolveParticle();
         if (!player.isOnline()) {
             return false;
         }
-        start(player, new ParticleTrailTask(player, pattern, options, emitter));
+        start(player, new TrailTask(player, type, particle));
         return true;
     }
 

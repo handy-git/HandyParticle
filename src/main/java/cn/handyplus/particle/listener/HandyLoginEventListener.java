@@ -1,6 +1,7 @@
 package cn.handyplus.particle.listener;
 
 import cn.handyplus.lib.annotation.HandyListener;
+import cn.handyplus.lib.internal.EntitySchedulerUtil;
 import cn.handyplus.lib.internal.HandyLoginEvent;
 import cn.handyplus.lib.internal.HandySchedulerUtil;
 import cn.handyplus.particle.api.HandyParticleApi;
@@ -12,6 +13,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
 import java.util.Optional;
+import java.util.UUID;
 
 /**
  * 玩家登录时恢复保存的粒子效果。
@@ -28,15 +30,16 @@ public final class HandyLoginEventListener implements Listener {
      */
     @EventHandler
     public void onJoin(HandyLoginEvent event) {
+        Player player = event.getPlayer();
+        UUID playerId = player.getUniqueId();
         HandySchedulerUtil.runTaskAsynchronously(() -> {
-            Player player = event.getPlayer();
-            Optional<PlayerParticleEntity> saved = PlayerParticleService.findByUuid(player.getUniqueId());
+            Optional<PlayerParticleEntity> saved = PlayerParticleService.findByUuid(playerId);
             if (!saved.isPresent()) {
                 return;
             }
             PlayerParticleEntity entity = saved.get();
-            ParticleTypeEnum type = ParticleTypeEnum.getEnumThrow(entity.getParticleType());
-            HandyParticleApi.enable(player, type, entity.getParticleName());
+            EntitySchedulerUtil.runSafeOnEntityScheduler(player,
+                    () -> HandyParticleApi.enable(player, ParticleTypeEnum.valueOf(entity.getParticleType())));
         });
     }
 

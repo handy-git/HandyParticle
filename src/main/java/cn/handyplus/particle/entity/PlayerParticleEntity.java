@@ -28,9 +28,6 @@ public class PlayerParticleEntity {
     @TableField(value = "player_uuid", comment = "玩家 UUID", length = 36, notNull = true, indexEnum = IndexEnum.UNIQUE)
     private UUID playerUuid;
 
-    @TableField(value = "particle_type", comment = "翅膀组合或轨迹算法名称", notNull = true)
+    @TableField(value = "particle_type", comment = "完整效果类型名称", notNull = true)
     private String particleType;
-
-    @TableField(value = "particle_name", comment = "轨迹使用的 XParticle 名称，翅膀时为空")
-    private String particleName;
 }

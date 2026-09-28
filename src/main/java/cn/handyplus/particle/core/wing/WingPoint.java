@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * 固定翅膀像素点。
+ * 翅膀像素点。
  *
  * @author handy
  */
