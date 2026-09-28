@@ -209,6 +209,19 @@ public enum TrailTypeEnum {
     }
 
     /**
+     * 在指定位置生成一次拖尾粒子。
+     *
+     * @param player   玩家
+     * @param particle 已解析粒子
+     * @param location 生成位置
+     * @param amount   数量
+     * @param offset   扩散范围
+     */
+    public void spawnAt(@NotNull Player player, @NotNull Particle particle, @NotNull Location location, int amount, double offset) {
+        spawn(player, particle, location, amount, offset);
+    }
+
+    /**
      * 解析粒子并校验发射所需的数据类型。
      *
      * @return 当前服务端的粒子

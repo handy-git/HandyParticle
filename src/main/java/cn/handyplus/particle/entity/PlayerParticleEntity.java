@@ -25,9 +25,15 @@ public class PlayerParticleEntity {
     @TableField(value = "id", comment = "自增主键")
     private Integer id;
 
+    @TableField(value = "player_name", comment = "玩家名称")
+    private String playerName;
+
     @TableField(value = "player_uuid", comment = "玩家 UUID", length = 36, notNull = true, indexEnum = IndexEnum.UNIQUE)
     private UUID playerUuid;
 
-    @TableField(value = "particle_type", comment = "完整效果类型名称", notNull = true)
-    private String particleType;
+    @TableField(value = "type", comment = "类型名称", notNull = true)
+    private String type;
+
+    @TableField(value = "mode", comment = "运动模式", notNull = true)
+    private String mode;
 }

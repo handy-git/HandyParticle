@@ -1,7 +1,7 @@
 noPermission: "&8[&c✘&8] &7你没有权限执行该命令"
 
 reloadMsg: "&8[&a✔&8] &a插件配置已重载"
-setUsage: "&c用法: /hp set <玩家> <类型>"
+setUsage: "&c用法: /hp set <玩家> <类别> <效果> [运动模式]"
 clearUsage: "&c用法: /hp clear <玩家>"
 playerOffline: "&c玩家不在线"
 invalidParticleType: "&c未知的效果类型或当前服务端不支持"
@@ -17,7 +17,7 @@ helps:
   - " &7命令: &f/hp &8[...]"
   - " &7参数:"
   - "   &8- &f reload     &7重载插件"
-  - "   &8- &f set <玩家> <类型>  &7设置粒子效果"
+  - "   &8- &f set <玩家> <类别> <效果> [运动模式]  &7设置粒子效果"
   - "   &8- &f clear <玩家>                &7清除粒子效果"
   - ""
 

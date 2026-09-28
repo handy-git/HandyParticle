@@ -13,9 +13,6 @@ import org.bukkit.plugin.java.JavaPlugin;
  */
 public final class HandyParticle extends JavaPlugin {
 
-    /**
-     * 启用插件并初始化 HandyLib。
-     */
     @Override
     public void onEnable() {
         InitApi initApi = InitApi.getInstance(this);

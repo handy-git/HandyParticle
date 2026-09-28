@@ -1,4 +1,4 @@
-package cn.handyplus.particle.core.item;
+package cn.handyplus.particle.core.rain;
 
 import cn.handyplus.lib.internal.XMaterial;
 import org.bukkit.inventory.ItemStack;

@@ -1,0 +1,63 @@
+package cn.handyplus.particle.constants;
+
+import cn.handyplus.lib.constants.BaseConstants;
+import cn.handyplus.particle.api.ParticleTypeEnum;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * 设置命令支持的粒子效果类别。
+ *
+ * @author handy
+ */
+public enum ParticleCategoryTypeEnum {
+    /**
+     * 普通粒子拖尾。
+     */
+    TRAIL,
+    /**
+     * 翅膀效果。
+     */
+    WING,
+    /**
+     * 方块效果。
+     */
+    BLOCK,
+    /**
+     * 物品雨效果。
+     */
+    RAIN;
+
+    /**
+     * 列出命令支持的效果类别。
+     *
+     * @return 可补全的效果类别名称
+     */
+    public static List<String> getAll() {
+        List<String> result = new ArrayList<>();
+        for (ParticleCategoryTypeEnum category : ParticleCategoryTypeEnum.values()) {
+            result.add(category.name());
+        }
+        return result;
+    }
+
+    /**
+     * 列出指定类别的效果名称。
+     *
+     * @param category 效果类别
+     * @return 类别对应的效果名称
+     */
+    public static List<String> get(ParticleCategoryTypeEnum category) {
+        List<String> result = new ArrayList<>();
+        boolean chinese = "zh_CN".equalsIgnoreCase(BaseConstants.CONFIG.getString("language", "zh_CN"));
+        for (ParticleTypeEnum type : ParticleTypeEnum.values()) {
+            if (type.getCategory() == category) {
+                String name = type.name();
+                result.add(chinese ? name + "(" + type.getDesc() + ")" : name);
+            }
+        }
+        return result;
+    }
+
+}

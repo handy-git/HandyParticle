@@ -1,8 +1,11 @@
 package cn.handyplus.particle.api;
 
 import cn.handyplus.particle.core.HandyParticleCore;
+import cn.handyplus.particle.core.trail.TrailModeTypeEnum;
+import cn.handyplus.particle.core.trail.TrailTypeEnum;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 
@@ -27,6 +30,18 @@ public final class HandyParticleApi {
      * @return 玩家在线且已发起调度请求时返回 true
      */
     public static boolean enable(@NotNull Player player, @NotNull ParticleTypeEnum type) {
+        return enable(player, type, TrailModeTypeEnum.DEFAULT);
+    }
+
+    /**
+     * 启用粒子
+     *
+     * @param player 玩家
+     * @param type   粒子类型
+     * @param mode   普通拖尾运动模式，为空时使用默认模式
+     * @return 玩家在线且已发起调度请求时返回 true
+     */
+    public static boolean enable(@NotNull Player player, @NotNull ParticleTypeEnum type, @Nullable TrailModeTypeEnum mode) {
         Objects.requireNonNull(type, "type");
         // 翅膀
         if (type.getWingType() != null) {
@@ -41,7 +56,9 @@ public final class HandyParticleApi {
             return HandyParticleCore.setItemRain(player, type.getItemRain());
         }
         // 普通粒子
-        return HandyParticleCore.setTrail(player, Objects.requireNonNull(type.getBuiltinTrail(), "builtinTrail"));
+        TrailTypeEnum builtinTrail = Objects.requireNonNull(type.getBuiltinTrail(), "builtinTrail");
+        TrailModeTypeEnum trailMode = mode == null ? TrailModeTypeEnum.DEFAULT : mode;
+        return HandyParticleCore.setTrail(player, builtinTrail, trailMode);
     }
 
     /**

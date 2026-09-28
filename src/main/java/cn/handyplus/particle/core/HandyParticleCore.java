@@ -4,8 +4,9 @@ import cn.handyplus.lib.internal.EntitySchedulerUtil;
 import cn.handyplus.lib.internal.HandyRunnable;
 import cn.handyplus.particle.core.block.BlockTrailTask;
 import cn.handyplus.particle.core.block.BlockTrailTypeEnum;
-import cn.handyplus.particle.core.item.ItemRainTask;
-import cn.handyplus.particle.core.item.ItemRainTypeEnum;
+import cn.handyplus.particle.core.rain.ItemRainTask;
+import cn.handyplus.particle.core.rain.ItemRainTypeEnum;
+import cn.handyplus.particle.core.trail.TrailModeTypeEnum;
 import cn.handyplus.particle.core.trail.TrailTask;
 import cn.handyplus.particle.core.trail.TrailTypeEnum;
 import cn.handyplus.particle.core.wing.WingTask;
@@ -53,19 +54,32 @@ public class HandyParticleCore {
     }
 
     /**
-     * 启用固定参数的内置粒子拖尾。
+     * 启用指定运动模式的内置粒子拖尾。
      *
      * @param player 玩家
      * @param type   内置拖尾类型
+     * @param mode   运动模式
      * @return 玩家在线且已发起调度请求时返回 true
      */
-    public static synchronized boolean setTrail(@NotNull Player player, @NotNull TrailTypeEnum type) {
+    public static synchronized boolean setTrail(@NotNull Player player, @NotNull TrailTypeEnum type, @NotNull TrailModeTypeEnum mode) {
         Particle particle = type.resolveParticle();
         if (!player.isOnline()) {
             return false;
         }
-        start(player, new TrailTask(player, type, particle));
+        start(player, new TrailTask(player, type, particle, mode));
         return true;
+    }
+
+    /**
+     * 触发玩家当前普通粒子拖尾的点击型运动。
+     *
+     * @param player 玩家
+     */
+    public static synchronized void triggerTrail(@NotNull Player player) {
+        HandyRunnable task = TASK_MAP.get(player.getUniqueId());
+        if (task instanceof TrailTask) {
+            ((TrailTask) task).trigger();
+        }
     }
 
     /**

@@ -1,8 +1,9 @@
 package cn.handyplus.particle.api;
 
 import cn.handyplus.lib.util.BaseUtil;
+import cn.handyplus.particle.constants.ParticleCategoryTypeEnum;
 import cn.handyplus.particle.core.block.BlockTrailTypeEnum;
-import cn.handyplus.particle.core.item.ItemRainTypeEnum;
+import cn.handyplus.particle.core.rain.ItemRainTypeEnum;
 import cn.handyplus.particle.core.trail.TrailTypeEnum;
 import cn.handyplus.particle.core.wing.WingTypeEnum;
 import lombok.AccessLevel;
@@ -449,6 +450,11 @@ public enum ParticleTypeEnum {
     @Getter(AccessLevel.PACKAGE)
     @Nullable
     private final ItemRainTypeEnum itemRain;
+    /**
+     * 效果所属类别。
+     */
+    @Getter
+    private final ParticleCategoryTypeEnum category;
 
     /**
      * 创建翅膀类型。
@@ -460,6 +466,7 @@ public enum ParticleTypeEnum {
         this.builtinTrail = null;
         this.blockTrail = null;
         this.itemRain = null;
+        this.category = ParticleCategoryTypeEnum.WING;
     }
 
     /**
@@ -472,6 +479,7 @@ public enum ParticleTypeEnum {
         this.builtinTrail = builtinTrail;
         this.blockTrail = null;
         this.itemRain = null;
+        this.category = ParticleCategoryTypeEnum.TRAIL;
     }
 
     /**
@@ -484,6 +492,7 @@ public enum ParticleTypeEnum {
         this.builtinTrail = null;
         this.blockTrail = blockTrail;
         this.itemRain = null;
+        this.category = ParticleCategoryTypeEnum.BLOCK;
     }
 
     /**
@@ -496,6 +505,7 @@ public enum ParticleTypeEnum {
         this.builtinTrail = null;
         this.blockTrail = null;
         this.itemRain = itemRain;
+        this.category = ParticleCategoryTypeEnum.RAIN;
     }
 
     /**

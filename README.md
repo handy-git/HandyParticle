@@ -48,6 +48,7 @@ HandyParticle 会在插件启动时自动初始化。以下示例展示翅膀、
 ```java
 import cn.handyplus.particle.api.HandyParticleApi;
 import cn.handyplus.particle.api.ParticleTypeEnum;
+import cn.handyplus.particle.core.trail.TrailModeTypeEnum;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -60,7 +61,7 @@ public final class ExamplePlugin extends JavaPlugin {
      * @return 启用是否成功
      */
     public boolean enableWing(Player player) {
-        return HandyParticleApi.enable(player, ParticleTypeEnum.ANGEL_FIRE);
+        return HandyParticleApi.enable(player, ParticleTypeEnum.WING_FIRE_ANGEL);
     }
 
     /**
@@ -70,17 +71,17 @@ public final class ExamplePlugin extends JavaPlugin {
      * @return 启用是否成功
      */
     public boolean enableTrail(Player player) {
-        return HandyParticleApi.enable(player, ParticleTypeEnum.HELIX, "FLAME");
+        return HandyParticleApi.enable(player, ParticleTypeEnum.TRAIL_HEART, TrailModeTypeEnum.CIRCLE);
     }
 
     /**
-     * 使用默认红色粉尘启用螺旋轨迹。
+     * 使用默认运动模式启用爱心拖尾。
      *
      * @param player 在线玩家
      * @return 启用是否成功
      */
     public boolean enableDefaultTrail(Player player) {
-        return HandyParticleApi.enable(player, ParticleTypeEnum.HELIX);
+        return HandyParticleApi.enable(player, ParticleTypeEnum.TRAIL_HEART);
     }
 
     /**
@@ -96,7 +97,7 @@ public final class ExamplePlugin extends JavaPlugin {
 
 玩家在线时，`enable` 发起调度请求并返回 `true`；玩家离线时返回 `false`。Folia 实体若在提交瞬间退休，底层可能不创建任务，`enable` 无法据此返回 `false`。同一玩家启用翅膀或轨迹时，旧效果会被替换，两种效果不能同时启用。调用
 `HandyParticleApi.disableAll()` 可关闭全部玩家的效果。
-三参调用传入翅膀类型时，粒子名称会被忽略。
+三参重载用于为普通拖尾指定运动模式。
 
 ## 翅膀组合
 
@@ -124,8 +125,7 @@ public final class ExamplePlugin extends JavaPlugin {
 
 拥有 `handyparticle.reload` 权限的管理员可执行 `/handyparticle reload` 或 `/hp reload`，重新读取配置和语言文件。重载不会中断正在运行的粒子任务。
 
-- `/hp set <玩家> <类型>`：设置翅膀，忽略粒子名。
-- `/hp set <玩家> <轨迹类型> <粒子名>`：设置轨迹，必须填写粒子名，不使用默认粒子。
+- `/hp set <玩家> <类别> <效果> [运动模式]`：设置内置粒子效果，类别为 `TRAIL`、`WING`、`BLOCK` 或 `RAIN`。
 - `/hp clear <玩家>`：清除玩家当前的粒子效果。
 
-设置和清除分别需要 `handyParticle.set`、`handyParticle.clear` 权限；玩家必须在线。粒子名使用 XParticle 名称，仅支持无需附加数据的粒子及默认红色粉尘 `DUST`。
+设置和清除分别需要 `handyParticle.set`、`handyParticle.clear` 权限；玩家必须在线。效果和运动模式均通过 Tab 补全选择。
