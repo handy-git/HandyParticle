@@ -68,6 +68,8 @@ public final class SetCommand implements IHandyCommandEvent {
         // 类型
         String effect = effectName.split("\\(", 2)[0].toUpperCase(Locale.ROOT);
         ParticleTypeEnum type = ParticleTypeEnum.valueOf(effect);
+        ParticleCategoryTypeEnum category = ParticleCategoryTypeEnum.valueOf(args[2].toUpperCase(Locale.ROOT));
+        AssertUtil.notTrue(type.getCategory() != category, BaseUtil.getLangMsg("setUsage"));
         // 运动模式
         TrailModeTypeEnum mode = TrailModeTypeEnum.get(modeName);
         // 开启粒子

@@ -42,6 +42,8 @@ public final class BlockTrailTask extends HandyRunnable {
         if (!type.isGround(block)) {
             return;
         }
+        // 统一使用方块整数坐标，避免玩家转身或在同一方块内移动产生重复 key。
+        location = block.getLocation();
         locations.putIfAbsent(location, 2);
         for (Player viewer : Bukkit.getOnlinePlayers()) {
             if (viewer.getWorld() == location.getWorld() && viewer.getLocation().distanceSquared(location) <= 625.0D) {
