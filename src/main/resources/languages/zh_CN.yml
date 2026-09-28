@@ -120,6 +120,11 @@ particleTypeDesc:
   BLOCK_REDSTONE: "红石机械方块粒子"
   BLOCK_NATURE: "自然方块粒子"
   BLOCK_METAL: "金属方块粒子"
+  RAIN_COMMON: "常用物品雨"
+  RAIN_GOLD: "金色物品雨"
+  RAIN_REDSTONE: "红石物品雨"
+  RAIN_RARE: "稀有物品雨"
+  RAIN_WOOL: "彩色羊毛物品雨"
 
 trailModeDesc:
   CIRCLE: "圆形轨迹"

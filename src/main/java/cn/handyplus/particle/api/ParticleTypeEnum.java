@@ -2,6 +2,7 @@ package cn.handyplus.particle.api;
 
 import cn.handyplus.lib.util.BaseUtil;
 import cn.handyplus.particle.core.block.BlockTrailTypeEnum;
+import cn.handyplus.particle.core.item.ItemRainTypeEnum;
 import cn.handyplus.particle.core.trail.TrailTypeEnum;
 import cn.handyplus.particle.core.wing.WingTypeEnum;
 import lombok.AccessLevel;
@@ -402,7 +403,27 @@ public enum ParticleTypeEnum {
     /**
      * 金属方块拖尾。
      */
-    BLOCK_METAL(BlockTrailTypeEnum.BLOCK_METAL);
+    BLOCK_METAL(BlockTrailTypeEnum.BLOCK_METAL),
+    /**
+     * 常用物品雨。
+     */
+    RAIN_COMMON(ItemRainTypeEnum.RAIN_COMMON),
+    /**
+     * 金色物品雨。
+     */
+    RAIN_GOLD(ItemRainTypeEnum.RAIN_GOLD),
+    /**
+     * 红石物品雨。
+     */
+    RAIN_REDSTONE(ItemRainTypeEnum.RAIN_REDSTONE),
+    /**
+     * 稀有物品雨。
+     */
+    RAIN_RARE(ItemRainTypeEnum.RAIN_RARE),
+    /**
+     * 彩色羊毛物品雨。
+     */
+    RAIN_WOOL(ItemRainTypeEnum.RAIN_WOOL);
 
     /**
      * 固定翅膀组合，粒子类型时为空。
@@ -422,6 +443,12 @@ public enum ParticleTypeEnum {
     @Getter(AccessLevel.PACKAGE)
     @Nullable
     private final BlockTrailTypeEnum blockTrail;
+    /**
+     * 固定参数的内置物品雨类型。
+     */
+    @Getter(AccessLevel.PACKAGE)
+    @Nullable
+    private final ItemRainTypeEnum itemRain;
 
     /**
      * 创建翅膀类型。
@@ -432,6 +459,7 @@ public enum ParticleTypeEnum {
         this.wingType = wingType;
         this.builtinTrail = null;
         this.blockTrail = null;
+        this.itemRain = null;
     }
 
     /**
@@ -443,6 +471,7 @@ public enum ParticleTypeEnum {
         this.wingType = null;
         this.builtinTrail = builtinTrail;
         this.blockTrail = null;
+        this.itemRain = null;
     }
 
     /**
@@ -454,6 +483,19 @@ public enum ParticleTypeEnum {
         this.wingType = null;
         this.builtinTrail = null;
         this.blockTrail = blockTrail;
+        this.itemRain = null;
+    }
+
+    /**
+     * 创建物品雨类型。
+     *
+     * @param itemRain 物品雨组合
+     */
+    ParticleTypeEnum(@NotNull ItemRainTypeEnum itemRain) {
+        this.wingType = null;
+        this.builtinTrail = null;
+        this.blockTrail = null;
+        this.itemRain = itemRain;
     }
 
     /**

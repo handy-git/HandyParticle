@@ -1,7 +1,6 @@
 package cn.handyplus.particle.api;
 
 import cn.handyplus.particle.core.HandyParticleCore;
-import cn.handyplus.particle.core.wing.WingTypeEnum;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
@@ -21,21 +20,27 @@ public final class HandyParticleApi {
     }
 
     /**
-     * 启用翅膀或内置拖尾。
+     * 启用粒子
      *
      * @param player 玩家
-     * @param type   翅膀组合或内置拖尾
+     * @param type   粒子类型
      * @return 玩家在线且已发起调度请求时返回 true
      */
     public static boolean enable(@NotNull Player player, @NotNull ParticleTypeEnum type) {
         Objects.requireNonNull(type, "type");
-        WingTypeEnum wingType = type.getWingType();
-        if (wingType != null) {
-            return HandyParticleCore.setWings(player, wingType);
+        // 翅膀
+        if (type.getWingType() != null) {
+            return HandyParticleCore.setWings(player, type.getWingType());
         }
+        // 方块粒子
         if (type.getBlockTrail() != null) {
             return HandyParticleCore.setBlock(player, type.getBlockTrail());
         }
+        // 物品雨粒子
+        if (type.getItemRain() != null) {
+            return HandyParticleCore.setItemRain(player, type.getItemRain());
+        }
+        // 普通粒子
         return HandyParticleCore.setTrail(player, Objects.requireNonNull(type.getBuiltinTrail(), "builtinTrail"));
     }
 

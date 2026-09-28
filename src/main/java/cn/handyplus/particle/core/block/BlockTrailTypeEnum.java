@@ -18,14 +18,16 @@ import java.util.Objects;
  */
 public enum BlockTrailTypeEnum {
     /**
-     * 彩色羊毛。
+     * 彩色羊毛
+     * 白、橙、品红、淡蓝、黄、黄绿、粉、灰、淡灰、青、紫、蓝、棕、绿、红、黑。
      */
     BLOCK_WOOL(XMaterial.WHITE_WOOL, XMaterial.ORANGE_WOOL, XMaterial.MAGENTA_WOOL, XMaterial.LIGHT_BLUE_WOOL,
             XMaterial.YELLOW_WOOL, XMaterial.LIME_WOOL, XMaterial.PINK_WOOL, XMaterial.GRAY_WOOL,
             XMaterial.LIGHT_GRAY_WOOL, XMaterial.CYAN_WOOL, XMaterial.PURPLE_WOOL, XMaterial.BLUE_WOOL,
             XMaterial.BROWN_WOOL, XMaterial.GREEN_WOOL, XMaterial.RED_WOOL, XMaterial.BLACK_WOOL),
     /**
-     * 彩色玻璃。
+     * 彩色玻璃
+     * 白、橙、品红、淡蓝、黄、黄绿、粉、灰、淡灰、青、紫、蓝、棕、绿、红、黑。
      */
     BLOCK_GLASS(XMaterial.WHITE_STAINED_GLASS, XMaterial.ORANGE_STAINED_GLASS,
             XMaterial.MAGENTA_STAINED_GLASS, XMaterial.LIGHT_BLUE_STAINED_GLASS,
@@ -36,14 +38,16 @@ public enum BlockTrailTypeEnum {
             XMaterial.BROWN_STAINED_GLASS, XMaterial.GREEN_STAINED_GLASS,
             XMaterial.RED_STAINED_GLASS, XMaterial.BLACK_STAINED_GLASS),
     /**
-     * 下界材质。
+     * 下界材质
+     * 下界石英矿、下界砖、下界岩、萤石、灵魂沙、岩浆块、下界金矿、黑石、玄武岩、绯红菌岩、诡异菌岩、远古残骸。
      */
     BLOCK_NETHER(XMaterial.NETHER_QUARTZ_ORE, XMaterial.NETHER_BRICKS, XMaterial.NETHERRACK,
             XMaterial.GLOWSTONE, XMaterial.SOUL_SAND, XMaterial.MAGMA_BLOCK,
             XMaterial.NETHER_GOLD_ORE, XMaterial.BLACKSTONE, XMaterial.BASALT,
             XMaterial.CRIMSON_NYLIUM, XMaterial.WARPED_NYLIUM, XMaterial.ANCIENT_DEBRIS),
     /**
-     * 彩色陶瓦。
+     * 彩色陶瓦
+     * 白、橙、品红、淡蓝、黄、黄绿、粉、灰、淡灰、青、紫、蓝、棕、绿、红、黑。
      */
     BLOCK_TERRACOTTA(XMaterial.WHITE_TERRACOTTA, XMaterial.ORANGE_TERRACOTTA,
             XMaterial.MAGENTA_TERRACOTTA, XMaterial.LIGHT_BLUE_TERRACOTTA,
@@ -54,7 +58,8 @@ public enum BlockTrailTypeEnum {
             XMaterial.BROWN_TERRACOTTA, XMaterial.GREEN_TERRACOTTA,
             XMaterial.RED_TERRACOTTA, XMaterial.BLACK_TERRACOTTA),
     /**
-     * 矿石材质。
+     * 矿石材质
+     * 煤、铁、金、钻石、绿宝石、红石、青金石、铜矿，以及对应的深层矿石。
      */
     BLOCK_ORE(XMaterial.LAPIS_ORE, XMaterial.EMERALD_ORE, XMaterial.REDSTONE_ORE,
             XMaterial.COAL_ORE, XMaterial.IRON_ORE, XMaterial.GOLD_ORE, XMaterial.DIAMOND_ORE,
@@ -63,19 +68,22 @@ public enum BlockTrailTypeEnum {
             XMaterial.DEEPSLATE_EMERALD_ORE, XMaterial.DEEPSLATE_REDSTONE_ORE,
             XMaterial.DEEPSLATE_LAPIS_ORE, XMaterial.DEEPSLATE_COPPER_ORE),
     /**
-     * 红石机械。
+     * 红石机械
+     * TNT、活塞、音符盒、红石块、红石灯、发射器、投掷器、侦测器、阳光探测器、标靶。
      */
     BLOCK_REDSTONE(XMaterial.TNT, XMaterial.PISTON, XMaterial.NOTE_BLOCK, XMaterial.REDSTONE_BLOCK,
             XMaterial.REDSTONE_LAMP, XMaterial.DISPENSER, XMaterial.DROPPER, XMaterial.OBSERVER,
             XMaterial.DAYLIGHT_DETECTOR, XMaterial.TARGET),
     /**
-     * 自然方块。
+     * 自然方块
+     * 灰化土、草方块、砂砾、沙子、泥土、砂土、菌丝、黏土、雪块、苔藓块、缠根泥土、泥巴。
      */
     BLOCK_NATURE(XMaterial.PODZOL, XMaterial.GRASS_BLOCK, XMaterial.GRAVEL, XMaterial.SAND,
             XMaterial.DIRT, XMaterial.COARSE_DIRT, XMaterial.MYCELIUM, XMaterial.CLAY,
             XMaterial.SNOW_BLOCK, XMaterial.MOSS_BLOCK, XMaterial.ROOTED_DIRT, XMaterial.MUD),
     /**
-     * 金属方块。
+     * 金属方块
+     * 铁块、金块、钻石块、绿宝石块、青金石块、红石块、煤块、铜块、下界合金块，以及铁、金、铜粗矿块。
      */
     BLOCK_METAL(XMaterial.IRON_BLOCK, XMaterial.GOLD_BLOCK, XMaterial.DIAMOND_BLOCK,
             XMaterial.EMERALD_BLOCK, XMaterial.LAPIS_BLOCK, XMaterial.REDSTONE_BLOCK,
