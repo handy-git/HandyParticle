@@ -55,11 +55,11 @@ public final class SetCommand implements IHandyCommandEvent {
     @Override
     public void onCommand(CommandSender sender, Command command, String label, String[] args) {
         // 参数是否正常
-        AssertUtil.notTrue(args.length < 2, BaseUtil.getLangMsg("setUsage"));
+        AssertUtil.notTrue(args.length < 3, BaseUtil.getLangMsg("setUsage"));
         // 先校验命令结构，再解析类别和完整效果枚举名。
         String playerName = args[1];
-        String effectName = args[2];
-        String modeName = this.getArg(args, 3).orElse(TrailModeTypeEnum.DEFAULT.name());
+        String effectName = args[3];
+        String modeName = this.getArg(args, 4).orElse(TrailModeTypeEnum.DEFAULT.name());
 
         // 目标玩家必须在线，Core 才能创建对应的粒子任务。
         Player player = BaseUtil.getOnlinePlayer(playerName).orElse(null);

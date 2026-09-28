@@ -27,7 +27,11 @@ public enum ParticleCategoryTypeEnum {
     /**
      * 物品雨效果。
      */
-    RAIN;
+    RAIN,
+    /**
+     * 活动效果。
+     */
+    EVENT;
 
     /**
      * 列出命令支持的效果类别。

@@ -1,5 +1,6 @@
 package cn.handyplus.particle.core.trail;
 
+import cn.handyplus.particle.constants.ParticleConstants;
 import org.bukkit.Location;
 import org.jetbrains.annotations.NotNull;
 
@@ -80,7 +81,7 @@ final class TrailModeAlgorithm {
      * @param task 当前拖尾任务
      */
     private static void circle(TrailTask task) {
-        Location location = task.player.getLocation().clone().add(0.0D, 2.2D, 0.0D);
+        Location location = task.player.getLocation().clone().add(0.0D, ParticleConstants.PLAYER_HEAD_Y_OFFSET, 0.0D);
         location.setPitch(0.0F);
         location.setYaw(task.frame * 30.0F);
         task.type.spawnAt(task.player, task.particle, location.add(location.getDirection()), 3, 0.0D);
@@ -114,7 +115,7 @@ final class TrailModeAlgorithm {
         if (!pulseFrame) {
             return;
         }
-        Location origin = task.player.getLocation().clone().add(0.0D, 2.2D, 0.0D);
+        Location origin = task.player.getLocation().clone().add(0.0D, ParticleConstants.PLAYER_HEAD_Y_OFFSET, 0.0D);
         for (int angle = -180; angle <= 180; angle += 40) {
             Location point = origin.clone();
             point.setPitch(0.0F);

@@ -4,6 +4,12 @@ import cn.handyplus.lib.internal.EntitySchedulerUtil;
 import cn.handyplus.lib.internal.HandyRunnable;
 import cn.handyplus.particle.core.block.BlockTrailTask;
 import cn.handyplus.particle.core.block.BlockTrailTypeEnum;
+import cn.handyplus.particle.core.event.EventColorSpinTask;
+import cn.handyplus.particle.core.event.EventColorSpinTypeEnum;
+import cn.handyplus.particle.core.event.EventConfettiTask;
+import cn.handyplus.particle.core.event.EventConfettiTypeEnum;
+import cn.handyplus.particle.core.event.EventFairyTask;
+import cn.handyplus.particle.core.event.EventFairyTypeEnum;
 import cn.handyplus.particle.core.rain.ItemRainTask;
 import cn.handyplus.particle.core.rain.ItemRainTypeEnum;
 import cn.handyplus.particle.core.trail.TrailModeTypeEnum;
@@ -109,6 +115,51 @@ public class HandyParticleCore {
             return false;
         }
         start(player, new ItemRainTask(player, type));
+        return true;
+    }
+
+    /**
+     * 启用内置三色纸屑效果。
+     *
+     * @param player 玩家
+     * @param type   纸屑染料组合
+     * @return 玩家在线且已发起调度请求时返回 true
+     */
+    public static synchronized boolean setConfetti(@NotNull Player player, @NotNull EventConfettiTypeEnum type) {
+        if (!player.isOnline()) {
+            return false;
+        }
+        start(player, new EventConfettiTask(player, type));
+        return true;
+    }
+
+    /**
+     * 启用内置旋转色环效果。
+     *
+     * @param player 玩家
+     * @param type   色环颜色
+     * @return 玩家在线且已发起调度请求时返回 true
+     */
+    public static synchronized boolean setColorSpin(@NotNull Player player, @NotNull EventColorSpinTypeEnum type) {
+        if (!player.isOnline()) {
+            return false;
+        }
+        start(player, new EventColorSpinTask(player, type));
+        return true;
+    }
+
+    /**
+     * 启用内置粒子精灵效果。
+     *
+     * @param player 玩家
+     * @param type   精灵颜色
+     * @return 玩家在线且已发起调度请求时返回 true
+     */
+    public static synchronized boolean setFairy(@NotNull Player player, @NotNull EventFairyTypeEnum type) {
+        if (!player.isOnline()) {
+            return false;
+        }
+        start(player, new EventFairyTask(player, type));
         return true;
     }
 

@@ -55,6 +55,18 @@ public final class HandyParticleApi {
         if (type.getItemRain() != null) {
             return HandyParticleCore.setItemRain(player, type.getItemRain());
         }
+        // 活动纸屑
+        if (type.getEventConfetti() != null) {
+            return HandyParticleCore.setConfetti(player, type.getEventConfetti());
+        }
+        // 活动旋转色环
+        if (type.getEventColorSpin() != null) {
+            return HandyParticleCore.setColorSpin(player, type.getEventColorSpin());
+        }
+        // 活动粒子精灵
+        if (type.getEventFairy() != null) {
+            return HandyParticleCore.setFairy(player, type.getEventFairy());
+        }
         // 普通粒子
         TrailTypeEnum builtinTrail = Objects.requireNonNull(type.getBuiltinTrail(), "builtinTrail");
         TrailModeTypeEnum trailMode = mode == null ? TrailModeTypeEnum.DEFAULT : mode;
