@@ -1,6 +1,7 @@
 package cn.handyplus.particle.api;
 
 import cn.handyplus.lib.util.BaseUtil;
+import cn.handyplus.particle.core.block.BlockTrailTypeEnum;
 import cn.handyplus.particle.core.trail.TrailTypeEnum;
 import cn.handyplus.particle.core.wing.WingTypeEnum;
 import lombok.AccessLevel;
@@ -369,7 +370,39 @@ public enum ParticleTypeEnum {
     /**
      * 粉色粒子拖尾。
      */
-    TRAIL_PINK_CONFETTI(TrailTypeEnum.TRAIL_PINK_CONFETTI);
+    TRAIL_PINK_CONFETTI(TrailTypeEnum.TRAIL_PINK_CONFETTI),
+    /**
+     * 彩色羊毛方块拖尾。
+     */
+    BLOCK_WOOL(BlockTrailTypeEnum.BLOCK_WOOL),
+    /**
+     * 彩色玻璃方块拖尾。
+     */
+    BLOCK_GLASS(BlockTrailTypeEnum.BLOCK_GLASS),
+    /**
+     * 下界材质方块拖尾。
+     */
+    BLOCK_NETHER(BlockTrailTypeEnum.BLOCK_NETHER),
+    /**
+     * 彩色陶瓦方块拖尾。
+     */
+    BLOCK_TERRACOTTA(BlockTrailTypeEnum.BLOCK_TERRACOTTA),
+    /**
+     * 矿石方块拖尾。
+     */
+    BLOCK_ORE(BlockTrailTypeEnum.BLOCK_ORE),
+    /**
+     * 红石机械方块拖尾。
+     */
+    BLOCK_REDSTONE(BlockTrailTypeEnum.BLOCK_REDSTONE),
+    /**
+     * 自然方块拖尾。
+     */
+    BLOCK_NATURE(BlockTrailTypeEnum.BLOCK_NATURE),
+    /**
+     * 金属方块拖尾。
+     */
+    BLOCK_METAL(BlockTrailTypeEnum.BLOCK_METAL);
 
     /**
      * 固定翅膀组合，粒子类型时为空。
@@ -383,6 +416,12 @@ public enum ParticleTypeEnum {
     @Getter(AccessLevel.PACKAGE)
     @Nullable
     private final TrailTypeEnum builtinTrail;
+    /**
+     * 固定参数的内置方块拖尾类型。
+     */
+    @Getter(AccessLevel.PACKAGE)
+    @Nullable
+    private final BlockTrailTypeEnum blockTrail;
 
     /**
      * 创建翅膀类型。
@@ -392,6 +431,7 @@ public enum ParticleTypeEnum {
     ParticleTypeEnum(@NotNull WingTypeEnum wingType) {
         this.wingType = wingType;
         this.builtinTrail = null;
+        this.blockTrail = null;
     }
 
     /**
@@ -402,6 +442,18 @@ public enum ParticleTypeEnum {
     ParticleTypeEnum(@NotNull TrailTypeEnum builtinTrail) {
         this.wingType = null;
         this.builtinTrail = builtinTrail;
+        this.blockTrail = null;
+    }
+
+    /**
+     * 创建方块拖尾类型。
+     *
+     * @param blockTrail 方块拖尾
+     */
+    ParticleTypeEnum(@NotNull BlockTrailTypeEnum blockTrail) {
+        this.wingType = null;
+        this.builtinTrail = null;
+        this.blockTrail = blockTrail;
     }
 
     /**

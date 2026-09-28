@@ -2,6 +2,8 @@ package cn.handyplus.particle.core;
 
 import cn.handyplus.lib.internal.EntitySchedulerUtil;
 import cn.handyplus.lib.internal.HandyRunnable;
+import cn.handyplus.particle.core.block.BlockTrailTask;
+import cn.handyplus.particle.core.block.BlockTrailTypeEnum;
 import cn.handyplus.particle.core.trail.TrailTask;
 import cn.handyplus.particle.core.trail.TrailTypeEnum;
 import cn.handyplus.particle.core.wing.WingTask;
@@ -65,6 +67,21 @@ public class HandyParticleCore {
     }
 
     /**
+     * 启用内置方块拖尾。
+     *
+     * @param player 玩家
+     * @param type   方块拖尾类型
+     * @return 玩家在线且已发起调度请求时返回 true
+     */
+    public static synchronized boolean setBlock(@NotNull Player player, @NotNull BlockTrailTypeEnum type) {
+        if (!player.isOnline()) {
+            return false;
+        }
+        start(player, new BlockTrailTask(player, type));
+        return true;
+    }
+
+    /**
      * 关闭指定玩家的粒子效果。
      *
      * @param player 玩家
@@ -104,6 +121,9 @@ public class HandyParticleCore {
         HandyRunnable task = TASK_MAP.remove(playerId);
         if (task == null) {
             return;
+        }
+        if (task instanceof BlockTrailTask) {
+            ((BlockTrailTask) task).cleanup();
         }
         try {
             task.cancel();

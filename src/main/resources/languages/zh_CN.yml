@@ -112,6 +112,14 @@ particleTypeDesc:
   TRAIL_GOLD_SPARKS: "金色火花拖尾"
   TRAIL_GLOW_SQUID: "发光鱿鱼拖尾"
   TRAIL_PINK_CONFETTI: "粉色粒子拖尾"
+  BLOCK_WOOL: "彩色羊毛方块粒子"
+  BLOCK_GLASS: "彩色玻璃方块粒子"
+  BLOCK_NETHER: "下界材质方块粒子"
+  BLOCK_TERRACOTTA: "彩色陶瓦方块粒子"
+  BLOCK_ORE: "矿石方块粒子"
+  BLOCK_REDSTONE: "红石机械方块粒子"
+  BLOCK_NATURE: "自然方块粒子"
+  BLOCK_METAL: "金属方块粒子"
 
 trailModeDesc:
   CIRCLE: "圆形轨迹"

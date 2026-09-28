@@ -33,6 +33,9 @@ public final class HandyParticleApi {
         if (wingType != null) {
             return HandyParticleCore.setWings(player, wingType);
         }
+        if (type.getBlockTrail() != null) {
+            return HandyParticleCore.setBlock(player, type.getBlockTrail());
+        }
         return HandyParticleCore.setTrail(player, Objects.requireNonNull(type.getBuiltinTrail(), "builtinTrail"));
     }
 
