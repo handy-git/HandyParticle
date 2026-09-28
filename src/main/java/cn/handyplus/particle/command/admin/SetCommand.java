@@ -40,16 +40,16 @@ public final class SetCommand implements IHandyCommandEvent {
 
     @Override
     public void tab(HandyTab tab) {
-        HandyTab categoryTab = tab.nextNull().next(context -> ParticleCategoryTypeEnum.getAll());
-        HandyTab trailTab = categoryTab.whenAt(2, ParticleCategoryTypeEnum.TRAIL.name())
-                .next(context -> ParticleCategoryTypeEnum.get(ParticleCategoryTypeEnum.TRAIL));
-        trailTab.whenAt(2, context -> ParticleCategoryTypeEnum.get(ParticleCategoryTypeEnum.TRAIL)).next(TrailModeTypeEnum.getAll());
-        categoryTab.whenAt(2, ParticleCategoryTypeEnum.WING.name())
-                .next(context -> ParticleCategoryTypeEnum.get(ParticleCategoryTypeEnum.WING));
-        categoryTab.whenAt(2, ParticleCategoryTypeEnum.BLOCK.name())
-                .next(context -> ParticleCategoryTypeEnum.get(ParticleCategoryTypeEnum.BLOCK));
-        categoryTab.whenAt(2, ParticleCategoryTypeEnum.RAIN.name())
-                .next(context -> ParticleCategoryTypeEnum.get(ParticleCategoryTypeEnum.RAIN));
+        HandyTab trailTab = tab.nextNull().next(context -> ParticleCategoryTypeEnum.getAll());
+
+        trailTab.when(ParticleCategoryTypeEnum.TRAIL.name())
+                .next(ParticleCategoryTypeEnum.get(ParticleCategoryTypeEnum.TRAIL))
+                .next(TrailModeTypeEnum.getAll());
+
+        trailTab.when(ParticleCategoryTypeEnum.WING.name()).next(ParticleCategoryTypeEnum.get(ParticleCategoryTypeEnum.WING));
+        trailTab.when(ParticleCategoryTypeEnum.BLOCK.name()).next(ParticleCategoryTypeEnum.get(ParticleCategoryTypeEnum.BLOCK));
+        trailTab.when(ParticleCategoryTypeEnum.RAIN.name()).next(ParticleCategoryTypeEnum.get(ParticleCategoryTypeEnum.RAIN));
+        trailTab.when(ParticleCategoryTypeEnum.EVENT.name()).next(ParticleCategoryTypeEnum.get(ParticleCategoryTypeEnum.EVENT));
     }
 
     @Override
