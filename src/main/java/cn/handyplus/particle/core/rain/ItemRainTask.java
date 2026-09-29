@@ -5,16 +5,16 @@ import cn.handyplus.particle.core.HandyParticleCore;
 import com.cryptomorin.xseries.particles.ParticleDisplay;
 import com.cryptomorin.xseries.particles.XParticle;
 import lombok.RequiredArgsConstructor;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * 客户端物品粒子雨任务。
@@ -24,7 +24,8 @@ import java.util.Map;
 @RequiredArgsConstructor
 public final class ItemRainTask extends HandyRunnable {
     private static final int DROP_TTL = 5;
-    private static final double VIEW_DISTANCE_SQUARED = 625.0D;
+    private static final double DROP_STEP = 0.25D;
+    private static final double RAIN_RADIUS = 0.8D;
 
     private final Entity entity;
     private final ItemRainTypeEnum type;
@@ -32,7 +33,7 @@ public final class ItemRainTask extends HandyRunnable {
     private long tick;
 
     /**
-     * 刷新物品雨。所有物品只作为客户端粒子发送，不创建世界实体。
+     * 从实体头顶上方生成雨滴，逐帧下落至头顶后停止发送；不创建世界实体。
      */
     @Override
     public void run() {
@@ -48,32 +49,36 @@ public final class ItemRainTask extends HandyRunnable {
                 iterator.remove();
                 continue;
             }
-            Location location = entry.getKey().clone().subtract(0.0D, 0.5D, 0.0D);
+            Location location = entry.getKey().clone().subtract(0.0D, age * DROP_STEP, 0.0D);
             entry.setValue(age);
             send(location, type.item(tick - age));
         }
-        Location spawn = entity.getLocation().clone().add(0.0D, 3.0D, 0.0D);
-        drops.put(spawn, 0);
-        send(spawn, type.item(tick));
+        Location head = entity.getLocation().add(0.0D, 1.6D, 0.0D);
+        if (entity instanceof LivingEntity) {
+            head = ((LivingEntity) entity).getEyeLocation();
+        }
+        ItemStack item = type.item(tick);
+        for (int index = 0; index < 2; index++) {
+            double x = ThreadLocalRandom.current().nextDouble(-RAIN_RADIUS, RAIN_RADIUS);
+            double z = ThreadLocalRandom.current().nextDouble(-RAIN_RADIUS, RAIN_RADIUS);
+            Location spawn = head.clone().add(x, 1.0D, z);
+            drops.put(spawn, 0);
+            this.send(spawn, item);
+        }
         tick++;
     }
 
     /**
-     * 向附近玩家发送单个客户端物品粒子。
+     * 在雨滴位置向世界发送单个客户端物品粒子。
      *
      * @param location 粒子位置
      * @param item     物品外观
      */
     private void send(@NotNull Location location, @NotNull ItemStack item) {
-        for (Player viewer : Bukkit.getOnlinePlayers()) {
-            if (viewer.getWorld() != location.getWorld() || viewer.getLocation().distanceSquared(location) > VIEW_DISTANCE_SQUARED) {
-                continue;
-            }
-            ParticleDisplay.of(XParticle.ITEM)
-                    .withItem(item)
-                    .withCount(1)
-                    .onlyVisibleTo(viewer)
-                    .spawn(location);
-        }
+        ParticleDisplay.of(XParticle.ITEM)
+                .withItem(item)
+                .withCount(1)
+                .spawn(location);
     }
+
 }
