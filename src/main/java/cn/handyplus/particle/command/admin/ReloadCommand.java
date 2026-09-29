@@ -21,7 +21,7 @@ public final class ReloadCommand implements IHandyCommandEvent {
 
     @Override
     public String permission() {
-        return "handyparticle.reload";
+        return "handyParticle.reload";
     }
 
     @Override

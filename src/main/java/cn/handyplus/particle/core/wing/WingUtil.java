@@ -4,7 +4,7 @@ import com.cryptomorin.xseries.particles.ParticleDisplay;
 import com.cryptomorin.xseries.particles.XParticle;
 import org.bukkit.Color;
 import org.bukkit.Location;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.Entity;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -46,8 +46,8 @@ final class WingUtil {
      * @param player   玩家
      * @param wingType 翅膀组合
      */
-    static void render(@NotNull Player player, @NotNull WingTypeEnum wingType) {
-        Location origin = player.getLocation().clone();
+    static void render(@NotNull Entity entity, @NotNull WingTypeEnum wingType) {
+        Location origin = entity.getLocation().clone();
         origin.setPitch(0.0F);
         origin.add(origin.getDirection().multiply(-0.3D));
         drawWing(origin, wingType.getPoints(), -120.0F);

@@ -1,8 +1,12 @@
 noPermission: "&8[&c✘&8] &7你没有权限执行该命令"
 
 reloadMsg: "&8[&a✔&8] &a插件配置已重载"
-setUsage: "&c用法: /hp set <玩家> <类别> <效果> [运动模式]"
-clearUsage: "&c用法: /hp clear <玩家> [类别]"
+setUsage: "&c用法: /hp player set <玩家> <类别> <效果> [运动模式]"
+clearUsage: "&c用法: /hp player clear <玩家> [类别]"
+playerUsage: "&c用法: /hp player <set|clear> ..."
+entityUsage: "&c用法: /hp entity <set|clear> ..."
+entitySetUsage: "&c用法: /hp entity set <类别> <效果> [运动模式]"
+entityClearUsage: "&c用法: /hp entity clear [类别]"
 playerOffline: "&c玩家不在线"
 invalidParticleType: "&c未知的效果类型或当前服务端不支持"
 setSuccess: "&a已为 ${player} 设置 ${type} 粒子效果"
@@ -11,6 +15,11 @@ clearSuccess: "&a已清除 ${player} 的粒子效果"
 clearCategorySuccess: "&a已清除 ${player} 的 ${category} 类粒子效果"
 clearTargetNotice: "&a你的全部粒子效果已清除"
 clearCategoryTargetNotice: "&a你的 ${category} 类粒子效果已清除"
+entityPlayerOnly: "&c该命令只能由玩家执行"
+entityNotFound: "&c视线内没有可用实体"
+entitySetSuccess: "&a已为视线实体设置 ${type} 粒子效果"
+entityClearSuccess: "&a已清除视线实体的全部粒子效果"
+entityClearCategorySuccess: "&a已清除视线实体的 ${category} 类粒子效果"
 
 # 管理员帮助信息
 helps:
@@ -20,8 +29,10 @@ helps:
   - " &7命令: &f/hp &8[...]"
   - " &7参数:"
   - "   &8- &f reload     &7重载插件"
-  - "   &8- &f set <玩家> <类别> <效果> [运动模式]  &7设置粒子效果"
-  - "   &8- &f clear <玩家> [类别]         &7清除粒子效果"
+  - "   &8- &f player set <玩家> <类别> <效果> ...  &7设置玩家粒子效果"
+  - "   &8- &f player clear <玩家> [类别]          &7清除玩家粒子效果"
+  - "   &8- &f entity set <类别> <效果> ...       &7设置实体粒子效果"
+  - "   &8- &f entity clear [类别]                &7清除实体粒子效果"
   - ""
 
 # 粒子提醒

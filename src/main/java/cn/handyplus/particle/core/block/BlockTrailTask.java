@@ -9,6 +9,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Entity;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
@@ -21,7 +22,7 @@ import java.util.Map;
  */
 @RequiredArgsConstructor
 public final class BlockTrailTask extends HandyRunnable {
-    private final Player player;
+    private final Entity entity;
     private final BlockTrailTypeEnum type;
     private final Map<Location, Integer> locations = new HashMap<>();
     private long tick;
@@ -31,13 +32,13 @@ public final class BlockTrailTask extends HandyRunnable {
      */
     @Override
     public void run() {
-        if (!player.isOnline()) {
+        if (!entity.isValid()) {
             cleanup();
-            HandyParticleCore.disable(player);
+            HandyParticleCore.disable(entity);
             return;
         }
         expire();
-        Location location = player.getLocation().clone().subtract(0.0D, 1.0D, 0.0D);
+        Location location = entity.getLocation().clone().subtract(0.0D, 1.0D, 0.0D);
         Block block = location.getBlock();
         if (!type.isGround(block)) {
             return;

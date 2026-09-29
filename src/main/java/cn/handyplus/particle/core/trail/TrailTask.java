@@ -3,7 +3,7 @@ package cn.handyplus.particle.core.trail;
 import cn.handyplus.lib.internal.HandyRunnable;
 import cn.handyplus.particle.core.HandyParticleCore;
 import org.bukkit.Location;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.Entity;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -15,7 +15,7 @@ public final class TrailTask extends HandyRunnable {
     /**
      * 任务所属玩家。
      */
-    final Player player;
+    final Entity entity;
     /**
      * 当前启用的内置拖尾。
      */
@@ -48,8 +48,8 @@ public final class TrailTask extends HandyRunnable {
      * @param type     拖尾类型
      * @param mode     运动模式
      */
-    public TrailTask(@NotNull Player player, @NotNull TrailTypeEnum type, @NotNull TrailModeTypeEnum mode) {
-        this.player = player;
+    public TrailTask(@NotNull Entity entity, @NotNull TrailTypeEnum type, @NotNull TrailModeTypeEnum mode) {
+        this.entity = entity;
         this.type = type;
         this.mode = mode;
     }
@@ -59,8 +59,8 @@ public final class TrailTask extends HandyRunnable {
      */
     @Override
     public void run() {
-        if (!player.isOnline()) {
-            HandyParticleCore.disable(player);
+        if (!entity.isValid()) {
+            HandyParticleCore.disable(entity);
             return;
         }
         // 每次调度只推进一帧，点击型模式则在触发后由同一状态继续推进。

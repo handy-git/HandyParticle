@@ -4,7 +4,7 @@ import cn.handyplus.particle.constants.ParticleCategoryTypeEnum;
 import cn.handyplus.particle.core.HandyParticleCore;
 import cn.handyplus.particle.core.trail.TrailModeTypeEnum;
 import cn.handyplus.particle.core.trail.TrailTypeEnum;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.Entity;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -26,75 +26,75 @@ public final class HandyParticleApi {
     /**
      * 启用粒子
      *
-     * @param player 玩家
+     * @param entity 实体
      * @param type   粒子类型
      * @return 玩家在线且已发起调度请求时返回 true
      */
-    public static boolean enable(@NotNull Player player, @NotNull ParticleTypeEnum type) {
-        return enable(player, type, TrailModeTypeEnum.DEFAULT);
+    public static boolean enable(@NotNull Entity entity, @NotNull ParticleTypeEnum type) {
+        return enable(entity, type, TrailModeTypeEnum.DEFAULT);
     }
 
     /**
      * 启用粒子
      *
-     * @param player 玩家
+     * @param entity 实体
      * @param type   粒子类型
      * @param mode   普通拖尾运动模式，为空时使用默认模式
      * @return 玩家在线且已发起调度请求时返回 true
      */
-    public static boolean enable(@NotNull Player player, @NotNull ParticleTypeEnum type, @Nullable TrailModeTypeEnum mode) {
+    public static boolean enable(@NotNull Entity entity, @NotNull ParticleTypeEnum type, @Nullable TrailModeTypeEnum mode) {
         Objects.requireNonNull(type, "type");
         // 翅膀
         if (type.getWingType() != null) {
-            return HandyParticleCore.setWings(player, type.getWingType());
+            return HandyParticleCore.setWings(entity, type.getWingType());
         }
         // 方块粒子
         if (type.getBlockTrail() != null) {
-            return HandyParticleCore.setBlock(player, type.getBlockTrail());
+            return HandyParticleCore.setBlock(entity, type.getBlockTrail());
         }
         // 物品雨粒子
         if (type.getItemRain() != null) {
-            return HandyParticleCore.setItemRain(player, type.getItemRain());
+            return HandyParticleCore.setItemRain(entity, type.getItemRain());
         }
         // 活动纸屑
         if (type.getEventConfetti() != null) {
-            return HandyParticleCore.setConfetti(player, type.getEventConfetti());
+            return HandyParticleCore.setConfetti(entity, type.getEventConfetti());
         }
         // 活动旋转色环
         if (type.getEventColorSpin() != null) {
-            return HandyParticleCore.setColorSpin(player, type.getEventColorSpin());
+            return HandyParticleCore.setColorSpin(entity, type.getEventColorSpin());
         }
         // 活动脚下圆圈
         if (type.getEventCircle() != null) {
-            return HandyParticleCore.setCircle(player, type.getEventCircle());
+            return HandyParticleCore.setCircle(entity, type.getEventCircle());
         }
         // 活动粒子精灵
         if (type.getEventFairy() != null) {
-            return HandyParticleCore.setFairy(player, type.getEventFairy());
+            return HandyParticleCore.setFairy(entity, type.getEventFairy());
         }
         // 普通粒子
         TrailTypeEnum builtinTrail = Objects.requireNonNull(type.getBuiltinTrail(), "builtinTrail");
         TrailModeTypeEnum trailMode = mode == null ? TrailModeTypeEnum.DEFAULT : mode;
-        return HandyParticleCore.setTrail(player, builtinTrail, trailMode);
+        return HandyParticleCore.setTrail(entity, builtinTrail, trailMode);
     }
 
     /**
      * 关闭指定玩家的粒子效果。
      *
-     * @param player 玩家
+     * @param entity 实体
      */
-    public static void disable(@NotNull Player player) {
-        HandyParticleCore.disable(player);
+    public static void disable(@NotNull Entity entity) {
+        HandyParticleCore.disable(entity);
     }
 
     /**
      * 关闭指定玩家某一类别的粒子效果。
      *
-     * @param player   玩家
+     * @param entity   实体
      * @param category 粒子类别
      */
-    public static void disable(@NotNull Player player, @NotNull ParticleCategoryTypeEnum category) {
-        HandyParticleCore.disable(player, category);
+    public static void disable(@NotNull Entity entity, @NotNull ParticleCategoryTypeEnum category) {
+        HandyParticleCore.disable(entity, category);
     }
 
     /**

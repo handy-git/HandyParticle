@@ -5,7 +5,7 @@ import cn.handyplus.particle.constants.ParticleConstants;
 import cn.handyplus.particle.core.HandyParticleCore;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.Location;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.Entity;
 
 /**
  * 玩家头部旋转色环任务。
@@ -14,7 +14,7 @@ import org.bukkit.entity.Player;
  */
 @RequiredArgsConstructor
 public final class EventColorSpinTask extends HandyRunnable {
-    private final Player player;
+    private final Entity entity;
     private final EventColorSpinTypeEnum type;
     private float angle;
 
@@ -23,8 +23,8 @@ public final class EventColorSpinTask extends HandyRunnable {
      */
     @Override
     public void run() {
-        if (!player.isOnline()) {
-            HandyParticleCore.disable(player);
+        if (!entity.isValid()) {
+            HandyParticleCore.disable(entity);
             return;
         }
         // 每两 tick 转动 30 度，单点连续刷新后形成环状残影。
@@ -32,7 +32,7 @@ public final class EventColorSpinTask extends HandyRunnable {
         if (angle >= 180.0F) {
             angle = -180.0F;
         }
-        Location location = player.getLocation().clone().add(0.0D, ParticleConstants.PLAYER_HEAD_Y_OFFSET, 0.0D);
+        Location location = entity.getLocation().clone().add(0.0D, ParticleConstants.PLAYER_HEAD_Y_OFFSET, 0.0D);
         location.setPitch(0.0F);
         location.setYaw(angle);
         location.add(location.getDirection());

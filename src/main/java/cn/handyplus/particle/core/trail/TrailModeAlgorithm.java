@@ -47,7 +47,7 @@ final class TrailModeAlgorithm {
                 slinky(task);
                 break;
             default:
-                task.type.spawn(task.player);
+                task.type.spawn(task.entity);
         }
     }
 
@@ -70,7 +70,7 @@ final class TrailModeAlgorithm {
             return;
         }
         double height = shooterMode ? 1.0D : 0.0D;
-        task.shotOrigin = task.player.getLocation().clone().add(0.0D, height, 0.0D);
+        task.shotOrigin = task.entity.getLocation().clone().add(0.0D, height, 0.0D);
         task.shotFrame = 0;
         task.fall = 0.0D;
     }
@@ -81,7 +81,7 @@ final class TrailModeAlgorithm {
      * @param task 当前拖尾任务
      */
     private static void circle(TrailTask task) {
-        Location location = task.player.getLocation().clone().add(0.0D, ParticleConstants.PLAYER_HEAD_Y_OFFSET, 0.0D);
+        Location location = task.entity.getLocation().clone().add(0.0D, ParticleConstants.PLAYER_HEAD_Y_OFFSET, 0.0D);
         location.setPitch(0.0F);
         location.setYaw(task.frame * 30.0F);
         task.type.spawnAt(location.add(location.getDirection()), 3, 0.0D);
@@ -93,7 +93,7 @@ final class TrailModeAlgorithm {
      * @param task 当前拖尾任务
      */
     private static void magician(TrailTask task) {
-        Location origin = task.player.getLocation().clone().add(0.0D, 0.5D, 0.0D);
+        Location origin = task.entity.getLocation().clone().add(0.0D, 0.5D, 0.0D);
         origin.setPitch(0.0F);
         for (int angle = 45; angle < 360; angle += 90) {
             Location point = origin.clone();
@@ -115,7 +115,7 @@ final class TrailModeAlgorithm {
         if (!pulseFrame) {
             return;
         }
-        Location origin = task.player.getLocation().clone().add(0.0D, ParticleConstants.PLAYER_HEAD_Y_OFFSET, 0.0D);
+        Location origin = task.entity.getLocation().clone().add(0.0D, ParticleConstants.PLAYER_HEAD_Y_OFFSET, 0.0D);
         for (int angle = -180; angle <= 180; angle += 40) {
             Location point = origin.clone();
             point.setPitch(0.0F);
@@ -130,7 +130,7 @@ final class TrailModeAlgorithm {
      * @param task 当前拖尾任务
      */
     private static void helix(TrailTask task) {
-        Location origin = task.player.getLocation().clone().add(0.0D, 1.0D, 0.0D);
+        Location origin = task.entity.getLocation().clone().add(0.0D, 1.0D, 0.0D);
         double angle = task.frame * 0.35D;
         task.type.spawnAt(origin.add(Math.cos(angle), Math.sin(angle * 0.5D), Math.sin(angle)), 2, 0.0D);
     }
@@ -141,7 +141,7 @@ final class TrailModeAlgorithm {
      * @param task 当前拖尾任务
      */
     private static void dna(TrailTask task) {
-        Location origin = task.player.getLocation().clone().add(0.0D, 1.0D, 0.0D);
+        Location origin = task.entity.getLocation().clone().add(0.0D, 1.0D, 0.0D);
         double angle = task.frame * 0.3D;
         for (int i = 0; i < 2; i++) {
             double offset = 0.0D;
@@ -162,7 +162,7 @@ final class TrailModeAlgorithm {
         double angle = task.frame * 0.25D;
         double radius = 0.2D + (task.frame % 20) * 0.04D;
         double height = 0.5D + (task.frame % 20) * 0.08D;
-        Location location = task.player.getLocation().clone().add(Math.cos(angle) * radius, height, Math.sin(angle) * radius);
+        Location location = task.entity.getLocation().clone().add(Math.cos(angle) * radius, height, Math.sin(angle) * radius);
         task.type.spawnAt(location, 2, 0.0D);
     }
 

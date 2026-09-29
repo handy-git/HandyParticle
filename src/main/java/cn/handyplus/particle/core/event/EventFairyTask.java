@@ -4,7 +4,7 @@ import cn.handyplus.lib.internal.HandyRunnable;
 import cn.handyplus.particle.constants.ParticleConstants;
 import cn.handyplus.particle.core.HandyParticleCore;
 import org.bukkit.Location;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.Entity;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 
@@ -16,7 +16,7 @@ import java.util.concurrent.ThreadLocalRandom;
  * @author handy
  */
 public final class EventFairyTask extends HandyRunnable {
-    private final Player player;
+    private final Entity entity;
     private final EventFairyTypeEnum type;
     private Location current;
     private double targetX = Double.NaN;
@@ -28,8 +28,8 @@ public final class EventFairyTask extends HandyRunnable {
      * @param player 玩家
      * @param type   精灵颜色
      */
-    public EventFairyTask(@NotNull Player player, @NotNull EventFairyTypeEnum type) {
-        this.player = player;
+    public EventFairyTask(@NotNull Entity entity, @NotNull EventFairyTypeEnum type) {
+        this.entity = entity;
         this.type = type;
         this.resetCurrent();
     }
@@ -39,18 +39,18 @@ public final class EventFairyTask extends HandyRunnable {
      */
     @Override
     public void run() {
-        if (!player.isOnline()) {
-            HandyParticleCore.disable(player);
+        if (!entity.isValid()) {
+            HandyParticleCore.disable(entity);
             return;
         }
-        Location playerLocation = player.getLocation();
+        Location playerLocation = entity.getLocation();
         if (current.getWorld() != playerLocation.getWorld()) {
             this.resetCurrent();
-            playerLocation = player.getLocation();
+            playerLocation = entity.getLocation();
         }
         if (current.distanceSquared(playerLocation) > 1600.0D) {
             this.resetCurrent();
-            playerLocation = player.getLocation();
+            playerLocation = entity.getLocation();
         }
 
         // 精灵离开玩家四格后选择玩家头部附近的新目标并折返。
@@ -83,7 +83,7 @@ public final class EventFairyTask extends HandyRunnable {
      * 将精灵重置到玩家头部附近，保留玩家当前朝向作为初始移动方向。
      */
     private void resetCurrent() {
-        current = player.getLocation().clone().add(randomOffset(10), 2.5D, randomOffset(10));
+        current = entity.getLocation().clone().add(randomOffset(10), 2.5D, randomOffset(10));
         targetX = Double.NaN;
         targetZ = Double.NaN;
     }

@@ -3,9 +3,9 @@ package cn.handyplus.particle.api;
 import cn.handyplus.lib.util.BaseUtil;
 import cn.handyplus.particle.constants.ParticleCategoryTypeEnum;
 import cn.handyplus.particle.core.block.BlockTrailTypeEnum;
+import cn.handyplus.particle.core.event.EventCircleTypeEnum;
 import cn.handyplus.particle.core.event.EventColorSpinTypeEnum;
 import cn.handyplus.particle.core.event.EventConfettiTypeEnum;
-import cn.handyplus.particle.core.event.EventCircleTypeEnum;
 import cn.handyplus.particle.core.event.EventFairyTypeEnum;
 import cn.handyplus.particle.core.rain.ItemRainTypeEnum;
 import cn.handyplus.particle.core.trail.TrailTypeEnum;
@@ -733,6 +733,23 @@ public enum ParticleTypeEnum {
     @NotNull
     public String getDesc() {
         return BaseUtil.getLangMsg("particleTypeDesc." + name());
+    }
+
+    /**
+     * 按名称查找粒子类型。
+     *
+     * @param value 类型名称
+     * @return 粒子类型，未找到时返回 null
+     */
+    @NotNull
+    public static ParticleTypeEnum getEnumThrow(@NotNull String value) {
+        String typeName = value.split("\\(", 2)[0].trim();
+        for (ParticleTypeEnum particleType : values()) {
+            if (particleType.name().equalsIgnoreCase(typeName)) {
+                return particleType;
+            }
+        }
+        throw new RuntimeException("not found particleType: " + value);
     }
 
 }

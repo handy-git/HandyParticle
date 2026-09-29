@@ -3,6 +3,7 @@ package cn.handyplus.particle.constants;
 import cn.handyplus.lib.constants.BaseConstants;
 import cn.handyplus.lib.util.BaseUtil;
 import cn.handyplus.particle.api.ParticleTypeEnum;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +42,22 @@ public enum ParticleCategoryTypeEnum {
      */
     public String getDesc() {
         return BaseUtil.getLangMsg("particleCategoryDesc." + this.name());
+    }
+
+    /**
+     * 按名称查找粒子类别。
+     *
+     * @param value 类别名称
+     * @return 粒子类别，未找到时返回 null
+     */
+    @NotNull
+    public static ParticleCategoryTypeEnum getEnumThrow(@NotNull String value) {
+        for (ParticleCategoryTypeEnum category : values()) {
+            if (category.name().equalsIgnoreCase(value)) {
+                return category;
+            }
+        }
+        throw new RuntimeException("not found particleCategoryType: " + value);
     }
 
     /**

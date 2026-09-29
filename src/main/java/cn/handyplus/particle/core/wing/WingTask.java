@@ -3,7 +3,7 @@ package cn.handyplus.particle.core.wing;
 import cn.handyplus.lib.internal.HandyRunnable;
 import cn.handyplus.particle.core.HandyParticleCore;
 import lombok.RequiredArgsConstructor;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.Entity;
 
 /**
  * 玩家粒子翅膀定时任务。
@@ -15,7 +15,7 @@ public final class WingTask extends HandyRunnable {
     /**
      * 任务所属玩家。
      */
-    private final Player player;
+    private final Entity entity;
     /**
      * 当前使用的翅膀组合。
      */
@@ -26,10 +26,10 @@ public final class WingTask extends HandyRunnable {
      */
     @Override
     public void run() {
-        if (!player.isOnline()) {
-            HandyParticleCore.disable(player);
+        if (!entity.isValid()) {
+            HandyParticleCore.disable(entity);
             return;
         }
-        WingUtil.render(player, wingType);
+        WingUtil.render(entity, wingType);
     }
 }

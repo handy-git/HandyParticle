@@ -3,7 +3,7 @@ package cn.handyplus.particle.core.trail;
 import com.cryptomorin.xseries.particles.ParticleDisplay;
 import com.cryptomorin.xseries.particles.XParticle;
 import org.bukkit.Location;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.Entity;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -187,8 +187,8 @@ public enum TrailTypeEnum {
      *
      * @param player 玩家
      */
-    public void spawn(@NotNull Player player) {
-        Location location = player.getLocation().clone().add(0.0D, y, 0.0D);
+    public void spawn(@NotNull Entity entity) {
+        Location location = entity.getLocation().clone().add(0.0D, y, 0.0D);
         spawn(location, 4, 1.0D);
     }
 

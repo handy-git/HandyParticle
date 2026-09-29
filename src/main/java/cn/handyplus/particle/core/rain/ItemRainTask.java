@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Entity;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
@@ -25,7 +26,7 @@ public final class ItemRainTask extends HandyRunnable {
     private static final int DROP_TTL = 5;
     private static final double VIEW_DISTANCE_SQUARED = 625.0D;
 
-    private final Player player;
+    private final Entity entity;
     private final ItemRainTypeEnum type;
     private final Map<Location, Integer> drops = new HashMap<>();
     private long tick;
@@ -35,8 +36,8 @@ public final class ItemRainTask extends HandyRunnable {
      */
     @Override
     public void run() {
-        if (!player.isOnline()) {
-            HandyParticleCore.disable(player);
+        if (!entity.isValid()) {
+            HandyParticleCore.disable(entity);
             return;
         }
         Iterator<Map.Entry<Location, Integer>> iterator = drops.entrySet().iterator();
@@ -51,7 +52,7 @@ public final class ItemRainTask extends HandyRunnable {
             entry.setValue(age);
             send(location, type.item(tick - age));
         }
-        Location spawn = player.getLocation().clone().add(0.0D, 3.0D, 0.0D);
+        Location spawn = entity.getLocation().clone().add(0.0D, 3.0D, 0.0D);
         drops.put(spawn, 0);
         send(spawn, type.item(tick));
         tick++;

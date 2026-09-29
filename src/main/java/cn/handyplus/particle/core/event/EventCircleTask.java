@@ -5,7 +5,7 @@ import cn.handyplus.particle.constants.ParticleConstants;
 import cn.handyplus.particle.core.HandyParticleCore;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.Location;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.Entity;
 
 /**
  * 在玩家脚下生成圆圈粒子的任务。
@@ -14,7 +14,7 @@ import org.bukkit.entity.Player;
  */
 @RequiredArgsConstructor
 public final class EventCircleTask extends HandyRunnable {
-    private final Player player;
+    private final Entity entity;
     private final EventCircleTypeEnum type;
 
     /**
@@ -22,11 +22,11 @@ public final class EventCircleTask extends HandyRunnable {
      */
     @Override
     public void run() {
-        if (!player.isOnline()) {
-            HandyParticleCore.disable(player);
+        if (!entity.isValid()) {
+            HandyParticleCore.disable(entity);
             return;
         }
-        Location location = player.getLocation();
+        Location location = entity.getLocation();
         double angle = 0.0D;
         for (int i = 0; i < 25; i++) {
             double x = ParticleConstants.PLAYER_CIRCLE_RADIUS * Math.sin(angle);

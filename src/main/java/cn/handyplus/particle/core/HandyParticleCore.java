@@ -22,6 +22,7 @@ import cn.handyplus.particle.core.trail.TrailTypeEnum;
 import cn.handyplus.particle.core.wing.WingTask;
 import cn.handyplus.particle.core.wing.WingTypeEnum;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Entity;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -48,34 +49,26 @@ public class HandyParticleCore {
     }
 
     /**
-     * 启用指定组合的粒子翅膀。
+     * 启用指定实体的粒子翅膀。
      *
-     * @param player   玩家
+     * @param entity   实体
      * @param wingType 翅膀组合
-     * @return 玩家在线且已发起调度请求时返回 true
+     * @return 实体有效且已发起调度请求时返回 true
      */
-    public static synchronized boolean setWings(@NotNull Player player, @NotNull WingTypeEnum wingType) {
-        if (!player.isOnline()) {
-            return false;
-        }
-        start(player, new WingTask(player, wingType), ParticleCategoryTypeEnum.WING);
-        return true;
+    public static synchronized boolean setWings(@NotNull Entity entity, @NotNull WingTypeEnum wingType) {
+        return start(entity, new WingTask(entity, wingType), ParticleCategoryTypeEnum.WING);
     }
 
     /**
-     * 启用指定运动模式的内置粒子拖尾。
+     * 启用指定实体的内置粒子拖尾。
      *
-     * @param player 玩家
+     * @param entity 实体
      * @param type   内置拖尾类型
      * @param mode   运动模式
-     * @return 玩家在线且已发起调度请求时返回 true
+     * @return 实体有效且已发起调度请求时返回 true
      */
-    public static synchronized boolean setTrail(@NotNull Player player, @NotNull TrailTypeEnum type, @NotNull TrailModeTypeEnum mode) {
-        if (!player.isOnline()) {
-            return false;
-        }
-        start(player, new TrailTask(player, type, mode), ParticleCategoryTypeEnum.TRAIL);
-        return true;
+    public static synchronized boolean setTrail(@NotNull Entity entity, @NotNull TrailTypeEnum type, @NotNull TrailModeTypeEnum mode) {
+        return start(entity, new TrailTask(entity, type, mode), ParticleCategoryTypeEnum.TRAIL);
     }
 
     /**
@@ -95,93 +88,69 @@ public class HandyParticleCore {
     }
 
     /**
-     * 启用内置方块拖尾。
+     * 启用指定实体的方块拖尾。
      *
-     * @param player 玩家
+     * @param entity 实体
      * @param type   方块拖尾类型
-     * @return 玩家在线且已发起调度请求时返回 true
+     * @return 实体有效且已发起调度请求时返回 true
      */
-    public static synchronized boolean setBlock(@NotNull Player player, @NotNull BlockTrailTypeEnum type) {
-        if (!player.isOnline()) {
-            return false;
-        }
-        start(player, new BlockTrailTask(player, type), ParticleCategoryTypeEnum.BLOCK);
-        return true;
+    public static synchronized boolean setBlock(@NotNull Entity entity, @NotNull BlockTrailTypeEnum type) {
+        return start(entity, new BlockTrailTask(entity, type), ParticleCategoryTypeEnum.BLOCK);
     }
 
     /**
-     * 启用内置物品雨。
+     * 启用指定实体的物品雨。
      *
-     * @param player 玩家
+     * @param entity 实体
      * @param type   物品雨类型
-     * @return 玩家在线且已发起调度请求时返回 true
+     * @return 实体有效且已发起调度请求时返回 true
      */
-    public static synchronized boolean setItemRain(@NotNull Player player, @NotNull ItemRainTypeEnum type) {
-        if (!player.isOnline()) {
-            return false;
-        }
-        start(player, new ItemRainTask(player, type), ParticleCategoryTypeEnum.RAIN);
-        return true;
+    public static synchronized boolean setItemRain(@NotNull Entity entity, @NotNull ItemRainTypeEnum type) {
+        return start(entity, new ItemRainTask(entity, type), ParticleCategoryTypeEnum.RAIN);
     }
 
     /**
-     * 启用内置三色纸屑效果。
+     * 启用指定实体的三色纸屑效果。
      *
-     * @param player 玩家
+     * @param entity 实体
      * @param type   纸屑染料组合
-     * @return 玩家在线且已发起调度请求时返回 true
+     * @return 实体有效且已发起调度请求时返回 true
      */
-    public static synchronized boolean setConfetti(@NotNull Player player, @NotNull EventConfettiTypeEnum type) {
-        if (!player.isOnline()) {
-            return false;
-        }
-        start(player, new EventConfettiTask(player, type), ParticleCategoryTypeEnum.EVENT);
-        return true;
+    public static synchronized boolean setConfetti(@NotNull Entity entity, @NotNull EventConfettiTypeEnum type) {
+        return start(entity, new EventConfettiTask(entity, type), ParticleCategoryTypeEnum.EVENT);
     }
 
     /**
-     * 启用内置旋转色环效果。
+     * 启用指定实体的旋转色环效果。
      *
-     * @param player 玩家
+     * @param entity 实体
      * @param type   色环颜色
-     * @return 玩家在线且已发起调度请求时返回 true
+     * @return 实体有效且已发起调度请求时返回 true
      */
-    public static synchronized boolean setColorSpin(@NotNull Player player, @NotNull EventColorSpinTypeEnum type) {
-        if (!player.isOnline()) {
-            return false;
-        }
-        start(player, new EventColorSpinTask(player, type), ParticleCategoryTypeEnum.EVENT);
-        return true;
+    public static synchronized boolean setColorSpin(@NotNull Entity entity, @NotNull EventColorSpinTypeEnum type) {
+        return start(entity, new EventColorSpinTask(entity, type), ParticleCategoryTypeEnum.EVENT);
     }
 
     /**
-     * 启用内置脚下圆圈效果。
+     * 启用指定实体的脚下圆圈效果。
      *
-     * @param player 玩家
+     * @param entity 实体
      * @param type   圆圈颜色
-     * @return 玩家在线且已发起调度请求时返回 true
+     * @return 实体有效且已发起调度请求时返回 true
      */
-    public static synchronized boolean setCircle(@NotNull Player player, @NotNull EventCircleTypeEnum type) {
-        if (!player.isOnline()) {
-            return false;
-        }
-        start(player, new EventCircleTask(player, type), ParticleCategoryTypeEnum.EVENT);
-        return true;
+    public static synchronized boolean setCircle(@NotNull Entity entity, @NotNull EventCircleTypeEnum type) {
+        return start(entity, new EventCircleTask(entity, type), ParticleCategoryTypeEnum.EVENT);
     }
 
     /**
-     * 启用内置粒子精灵效果。
+     * 启用指定实体的粒子精灵效果。
      *
-     * @param player 玩家
+     * @param entity 实体
      * @param type   精灵颜色
-     * @return 玩家在线且已发起调度请求时返回 true
+     * @return 实体有效且已发起调度请求时返回 true
      */
-    public static synchronized boolean setFairy(@NotNull Player player, @NotNull EventFairyTypeEnum type) {
-        if (!player.isOnline()) {
-            return false;
-        }
-        start(player, new EventFairyTask(player, type), ParticleCategoryTypeEnum.EVENT);
-        return true;
+    public static synchronized boolean setFairy(@NotNull Entity entity, @NotNull EventFairyTypeEnum type) {
+        return start(entity, new EventFairyTask(entity, type), ParticleCategoryTypeEnum.EVENT);
     }
 
     /**
@@ -189,8 +158,8 @@ public class HandyParticleCore {
      *
      * @param player 玩家
      */
-    public static synchronized void disable(@NotNull Player player) {
-        disable(player.getUniqueId());
+    public static synchronized void disable(@NotNull Entity entity) {
+        disable(entity.getUniqueId());
     }
 
     /**
@@ -199,14 +168,14 @@ public class HandyParticleCore {
      * @param player   玩家
      * @param category 粒子类别
      */
-    public static synchronized void disable(@NotNull Player player, @NotNull ParticleCategoryTypeEnum category) {
-        Map<ParticleCategoryTypeEnum, HandyRunnable> tasks = TASK_MAP.get(player.getUniqueId());
+    public static synchronized void disable(@NotNull Entity entity, @NotNull ParticleCategoryTypeEnum category) {
+        Map<ParticleCategoryTypeEnum, HandyRunnable> tasks = TASK_MAP.get(entity.getUniqueId());
         if (tasks == null) {
             return;
         }
         stop(tasks.remove(category));
         if (tasks.isEmpty()) {
-            TASK_MAP.remove(player.getUniqueId());
+            TASK_MAP.remove(entity.getUniqueId());
         }
     }
 
@@ -226,14 +195,19 @@ public class HandyParticleCore {
      * @param task     新任务
      * @param category 粒子类别
      */
-    private static void start(@NotNull Player player, @NotNull HandyRunnable task, @NotNull ParticleCategoryTypeEnum category) {
-        UUID playerId = player.getUniqueId();
-        Map<ParticleCategoryTypeEnum, HandyRunnable> tasks = TASK_MAP.computeIfAbsent(playerId, ignored -> new HashMap<>());
-        HandyRunnable oldTask = tasks.remove(category);
-        stop(oldTask);
+    private static boolean start(@NotNull Entity entity, @NotNull HandyRunnable task,
+                                 @NotNull ParticleCategoryTypeEnum category) {
+        if (!entity.isValid() || (entity instanceof Player && !((Player) entity).isOnline())) {
+            return false;
+        }
+        UUID entityId = entity.getUniqueId();
+        // 同一实体同一类别只保留一个任务，重新设置时先停止旧任务，避免重复刷新粒子。
+        Map<ParticleCategoryTypeEnum, HandyRunnable> tasks = TASK_MAP.computeIfAbsent(entityId, ignored -> new HashMap<>());
+        stop(tasks.put(category, task));
         Long period = ParticleConstants.REFRESH_INTERVALS.getOrDefault(category, 2L);
-        EntitySchedulerUtil.runTaskTimer(player, task, 1L, period);
-        tasks.put(category, task);
+        // 使用实体调度器绑定任务生命周期，实体失效后由调度器自动终止执行。
+        EntitySchedulerUtil.runTaskTimer(entity, task, 1L, period);
+        return true;
     }
 
     /**

@@ -35,7 +35,10 @@ public final class HandyLoginEventListener implements Listener {
         HandySchedulerUtil.runTaskAsynchronously(() -> {
             List<PlayerParticleEntity> saved = PlayerParticleService.findByUuid(playerId);
             for (PlayerParticleEntity entity : saved) {
-                ParticleTypeEnum particleTypeEnum = ParticleTypeEnum.valueOf(entity.getType());
+                ParticleTypeEnum particleTypeEnum = ParticleTypeEnum.getEnumThrow(entity.getType());
+                if (particleTypeEnum == null) {
+                    continue;
+                }
                 TrailModeTypeEnum trailModeTypeEnum = TrailModeTypeEnum.get(entity.getMode());
                 HandyParticleApi.enable(player, particleTypeEnum, trailModeTypeEnum);
             }
