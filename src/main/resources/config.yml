@@ -10,8 +10,8 @@ isCheckUpdateToOpMsg: true
 # 粒子刷新间隔，单位 tick（20 tick = 1 秒），最小为 1
 # 修改后需重新设置玩家效果，新任务才会使用新间隔
 refreshInterval:
-  trail: 2
-  wing: 2
-  block: 2
-  rain: 2
-  event: 2
+  trail: 4
+  wing: 4
+  block: 20
+  rain: 4
+  event: 4
