@@ -4,6 +4,7 @@ import com.cryptomorin.xseries.particles.ParticleDisplay;
 import com.cryptomorin.xseries.particles.XParticle;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
+import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
@@ -63,11 +64,13 @@ final class WingUtil {
      * @param angle  翅膀旋转角度
      */
     private static void drawWing(@NotNull Location origin, @NotNull WingPoint[] points, float angle) {
+        Location rotated = origin.clone();
+        rotated.setYaw(rotated.getYaw() - angle);
+        Vector direction = rotated.getDirection();
+        double stepX = direction.getX() * 0.2D;
+        double stepZ = direction.getZ() * 0.2D;
         for (WingPoint point : points) {
-            Location location = origin.clone();
-            location.setYaw(location.getYaw() - angle);
-            location.add(0.0D, 0.2D * (14 - point.getRow()), 0.0D);
-            location.add(location.getDirection().multiply(point.getColumn() * 0.2D));
+            Location location = rotated.clone().add(stepX * point.getColumn(), 0.2D * (14 - point.getRow()), stepZ * point.getColumn());
             spawn(location, point);
         }
     }
