@@ -107,13 +107,10 @@ public enum BlockTrailTypeEnum {
     private static final Set<Material> GROUND_MATERIALS = EnumSet.noneOf(Material.class);
 
     static {
-        for (Material material : Material.values()) {
-            try {
-                if (GROUND.contains(XMaterial.matchXMaterial(material))) {
-                    GROUND_MATERIALS.add(material);
-                }
-            } catch (IllegalArgumentException ignored) {
-                // 当前服务端存在但 XMaterial 未识别的材质不属于内置地面列表。
+        for (XMaterial ground : GROUND) {
+            Material material = ground.get();
+            if (material != null) {
+                GROUND_MATERIALS.add(material);
             }
         }
     }

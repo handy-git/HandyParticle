@@ -229,14 +229,14 @@ public enum TrailTypeEnum {
                     .withCount(amount)
                     .offset(offset)
                     .withExtra(speed)
-                    .withColor(this == TRAIL_COLOR ? java.awt.Color.WHITE : java.awt.Color.RED, 1.0F)
+                    .withColor(this == TRAIL_COLOR ? Color.WHITE : Color.RED, 1.0F)
                     .spawn(location);
         } else if (particle == XParticle.ENTITY_EFFECT) {
             ParticleDisplay.of(particle)
                     .withCount(amount)
                     .offset(offset)
                     .withExtra(speed)
-                    .withColor(new java.awt.Color(255, 0, 255), 1.0F)
+                    .withColor(new Color(255, 0, 255), 1.0F)
                     .spawn(location);
         } else {
             ParticleDisplay.of(particle)
