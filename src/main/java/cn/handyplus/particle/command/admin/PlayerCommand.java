@@ -42,6 +42,11 @@ public final class PlayerCommand implements IHandyCommandEvent {
     }
 
     @Override
+    public boolean isAsync() {
+        return true;
+    }
+
+    @Override
     public void tab(HandyTab tab) {
         HandyTab action = tab.next(ParticleCommandActionEnum.getAll());
 
@@ -49,7 +54,7 @@ public final class PlayerCommand implements IHandyCommandEvent {
         HandyTab trails = set.when(ParticleCategoryTypeEnum.TRAIL.name()).next(context -> ParticleCategoryTypeEnum.get(ParticleCategoryTypeEnum.TRAIL));
         trails.next(TrailModeTypeEnum.getAll());
         trails.when(context -> Arrays.asList(ParticleTypeEnum.TRAIL_COLOR.name(),
-                ParticleTypeEnum.TRAIL_COLOR.name() + "(" + ParticleTypeEnum.TRAIL_COLOR.getDesc() + ")"))
+                        ParticleTypeEnum.TRAIL_COLOR.name() + "(" + ParticleTypeEnum.TRAIL_COLOR.getDesc() + ")"))
                 .next(TrailModeTypeEnum.getAll()).next("#FFFFFF");
         set.when(ParticleCategoryTypeEnum.WING.name()).next(ParticleCategoryTypeEnum.get(ParticleCategoryTypeEnum.WING));
         set.when(ParticleCategoryTypeEnum.BLOCK.name()).next(ParticleCategoryTypeEnum.get(ParticleCategoryTypeEnum.BLOCK));
