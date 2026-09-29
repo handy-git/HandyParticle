@@ -10,6 +10,8 @@ import cn.handyplus.particle.core.event.EventColorSpinTask;
 import cn.handyplus.particle.core.event.EventColorSpinTypeEnum;
 import cn.handyplus.particle.core.event.EventConfettiTask;
 import cn.handyplus.particle.core.event.EventConfettiTypeEnum;
+import cn.handyplus.particle.core.event.EventCircleTask;
+import cn.handyplus.particle.core.event.EventCircleTypeEnum;
 import cn.handyplus.particle.core.event.EventFairyTask;
 import cn.handyplus.particle.core.event.EventFairyTypeEnum;
 import cn.handyplus.particle.core.rain.ItemRainTask;
@@ -145,6 +147,21 @@ public class HandyParticleCore {
             return false;
         }
         start(player, new EventColorSpinTask(player, type), ParticleCategoryTypeEnum.EVENT);
+        return true;
+    }
+
+    /**
+     * 启用内置脚下圆圈效果。
+     *
+     * @param player 玩家
+     * @param type   圆圈颜色
+     * @return 玩家在线且已发起调度请求时返回 true
+     */
+    public static synchronized boolean setCircle(@NotNull Player player, @NotNull EventCircleTypeEnum type) {
+        if (!player.isOnline()) {
+            return false;
+        }
+        start(player, new EventCircleTask(player, type), ParticleCategoryTypeEnum.EVENT);
         return true;
     }
 

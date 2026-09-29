@@ -19,6 +19,11 @@ public final class ParticleConstants {
     public static final double PLAYER_HEAD_Y_OFFSET = 2.2D;
 
     /**
+     * 玩家脚下圆圈的半径。
+     */
+    public static final double PLAYER_CIRCLE_RADIUS = 0.75D;
+
+    /**
      * 各类粒子的刷新间隔。
      */
     public static volatile Map<ParticleCategoryTypeEnum, Long> REFRESH_INTERVALS = Collections.emptyMap();

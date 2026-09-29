@@ -63,6 +63,10 @@ public final class HandyParticleApi {
         if (type.getEventColorSpin() != null) {
             return HandyParticleCore.setColorSpin(player, type.getEventColorSpin());
         }
+        // 活动脚下圆圈
+        if (type.getEventCircle() != null) {
+            return HandyParticleCore.setCircle(player, type.getEventCircle());
+        }
         // 活动粒子精灵
         if (type.getEventFairy() != null) {
             return HandyParticleCore.setFairy(player, type.getEventFairy());

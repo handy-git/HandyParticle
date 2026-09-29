@@ -5,6 +5,7 @@ import cn.handyplus.particle.constants.ParticleCategoryTypeEnum;
 import cn.handyplus.particle.core.block.BlockTrailTypeEnum;
 import cn.handyplus.particle.core.event.EventColorSpinTypeEnum;
 import cn.handyplus.particle.core.event.EventConfettiTypeEnum;
+import cn.handyplus.particle.core.event.EventCircleTypeEnum;
 import cn.handyplus.particle.core.event.EventFairyTypeEnum;
 import cn.handyplus.particle.core.rain.ItemRainTypeEnum;
 import cn.handyplus.particle.core.trail.TrailTypeEnum;
@@ -485,6 +486,34 @@ public enum ParticleTypeEnum {
      */
     EVENT_COLOR_SPIN_BLACK(EventColorSpinTypeEnum.COLOR_SPIN_BLACK),
     /**
+     * 白色脚下圆圈。
+     */
+    EVENT_CIRCLE_WHITE(EventCircleTypeEnum.CIRCLE_WHITE),
+    /**
+     * 红色脚下圆圈。
+     */
+    EVENT_CIRCLE_RED(EventCircleTypeEnum.CIRCLE_RED),
+    /**
+     * 黄色脚下圆圈。
+     */
+    EVENT_CIRCLE_YELLOW(EventCircleTypeEnum.CIRCLE_YELLOW),
+    /**
+     * 绿色脚下圆圈。
+     */
+    EVENT_CIRCLE_GREEN(EventCircleTypeEnum.CIRCLE_GREEN),
+    /**
+     * 蓝色脚下圆圈。
+     */
+    EVENT_CIRCLE_BLUE(EventCircleTypeEnum.CIRCLE_BLUE),
+    /**
+     * 紫色脚下圆圈。
+     */
+    EVENT_CIRCLE_PURPLE(EventCircleTypeEnum.CIRCLE_PURPLE),
+    /**
+     * 黑色脚下圆圈。
+     */
+    EVENT_CIRCLE_BLACK(EventCircleTypeEnum.CIRCLE_BLACK),
+    /**
      * 绿色粒子精灵。
      */
     EVENT_FAIRY_GREEN(EventFairyTypeEnum.FAIRY_GREEN),
@@ -555,6 +584,12 @@ public enum ParticleTypeEnum {
     @Getter(AccessLevel.PACKAGE)
     @Nullable
     private final EventFairyTypeEnum eventFairy;
+    /**
+     * 固定颜色的脚下圆圈效果。
+     */
+    @Getter(AccessLevel.PACKAGE)
+    @Nullable
+    private EventCircleTypeEnum eventCircle;
     /**
      * 效果所属类别。
      */
@@ -670,6 +705,23 @@ public enum ParticleTypeEnum {
         this.eventConfetti = null;
         this.eventColorSpin = null;
         this.eventFairy = eventFairy;
+        this.category = ParticleCategoryTypeEnum.EVENT;
+    }
+
+    /**
+     * 创建脚下圆圈活动效果类型。
+     *
+     * @param eventCircle 圆圈颜色
+     */
+    ParticleTypeEnum(@NotNull EventCircleTypeEnum eventCircle) {
+        this.wingType = null;
+        this.builtinTrail = null;
+        this.blockTrail = null;
+        this.itemRain = null;
+        this.eventConfetti = null;
+        this.eventColorSpin = null;
+        this.eventFairy = null;
+        this.eventCircle = eventCircle;
         this.category = ParticleCategoryTypeEnum.EVENT;
     }
 
