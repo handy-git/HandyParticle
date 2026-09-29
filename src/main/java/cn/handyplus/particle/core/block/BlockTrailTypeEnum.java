@@ -8,8 +8,10 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * 默认方块拖尾的内置材质组合。
@@ -102,6 +104,20 @@ public enum BlockTrailTypeEnum {
             XMaterial.DIORITE, XMaterial.GRANITE, XMaterial.ANDESITE, XMaterial.DIRT_PATH, XMaterial.MYCELIUM,
             XMaterial.PODZOL, XMaterial.SOUL_SAND, XMaterial.SOUL_SOIL, XMaterial.END_STONE,
             XMaterial.SANDSTONE, XMaterial.RED_SANDSTONE, XMaterial.BLACKSTONE, XMaterial.BASALT);
+    private static final Set<Material> GROUND_MATERIALS = EnumSet.noneOf(Material.class);
+
+    static {
+        for (Material material : Material.values()) {
+            try {
+                if (GROUND.contains(XMaterial.matchXMaterial(material))) {
+                    GROUND_MATERIALS.add(material);
+                }
+            } catch (IllegalArgumentException ignored) {
+                // 当前服务端存在但 XMaterial 未识别的材质不属于内置地面列表。
+            }
+        }
+    }
+
     private final XMaterial[] materials;
 
     /**
@@ -138,7 +154,7 @@ public enum BlockTrailTypeEnum {
      * @return 是否允许
      */
     public boolean isGround(@NotNull Block block) {
-        return GROUND.contains(XMaterial.matchXMaterial(block.getType()));
+        return GROUND_MATERIALS.contains(block.getType());
     }
 
     /**
