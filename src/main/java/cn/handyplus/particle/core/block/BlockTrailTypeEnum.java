@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * 旧版默认方块拖尾的内置材质组合。
+ * 默认方块拖尾的内置材质组合。
  *
  * @author handy
  */
@@ -110,7 +110,7 @@ public enum BlockTrailTypeEnum {
      * @param materials 方块材质
      */
     BlockTrailTypeEnum(@NotNull XMaterial... materials) {
-        // 仅轮换当前服务端存在的方块，避免新版本材质在旧服务端解析为空。
+        // 仅轮换当前服务端存在的方块，避免新版本材质在低服务端解析为空。
         List<XMaterial> supported = new ArrayList<>();
         for (XMaterial material : materials) {
             if (material.get() != null) {
@@ -154,10 +154,10 @@ public enum BlockTrailTypeEnum {
     }
 
     /**
-     * 获取旧版方块材质。
+     * 获取原版方块材质。
      *
      * @param tick 刷新次数
-     * @return 旧版材质
+     * @return 原版材质
      */
     @NotNull
     public Material legacyMaterial(long tick) {
@@ -165,7 +165,7 @@ public enum BlockTrailTypeEnum {
     }
 
     /**
-     * 获取旧版方块数据值。
+     * 获取原版方块数据值。
      *
      * @param tick 刷新次数
      * @return 数据值

@@ -27,7 +27,7 @@ public final class EventColorSpinTask extends HandyRunnable {
             HandyParticleCore.disable(player);
             return;
         }
-        // 旧版每两 tick 转动 30 度，单点连续刷新后形成环状残影。
+        // 每两 tick 转动 30 度，单点连续刷新后形成环状残影。
         angle += 30.0F;
         if (angle >= 180.0F) {
             angle = -180.0F;

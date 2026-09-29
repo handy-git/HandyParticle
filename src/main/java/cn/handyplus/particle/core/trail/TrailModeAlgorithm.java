@@ -212,7 +212,7 @@ final class TrailModeAlgorithm {
         if (canFall) {
             boolean emptyBelow = location.clone().subtract(0.0D, 1.0D, 0.0D).getBlock().isEmpty();
             if (emptyBelow) {
-                // 只有脚下为空时才继续累积下坠距离，模拟旧版落地停顿。
+                // 只有脚下为空时才继续累积下坠距离，模拟落地停顿。
                 task.fall += 0.1D;
                 return;
             }
