@@ -2,10 +2,11 @@ package cn.handyplus.particle.core.wing;
 
 import com.cryptomorin.xseries.particles.ParticleDisplay;
 import com.cryptomorin.xseries.particles.XParticle;
-import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.jetbrains.annotations.NotNull;
+
+import java.awt.*;
 
 /**
  * 粒子翅膀渲染工具。
@@ -84,9 +85,8 @@ final class WingUtil {
             case 2:
             case 3:
                 int rgb = point.getColor();
-                Color color = Color.fromRGB((rgb >> 16) & 255, (rgb >> 8) & 255, rgb & 255);
                 ParticleDisplay.of(COLOR_PARTICLE)
-                        .withColor(new java.awt.Color(color.getRed(), color.getGreen(), color.getBlue()), 1.0F)
+                        .withColor(new Color(rgb), 1.0F)
                         .spawn(location);
                 return;
             // 火焰粒子

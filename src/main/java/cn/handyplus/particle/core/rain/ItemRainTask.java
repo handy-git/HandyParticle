@@ -30,6 +30,7 @@ public final class ItemRainTask extends HandyRunnable {
     private final Entity entity;
     private final ItemRainTypeEnum type;
     private final Map<Location, Integer> drops = new HashMap<>();
+    private final ItemStack[] recentItems = new ItemStack[DROP_TTL];
     private long tick;
 
     /**
@@ -51,13 +52,14 @@ public final class ItemRainTask extends HandyRunnable {
             }
             Location location = entry.getKey().clone().subtract(0.0D, age * DROP_STEP, 0.0D);
             entry.setValue(age);
-            send(location, type.item(tick - age));
+            send(location, recentItems[(int) ((tick - age) % DROP_TTL)]);
         }
         Location head = entity.getLocation().add(0.0D, 1.6D, 0.0D);
         if (entity instanceof LivingEntity) {
             head = ((LivingEntity) entity).getEyeLocation();
         }
         ItemStack item = type.item(tick);
+        recentItems[(int) (tick % DROP_TTL)] = item;
         for (int index = 0; index < 2; index++) {
             double x = ThreadLocalRandom.current().nextDouble(-RAIN_RADIUS, RAIN_RADIUS);
             double z = ThreadLocalRandom.current().nextDouble(-RAIN_RADIUS, RAIN_RADIUS);
