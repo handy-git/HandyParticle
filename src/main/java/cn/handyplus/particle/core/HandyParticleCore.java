@@ -3,6 +3,7 @@ package cn.handyplus.particle.core;
 import cn.handyplus.lib.internal.EntitySchedulerUtil;
 import cn.handyplus.lib.internal.HandyRunnable;
 import cn.handyplus.particle.constants.ParticleCategoryTypeEnum;
+import cn.handyplus.particle.constants.ParticleConstants;
 import cn.handyplus.particle.core.block.BlockTrailTask;
 import cn.handyplus.particle.core.block.BlockTrailTypeEnum;
 import cn.handyplus.particle.core.event.EventColorSpinTask;
@@ -18,7 +19,6 @@ import cn.handyplus.particle.core.trail.TrailTask;
 import cn.handyplus.particle.core.trail.TrailTypeEnum;
 import cn.handyplus.particle.core.wing.WingTask;
 import cn.handyplus.particle.core.wing.WingTypeEnum;
-import cn.handyplus.particle.util.ConfigUtil;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
@@ -184,14 +184,15 @@ public class HandyParticleCore {
     /**
      * 替换并启动玩家的粒子任务。
      *
-     * @param player 玩家
-     * @param task   新任务
+     * @param player   玩家
+     * @param task     新任务
      * @param category 粒子类别
      */
     private static void start(@NotNull Player player, @NotNull HandyRunnable task, @NotNull ParticleCategoryTypeEnum category) {
         UUID playerId = player.getUniqueId();
         disable(playerId);
-        EntitySchedulerUtil.runTaskTimer(player, task, 1L, ConfigUtil.getRefreshInterval(category));
+        Long period = ParticleConstants.REFRESH_INTERVALS.getOrDefault(category, 2L);
+        EntitySchedulerUtil.runTaskTimer(player, task, 1L, period);
         TASK_MAP.put(playerId, task);
     }
 
