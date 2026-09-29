@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 /**
- * 绕玩家头部旋转的固定颜色效果。
+ * 绕实体头部旋转的固定颜色效果。
  *
  * @author handy
  */

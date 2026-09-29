@@ -13,15 +13,15 @@ import java.util.List;
  */
 public enum TrailModeTypeEnum {
     /**
-     * 直接在玩家当前位置生成。
+     * 直接在实体当前位置生成。
      */
     DEFAULT,
     /**
-     * 围绕玩家前方摆动。
+     * 围绕实体前方摆动。
      */
     CIRCLE,
     /**
-     * 在玩家周围生成魔法环。
+     * 在实体周围生成魔法环。
      */
     MAGICIAN,
     /**

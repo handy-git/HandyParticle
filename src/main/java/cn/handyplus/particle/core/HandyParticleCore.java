@@ -6,12 +6,12 @@ import cn.handyplus.particle.constants.ParticleCategoryTypeEnum;
 import cn.handyplus.particle.constants.ParticleConstants;
 import cn.handyplus.particle.core.block.BlockTrailTask;
 import cn.handyplus.particle.core.block.BlockTrailTypeEnum;
+import cn.handyplus.particle.core.event.EventCircleTask;
+import cn.handyplus.particle.core.event.EventCircleTypeEnum;
 import cn.handyplus.particle.core.event.EventColorSpinTask;
 import cn.handyplus.particle.core.event.EventColorSpinTypeEnum;
 import cn.handyplus.particle.core.event.EventConfettiTask;
 import cn.handyplus.particle.core.event.EventConfettiTypeEnum;
-import cn.handyplus.particle.core.event.EventCircleTask;
-import cn.handyplus.particle.core.event.EventCircleTypeEnum;
 import cn.handyplus.particle.core.event.EventFairyTask;
 import cn.handyplus.particle.core.event.EventFairyTypeEnum;
 import cn.handyplus.particle.core.rain.ItemRainTask;
@@ -21,8 +21,8 @@ import cn.handyplus.particle.core.trail.TrailTask;
 import cn.handyplus.particle.core.trail.TrailTypeEnum;
 import cn.handyplus.particle.core.wing.WingTask;
 import cn.handyplus.particle.core.wing.WingTypeEnum;
-import org.bukkit.entity.Player;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -31,14 +31,14 @@ import java.util.Map;
 import java.util.UUID;
 
 /**
- * 玩家粒子效果统一
+ * 实体粒子效果统一。
  *
  * @author handy
  */
 public class HandyParticleCore {
 
     /**
-     * 玩家当前启用的粒子任务。
+     * 实体当前启用的粒子任务。
      */
     private static final Map<UUID, Map<ParticleCategoryTypeEnum, HandyRunnable>> TASK_MAP = new HashMap<>();
 
@@ -154,18 +154,18 @@ public class HandyParticleCore {
     }
 
     /**
-     * 关闭指定玩家的粒子效果。
+     * 关闭指定实体的粒子效果。
      *
-     * @param player 玩家
+     * @param entity 实体
      */
     public static synchronized void disable(@NotNull Entity entity) {
         disable(entity.getUniqueId());
     }
 
     /**
-     * 关闭指定玩家某一类别的粒子效果。
+     * 关闭指定实体某一类别的粒子效果。
      *
-     * @param player   玩家
+     * @param entity   实体
      * @param category 粒子类别
      */
     public static synchronized void disable(@NotNull Entity entity, @NotNull ParticleCategoryTypeEnum category) {
@@ -189,9 +189,9 @@ public class HandyParticleCore {
     }
 
     /**
-     * 启动玩家的粒子任务，同类别效果会替换旧任务。
+     * 启动实体的粒子任务，同类别效果会替换旧任务。
      *
-     * @param player   玩家
+     * @param entity   实体
      * @param task     新任务
      * @param category 粒子类别
      */
@@ -211,9 +211,9 @@ public class HandyParticleCore {
     }
 
     /**
-     * 按玩家 UUID 清理内部任务。
+     * 按实体 UUID 清理内部任务。
      *
-     * @param playerId 玩家 UUID
+     * @param playerId 待清理任务所属实体的 UUID
      */
     private static void disable(@NotNull UUID playerId) {
         Map<ParticleCategoryTypeEnum, HandyRunnable> tasks = TASK_MAP.remove(playerId);

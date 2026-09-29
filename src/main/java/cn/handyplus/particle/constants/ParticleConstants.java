@@ -14,12 +14,12 @@ public final class ParticleConstants {
     }
 
     /**
-     * 玩家头部附近效果使用的纵向偏移。
+     * 实体头部附近效果使用的纵向偏移。
      */
     public static final double PLAYER_HEAD_Y_OFFSET = 2.2D;
 
     /**
-     * 玩家脚下圆圈的半径。
+     * 实体脚下圆圈的半径。
      */
     public static final double PLAYER_CIRCLE_RADIUS = 0.75D;
 

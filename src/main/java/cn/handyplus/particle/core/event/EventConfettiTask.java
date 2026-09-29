@@ -18,7 +18,7 @@ public final class EventConfettiTask extends HandyRunnable {
     private final EventConfettiTypeEnum type;
 
     /**
-     * 在玩家所在位置生成三组物品碎片粒子。
+     * 在实体所在位置生成三组物品碎片粒子。
      */
     @Override
     public void run() {

@@ -151,7 +151,7 @@ public enum TrailTypeEnum {
     @NotNull
     private final XParticle particle;
     /**
-     * 相对玩家位置的纵向偏移。
+     * 相对实体位置的纵向偏移。
      */
     private final double y;
     /**
@@ -163,7 +163,7 @@ public enum TrailTypeEnum {
      * 创建使用默认速度的内置拖尾。
      *
      * @param particle XParticle 粒子
-     * @param y        相对玩家位置的纵向偏移
+     * @param y        相对实体位置的纵向偏移
      */
     TrailTypeEnum(@NotNull XParticle particle, double y) {
         this(particle, y, 0.0D);
@@ -173,7 +173,7 @@ public enum TrailTypeEnum {
      * 创建无需附加数据的内置拖尾。
      *
      * @param particle XParticle 粒子
-     * @param y        相对玩家位置的纵向偏移
+     * @param y        相对实体位置的纵向偏移
      * @param speed    粒子自身速度
      */
     TrailTypeEnum(@NotNull XParticle particle, double y, double speed) {
@@ -183,9 +183,9 @@ public enum TrailTypeEnum {
     }
 
     /**
-     * 在玩家位置生成一次拖尾，每次发射 4 个粒子，三个轴的扩散偏移均为 1。
+     * 在实体位置生成一次拖尾，每次发射 4 个粒子，三个轴的扩散偏移均为 1。
      *
-     * @param player 玩家
+     * @param entity 实体
      */
     public void spawn(@NotNull Entity entity) {
         Location location = entity.getLocation().clone().add(0.0D, y, 0.0D);

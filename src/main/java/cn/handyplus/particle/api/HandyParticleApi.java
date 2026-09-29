@@ -11,7 +11,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Objects;
 
 /**
- * 玩家粒子效果统一 API。
+ * 粒子效果统一 API。
  *
  * @author handy
  */
@@ -28,7 +28,7 @@ public final class HandyParticleApi {
      *
      * @param entity 实体
      * @param type   粒子类型
-     * @return 玩家在线且已发起调度请求时返回 true
+     * @return 实体有效且已发起调度请求时返回 true
      */
     public static boolean enable(@NotNull Entity entity, @NotNull ParticleTypeEnum type) {
         return enable(entity, type, TrailModeTypeEnum.DEFAULT);
@@ -40,7 +40,7 @@ public final class HandyParticleApi {
      * @param entity 实体
      * @param type   粒子类型
      * @param mode   普通拖尾运动模式，为空时使用默认模式
-     * @return 玩家在线且已发起调度请求时返回 true
+     * @return 实体有效且已发起调度请求时返回 true
      */
     public static boolean enable(@NotNull Entity entity, @NotNull ParticleTypeEnum type, @Nullable TrailModeTypeEnum mode) {
         Objects.requireNonNull(type, "type");
@@ -79,7 +79,7 @@ public final class HandyParticleApi {
     }
 
     /**
-     * 关闭指定玩家的粒子效果。
+     * 关闭指定实体的粒子效果。
      *
      * @param entity 实体
      */
@@ -88,7 +88,7 @@ public final class HandyParticleApi {
     }
 
     /**
-     * 关闭指定玩家某一类别的粒子效果。
+     * 关闭指定实体某一类别的粒子效果。
      *
      * @param entity   实体
      * @param category 粒子类别

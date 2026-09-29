@@ -13,7 +13,7 @@ import org.jetbrains.annotations.NotNull;
  */
 public final class TrailTask extends HandyRunnable {
     /**
-     * 任务所属玩家。
+     * 任务所属实体。
      */
     final Entity entity;
     /**
@@ -44,9 +44,9 @@ public final class TrailTask extends HandyRunnable {
     /**
      * 创建指定运动模式的拖尾任务。
      *
-     * @param player   玩家
-     * @param type     拖尾类型
-     * @param mode     运动模式
+     * @param entity 实体
+     * @param type   拖尾类型
+     * @param mode   运动模式
      */
     public TrailTask(@NotNull Entity entity, @NotNull TrailTypeEnum type, @NotNull TrailModeTypeEnum mode) {
         this.entity = entity;
@@ -55,7 +55,7 @@ public final class TrailTask extends HandyRunnable {
     }
 
     /**
-     * 刷新一次拖尾，玩家离线时取消当前任务。
+     * 刷新一次拖尾，实体失效时取消当前任务。
      */
     @Override
     public void run() {

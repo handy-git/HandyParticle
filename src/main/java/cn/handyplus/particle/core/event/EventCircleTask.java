@@ -8,7 +8,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 
 /**
- * 在玩家脚下生成圆圈粒子的任务。
+ * 在实体脚下生成圆圈粒子的任务。
  *
  * @author handy
  */
@@ -18,7 +18,7 @@ public final class EventCircleTask extends HandyRunnable {
     private final EventCircleTypeEnum type;
 
     /**
-     * 在玩家脚下生成一圈彩色粒子。
+     * 在实体脚下生成一圈彩色粒子。
      */
     @Override
     public void run() {

@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 /**
- * 玩家脚下圆圈的固定颜色。
+ * 实体脚下圆圈的固定颜色。
  *
  * @author handy
  */

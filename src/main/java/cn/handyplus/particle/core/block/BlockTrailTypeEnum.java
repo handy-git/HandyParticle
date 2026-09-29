@@ -132,9 +132,9 @@ public enum BlockTrailTypeEnum {
     }
 
     /**
-     * 判断玩家脚下方块是否允许显示拖尾。
+     * 判断实体脚下方块是否允许显示拖尾。
      *
-     * @param block 玩家脚下方块
+     * @param block 实体脚下方块
      * @return 是否允许
      */
     public boolean isGround(@NotNull Block block) {

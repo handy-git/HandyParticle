@@ -11,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
- * 在玩家附近游动并跟随的粒子精灵任务。
+ * 在实体附近游动并跟随的粒子精灵任务。
  *
  * @author handy
  */
@@ -23,9 +23,9 @@ public final class EventFairyTask extends HandyRunnable {
     private double targetZ = Double.NaN;
 
     /**
-     * 创建粒子精灵并将其放在玩家头部附近。
+     * 创建粒子精灵并将其放在实体头部附近。
      *
-     * @param player 玩家
+     * @param entity 实体
      * @param type   精灵颜色
      */
     public EventFairyTask(@NotNull Entity entity, @NotNull EventFairyTypeEnum type) {
@@ -43,19 +43,19 @@ public final class EventFairyTask extends HandyRunnable {
             HandyParticleCore.disable(entity);
             return;
         }
-        Location playerLocation = entity.getLocation();
-        if (current.getWorld() != playerLocation.getWorld()) {
+        Location entityLocation = entity.getLocation();
+        if (current.getWorld() != entityLocation.getWorld()) {
             this.resetCurrent();
-            playerLocation = entity.getLocation();
+            entityLocation = entity.getLocation();
         }
-        if (current.distanceSquared(playerLocation) > 1600.0D) {
+        if (current.distanceSquared(entityLocation) > 1600.0D) {
             this.resetCurrent();
-            playerLocation = entity.getLocation();
+            entityLocation = entity.getLocation();
         }
 
-        // 精灵离开玩家四格后选择玩家头部附近的新目标并折返。
-        if (current.distanceSquared(playerLocation) > 16.0D) {
-            this.moveToward(playerLocation);
+        // 精灵离开实体四格后选择实体头部附近的新目标并折返。
+        if (current.distanceSquared(entityLocation) > 16.0D) {
+            this.moveToward(entityLocation);
         } else {
             targetX = Double.NaN;
             targetZ = Double.NaN;
@@ -65,22 +65,22 @@ public final class EventFairyTask extends HandyRunnable {
     }
 
     /**
-     * 让精灵朝玩家头部附近的随机目标移动。
+     * 让精灵朝实体头部附近的随机目标移动。
      *
-     * @param playerLocation 玩家当前位置
+     * @param entityLocation 实体当前位置
      */
-    private void moveToward(@NotNull Location playerLocation) {
+    private void moveToward(@NotNull Location entityLocation) {
         if (Double.isNaN(targetX)) {
             targetX = randomOffset(20);
             targetZ = randomOffset(20);
         }
-        Location target = playerLocation.clone().add(targetX, ParticleConstants.PLAYER_HEAD_Y_OFFSET, targetZ);
+        Location target = entityLocation.clone().add(targetX, ParticleConstants.PLAYER_HEAD_Y_OFFSET, targetZ);
         Vector direction = target.toVector().subtract(current.toVector());
         current.setDirection(direction);
     }
 
     /**
-     * 将精灵重置到玩家头部附近，保留玩家当前朝向作为初始移动方向。
+     * 将精灵重置到实体头部附近，保留实体当前朝向作为初始移动方向。
      */
     private void resetCurrent() {
         current = entity.getLocation().clone().add(randomOffset(10), 2.5D, randomOffset(10));

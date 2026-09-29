@@ -8,8 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
-import org.bukkit.entity.Player;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
@@ -28,7 +28,7 @@ public final class BlockTrailTask extends HandyRunnable {
     private long tick;
 
     /**
-     * 在玩家脚下发送临时方块外观。
+     * 在实体脚下发送临时方块外观。
      */
     @Override
     public void run() {
@@ -43,7 +43,7 @@ public final class BlockTrailTask extends HandyRunnable {
         if (!type.isGround(block)) {
             return;
         }
-        // 统一使用方块整数坐标，避免玩家转身或在同一方块内移动产生重复 key。
+        // 统一使用方块整数坐标，避免实体移动产生重复 key。
         location = block.getLocation();
         locations.putIfAbsent(location, 2);
         for (Player viewer : Bukkit.getOnlinePlayers()) {

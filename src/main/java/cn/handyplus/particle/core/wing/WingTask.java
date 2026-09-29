@@ -6,14 +6,14 @@ import lombok.RequiredArgsConstructor;
 import org.bukkit.entity.Entity;
 
 /**
- * 玩家粒子翅膀定时任务。
+ * 实体粒子翅膀定时任务。
  *
  * @author handy
  */
 @RequiredArgsConstructor
 public final class WingTask extends HandyRunnable {
     /**
-     * 任务所属玩家。
+     * 任务所属实体。
      */
     private final Entity entity;
     /**
@@ -22,7 +22,7 @@ public final class WingTask extends HandyRunnable {
     private final WingTypeEnum wingType;
 
     /**
-     * 刷新玩家当前坐标处的固定翅膀。
+     * 刷新实体当前坐标处的固定翅膀。
      */
     @Override
     public void run() {

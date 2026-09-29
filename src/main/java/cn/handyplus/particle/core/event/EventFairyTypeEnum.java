@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 /**
- * 跟随玩家游动的固定精灵颜色。
+ * 跟随实体游动的固定精灵颜色。
  *
  * @author handy
  */

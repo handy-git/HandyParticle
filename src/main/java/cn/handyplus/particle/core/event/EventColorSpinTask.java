@@ -8,7 +8,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 
 /**
- * 玩家头部旋转色环任务。
+ * 实体头部旋转色环任务。
  *
  * @author handy
  */

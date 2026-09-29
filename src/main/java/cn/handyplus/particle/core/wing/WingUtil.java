@@ -41,9 +41,9 @@ final class WingUtil {
     }
 
     /**
-     * 渲染指定玩家的翅膀。
+     * 渲染指定实体的翅膀。
      *
-     * @param player   玩家
+     * @param entity   实体
      * @param wingType 翅膀组合
      */
     static void render(@NotNull Entity entity, @NotNull WingTypeEnum wingType) {

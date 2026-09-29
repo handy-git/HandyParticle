@@ -18,7 +18,7 @@ final class TrailModeAlgorithm {
      * 绘制当前模式的一帧轨迹。
      *
      * @param mode 运动模式
-     * @param task 当前玩家的拖尾任务
+     * @param task 当前实体的拖尾任务
      */
     static void render(@NotNull TrailModeTypeEnum mode, @NotNull TrailTask task) {
         switch (mode) {
@@ -55,7 +55,7 @@ final class TrailModeAlgorithm {
      * 左键空气时启动点击型轨迹。
      *
      * @param mode 运动模式
-     * @param task 当前玩家的拖尾任务
+     * @param task 当前实体的拖尾任务
      */
     static void trigger(@NotNull TrailModeTypeEnum mode, @NotNull TrailTask task) {
         boolean shooterMode = mode == TrailModeTypeEnum.SHOOTER;
@@ -76,7 +76,7 @@ final class TrailModeAlgorithm {
     }
 
     /**
-     * 绘制围绕玩家的一点旋转轨迹。
+     * 绘制围绕实体的一点旋转轨迹。
      *
      * @param task 当前拖尾任务
      */
