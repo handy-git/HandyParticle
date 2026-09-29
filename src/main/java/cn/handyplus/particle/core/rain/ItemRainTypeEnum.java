@@ -75,15 +75,17 @@ public enum ItemRainTypeEnum {
     }
 
     /**
-     * 获取当前雨滴的物品。
+     * 获取当前版本支持的物品雨组合。
      *
-     * @param tick 刷新次数
-     * @return 物品副本
+     * @return 物品副本数组
      */
     @NotNull
-    public ItemStack item(long tick) {
-        XMaterial material = materials[(int) (tick % materials.length)];
-        return Objects.requireNonNull(material.parseItem());
+    public ItemStack[] items() {
+        ItemStack[] items = new ItemStack[materials.length];
+        for (int index = 0; index < materials.length; index++) {
+            items[index] = Objects.requireNonNull(materials[index].parseItem());
+        }
+        return items;
     }
 
 }
