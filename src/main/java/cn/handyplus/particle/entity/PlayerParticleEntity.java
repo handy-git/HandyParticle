@@ -28,8 +28,11 @@ public class PlayerParticleEntity {
     @TableField(value = "player_name", comment = "玩家名称")
     private String playerName;
 
-    @TableField(value = "player_uuid", comment = "玩家 UUID", length = 36, notNull = true, indexEnum = IndexEnum.UNIQUE)
+    @TableField(value = "player_uuid", comment = "玩家 UUID", length = 36, notNull = true, indexEnum = IndexEnum.UNIQUE, uniqueGroup = "player_category")
     private UUID playerUuid;
+
+    @TableField(value = "category", comment = "效果类别", notNull = true, indexEnum = IndexEnum.UNIQUE, uniqueGroup = "player_category")
+    private String category;
 
     @TableField(value = "type", comment = "类型名称", notNull = true)
     private String type;

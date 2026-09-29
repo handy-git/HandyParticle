@@ -85,21 +85,26 @@ public final class SetCommand implements IHandyCommandEvent {
     }
 
     /**
-     * 保存命令设置的效果类型，已有设置先删除再新增。
+     * 保存命令设置的效果类型，同一类别只保留一条记录。
      *
      * @param player   玩家
      * @param type     效果类型
      * @param modeName 运动模式
      */
     private void save(@NotNull Player player, @NotNull ParticleTypeEnum type, @Nullable TrailModeTypeEnum modeName) {
-        // 当前每个玩家只保留一条效果记录。
-        Optional<PlayerParticleEntity> existing = PlayerParticleService.findByUuid(player.getUniqueId());
+        Optional<PlayerParticleEntity> existing = PlayerParticleService.findByUuidAndCategory(player.getUniqueId(), type.getCategory().name());
         if (existing.isPresent()) {
-            PlayerParticleService.delete(player.getUniqueId());
+            PlayerParticleEntity entity = existing.get();
+            entity.setPlayerName(player.getName());
+            entity.setType(type.name());
+            entity.setMode(modeName != null ? modeName.name() : null);
+            PlayerParticleService.update(entity);
+            return;
         }
         PlayerParticleService.add(PlayerParticleEntity.builder()
                 .playerName(player.getName())
                 .playerUuid(player.getUniqueId())
+                .category(type.getCategory().name())
                 .type(type.name())
                 .mode(modeName != null ? modeName.name() : null)
                 .build());

@@ -39,7 +39,7 @@ public class HandyParticleCore {
     /**
      * 玩家当前启用的粒子任务。
      */
-    private static final Map<UUID, HandyRunnable> TASK_MAP = new HashMap<>();
+    private static final Map<UUID, Map<ParticleCategoryTypeEnum, HandyRunnable>> TASK_MAP = new HashMap<>();
 
     /**
      * 禁止实例化
@@ -84,7 +84,11 @@ public class HandyParticleCore {
      * @param player 玩家
      */
     public static synchronized void triggerTrail(@NotNull Player player) {
-        HandyRunnable task = TASK_MAP.get(player.getUniqueId());
+        Map<ParticleCategoryTypeEnum, HandyRunnable> tasks = TASK_MAP.get(player.getUniqueId());
+        if (tasks == null) {
+            return;
+        }
+        HandyRunnable task = tasks.get(ParticleCategoryTypeEnum.TRAIL);
         if (task instanceof TrailTask) {
             ((TrailTask) task).trigger();
         }
@@ -199,7 +203,7 @@ public class HandyParticleCore {
     }
 
     /**
-     * 替换并启动玩家的粒子任务。
+     * 启动玩家的粒子任务，同类别效果会替换旧任务。
      *
      * @param player   玩家
      * @param task     新任务
@@ -207,10 +211,12 @@ public class HandyParticleCore {
      */
     private static void start(@NotNull Player player, @NotNull HandyRunnable task, @NotNull ParticleCategoryTypeEnum category) {
         UUID playerId = player.getUniqueId();
-        disable(playerId);
+        Map<ParticleCategoryTypeEnum, HandyRunnable> tasks = TASK_MAP.computeIfAbsent(playerId, ignored -> new HashMap<>());
+        HandyRunnable oldTask = tasks.remove(category);
+        stop(oldTask);
         Long period = ParticleConstants.REFRESH_INTERVALS.getOrDefault(category, 2L);
         EntitySchedulerUtil.runTaskTimer(player, task, 1L, period);
-        TASK_MAP.put(playerId, task);
+        tasks.put(category, task);
     }
 
     /**
@@ -219,7 +225,21 @@ public class HandyParticleCore {
      * @param playerId 玩家 UUID
      */
     private static void disable(@NotNull UUID playerId) {
-        HandyRunnable task = TASK_MAP.remove(playerId);
+        Map<ParticleCategoryTypeEnum, HandyRunnable> tasks = TASK_MAP.remove(playerId);
+        if (tasks == null) {
+            return;
+        }
+        for (HandyRunnable task : tasks.values()) {
+            stop(task);
+        }
+    }
+
+    /**
+     * 停止单个粒子任务并清理其临时数据。
+     *
+     * @param task 待停止任务
+     */
+    private static void stop(HandyRunnable task) {
         if (task == null) {
             return;
         }

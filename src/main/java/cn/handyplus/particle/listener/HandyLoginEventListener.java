@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
-import java.util.Optional;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -33,14 +33,12 @@ public final class HandyLoginEventListener implements Listener {
         Player player = event.getPlayer();
         UUID playerId = player.getUniqueId();
         HandySchedulerUtil.runTaskAsynchronously(() -> {
-            Optional<PlayerParticleEntity> saved = PlayerParticleService.findByUuid(playerId);
-            if (!saved.isPresent()) {
-                return;
+            List<PlayerParticleEntity> saved = PlayerParticleService.findByUuid(playerId);
+            for (PlayerParticleEntity entity : saved) {
+                ParticleTypeEnum particleTypeEnum = ParticleTypeEnum.valueOf(entity.getType());
+                TrailModeTypeEnum trailModeTypeEnum = TrailModeTypeEnum.get(entity.getMode());
+                HandyParticleApi.enable(player, particleTypeEnum, trailModeTypeEnum);
             }
-            PlayerParticleEntity entity = saved.get();
-            ParticleTypeEnum particleTypeEnum = ParticleTypeEnum.valueOf(entity.getType());
-            TrailModeTypeEnum trailModeTypeEnum = TrailModeTypeEnum.get(entity.getMode());
-            HandyParticleApi.enable(player, particleTypeEnum, trailModeTypeEnum);
         });
     }
 
