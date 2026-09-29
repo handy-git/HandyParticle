@@ -48,11 +48,6 @@ public final class EntityCommand implements IHandyCommandEvent {
     }
 
     @Override
-    public boolean isAsync() {
-        return true;
-    }
-
-    @Override
     public void tab(HandyTab tab) {
         HandyTab action = tab.next(ParticleCommandActionEnum.getAll());
 
