@@ -13,6 +13,18 @@ import java.util.concurrent.ThreadLocalRandom;
  * @author handy
  */
 final class TrailModeAlgorithm {
+    private static final int FOOT_CIRCLE_POINTS = 25;
+    private static final double[] FOOT_CIRCLE_X = new double[FOOT_CIRCLE_POINTS];
+    private static final double[] FOOT_CIRCLE_Z = new double[FOOT_CIRCLE_POINTS];
+
+    static {
+        double angle = 0.0D;
+        for (int i = 0; i < FOOT_CIRCLE_POINTS; i++) {
+            FOOT_CIRCLE_X[i] = ParticleConstants.PLAYER_CIRCLE_RADIUS * Math.sin(angle);
+            FOOT_CIRCLE_Z[i] = ParticleConstants.PLAYER_CIRCLE_RADIUS * Math.cos(angle);
+            angle += 0.251D;
+        }
+    }
 
     private TrailModeAlgorithm() {
     }
@@ -238,13 +250,13 @@ final class TrailModeAlgorithm {
      * @param task 当前拖尾任务
      */
     private static void footCircle(TrailTask task) {
-        Location origin = task.entity.getLocation();
-        double angle = 0.0D;
-        for (int i = 0; i < 25; i++) {
-            double x = ParticleConstants.PLAYER_CIRCLE_RADIUS * Math.sin(angle);
-            double z = ParticleConstants.PLAYER_CIRCLE_RADIUS * Math.cos(angle);
-            task.spawnAt(origin.clone().add(x, 0.0D, z), 1, 0.0D);
-            angle += 0.251D;
+        Location location = task.entity.getLocation();
+        double originX = location.getX();
+        double originZ = location.getZ();
+        for (int i = 0; i < FOOT_CIRCLE_POINTS; i++) {
+            location.setX(originX + FOOT_CIRCLE_X[i]);
+            location.setZ(originZ + FOOT_CIRCLE_Z[i]);
+            task.spawnAt(location, 1, 0.0D);
         }
     }
 

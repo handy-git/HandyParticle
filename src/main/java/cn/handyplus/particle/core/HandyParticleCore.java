@@ -21,6 +21,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -170,7 +171,7 @@ public class HandyParticleCore {
         }
         UUID entityId = entity.getUniqueId();
         // 同一实体同一类别只保留一个任务，重新设置时先停止旧任务，避免重复刷新粒子。
-        Map<ParticleCategoryTypeEnum, HandyRunnable> tasks = TASK_MAP.computeIfAbsent(entityId, ignored -> new HashMap<>());
+        Map<ParticleCategoryTypeEnum, HandyRunnable> tasks = TASK_MAP.computeIfAbsent(entityId, ignored -> new EnumMap<>(ParticleCategoryTypeEnum.class));
         stop(tasks.put(category, task));
         Long period = ParticleConstants.REFRESH_INTERVALS.getOrDefault(category, 2L);
         // 使用实体调度器绑定任务生命周期，实体失效后由调度器自动终止执行。
