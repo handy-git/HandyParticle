@@ -26,6 +26,7 @@ import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
+import java.util.Arrays;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -51,9 +52,11 @@ public final class EntityCommand implements IHandyCommandEvent {
         HandyTab action = tab.next(ParticleCommandActionEnum.getAll());
 
         HandyTab set = action.when(ParticleCommandActionEnum.SET.getValue()).next(ParticleCategoryTypeEnum.getAll());
-        HandyTab trails = set.when(ParticleCategoryTypeEnum.TRAIL.name()).next(ParticleCategoryTypeEnum.get(ParticleCategoryTypeEnum.TRAIL));
+        HandyTab trails = set.when(ParticleCategoryTypeEnum.TRAIL.name()).next(context -> ParticleCategoryTypeEnum.get(ParticleCategoryTypeEnum.TRAIL));
         trails.next(TrailModeTypeEnum.getAll());
-        trails.when(ParticleTypeEnum.TRAIL_COLOR.name()).next(TrailModeTypeEnum.getAll()).next("#FFFFFF");
+        trails.when(context -> Arrays.asList(ParticleTypeEnum.TRAIL_COLOR.name(),
+                ParticleTypeEnum.TRAIL_COLOR.name() + "(" + ParticleTypeEnum.TRAIL_COLOR.getDesc() + ")"))
+                .next(TrailModeTypeEnum.getAll()).next("#FFFFFF");
         set.when(ParticleCategoryTypeEnum.WING.name()).next(ParticleCategoryTypeEnum.get(ParticleCategoryTypeEnum.WING));
         set.when(ParticleCategoryTypeEnum.BLOCK.name()).next(ParticleCategoryTypeEnum.get(ParticleCategoryTypeEnum.BLOCK));
         set.when(ParticleCategoryTypeEnum.RAIN.name()).next(ParticleCategoryTypeEnum.get(ParticleCategoryTypeEnum.RAIN));
