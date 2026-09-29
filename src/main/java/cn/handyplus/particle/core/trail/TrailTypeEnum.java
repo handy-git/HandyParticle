@@ -229,7 +229,7 @@ public enum TrailTypeEnum {
                     .withCount(amount)
                     .offset(offset)
                     .withExtra(speed)
-                    .withColor(this == TRAIL_COLOR ? Color.WHITE : Color.RED, 1.0F)
+                    .withColor(Color.RED, 1.0F)
                     .spawn(location);
         } else if (particle == XParticle.ENTITY_EFFECT) {
             ParticleDisplay.of(particle)
