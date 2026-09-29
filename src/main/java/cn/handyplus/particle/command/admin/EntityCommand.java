@@ -15,6 +15,7 @@ import cn.handyplus.particle.constants.ParticleCommandActionEnum;
 import cn.handyplus.particle.core.trail.TrailModeTypeEnum;
 import cn.handyplus.particle.entity.EntityParticleEntity;
 import cn.handyplus.particle.service.EntityParticleService;
+import cn.handyplus.particle.util.ParticleColorUtil;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -24,6 +25,7 @@ import org.bukkit.util.RayTraceResult;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 
+import java.awt.*;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -49,11 +51,13 @@ public final class EntityCommand implements IHandyCommandEvent {
         HandyTab action = tab.next(ParticleCommandActionEnum.getAll());
 
         HandyTab set = action.when(ParticleCommandActionEnum.SET.getValue()).next(ParticleCategoryTypeEnum.getAll());
-        set.when(ParticleCategoryTypeEnum.TRAIL.name()).next(ParticleCategoryTypeEnum.get(ParticleCategoryTypeEnum.TRAIL)).next(TrailModeTypeEnum.getAll());
+        HandyTab trails = set.when(ParticleCategoryTypeEnum.TRAIL.name()).next(ParticleCategoryTypeEnum.get(ParticleCategoryTypeEnum.TRAIL));
+        trails.next(TrailModeTypeEnum.getAll());
+        trails.when(ParticleTypeEnum.TRAIL_COLOR.name()).next(TrailModeTypeEnum.getAll()).next("#FFFFFF");
         set.when(ParticleCategoryTypeEnum.WING.name()).next(ParticleCategoryTypeEnum.get(ParticleCategoryTypeEnum.WING));
         set.when(ParticleCategoryTypeEnum.BLOCK.name()).next(ParticleCategoryTypeEnum.get(ParticleCategoryTypeEnum.BLOCK));
         set.when(ParticleCategoryTypeEnum.RAIN.name()).next(ParticleCategoryTypeEnum.get(ParticleCategoryTypeEnum.RAIN));
-        set.when(ParticleCategoryTypeEnum.EVENT.name()).next(ParticleCategoryTypeEnum.get(ParticleCategoryTypeEnum.EVENT));
+        set.when(ParticleCategoryTypeEnum.CONFETTI.name()).next(ParticleCategoryTypeEnum.get(ParticleCategoryTypeEnum.CONFETTI));
         action.when(ParticleCommandActionEnum.CLEAR.getValue()).next(ParticleCategoryTypeEnum.getAll());
     }
 
@@ -86,10 +90,24 @@ public final class EntityCommand implements IHandyCommandEvent {
         ParticleTypeEnum particleType = ParticleTypeEnum.getEnumThrow(type);
         // 判断类别是否匹配
         AssertUtil.notTrue(particleType.getCategory() != categoryType, usage);
-        // 运动模式
-        TrailModeTypeEnum mode = TrailModeTypeEnum.get(this.getArg(args, 4).orElse(TrailModeTypeEnum.DEFAULT.name()));
-        HandyParticleApi.enable(entity, particleType, mode);
-        save(entity, categoryType, particleType, mode);
+        String option = this.getArg(args, 4).orElse(null);
+        Color color = null;
+        TrailModeTypeEnum mode = null;
+        if (categoryType == ParticleCategoryTypeEnum.TRAIL) {
+            mode = option == null ? TrailModeTypeEnum.DEFAULT : TrailModeTypeEnum.get(option);
+            AssertUtil.notNull(mode, usage);
+            if (particleType.supportsColor()) {
+                color = ParticleColorUtil.parse(this.getArg(args, 5).orElse(null));
+            } else {
+                AssertUtil.notTrue(this.getArg(args, 5).isPresent(), usage);
+            }
+        } else {
+            AssertUtil.notTrue(option != null, usage);
+            AssertUtil.notTrue(this.getArg(args, 5).isPresent(), usage);
+        }
+        AssertUtil.notTrue(this.getArg(args, 6).isPresent(), usage);
+        HandyParticleApi.enable(entity, particleType, mode, color);
+        save(entity, categoryType, particleType, mode, color);
         MessageUtil.sendMessage(player, BaseUtil.getLangMsg("entitySetSuccess", MapUtil.of("type", particleType.getDesc())));
     }
 
@@ -115,12 +133,13 @@ public final class EntityCommand implements IHandyCommandEvent {
     /**
      * 保存实体的分类粒子效果。
      */
-    private void save(@NotNull Entity entity, @NotNull ParticleCategoryTypeEnum categoryType, @NotNull ParticleTypeEnum particleType, TrailModeTypeEnum mode) {
+    private void save(@NotNull Entity entity, @NotNull ParticleCategoryTypeEnum categoryType, @NotNull ParticleTypeEnum particleType, TrailModeTypeEnum mode, Color color) {
         UUID entityUuid = entity.getUniqueId();
         EntityParticleEntity saved = EntityParticleEntity.builder()
                 .entityUuid(entityUuid)
                 .category(categoryType.name())
                 .type(particleType.name())
+                .color(color == null ? null : ParticleColorUtil.format(color))
                 .mode(mode == null ? null : mode.name())
                 .build();
         Optional<EntityParticleEntity> existing = EntityParticleService.find(entityUuid, categoryType.name());

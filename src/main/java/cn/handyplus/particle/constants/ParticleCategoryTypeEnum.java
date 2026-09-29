@@ -31,9 +31,9 @@ public enum ParticleCategoryTypeEnum {
      */
     RAIN,
     /**
-     * 活动效果。
+     * 纸屑效果。
      */
-    EVENT;
+    CONFETTI;
 
     /**
      * 获取当前类别的本地化描述。

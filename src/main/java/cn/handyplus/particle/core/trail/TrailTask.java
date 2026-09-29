@@ -5,6 +5,9 @@ import cn.handyplus.particle.core.HandyParticleCore;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.awt.*;
 
 /**
  * 内置粒子拖尾定时任务。
@@ -25,6 +28,10 @@ public final class TrailTask extends HandyRunnable {
      */
     private final TrailModeTypeEnum mode;
     /**
+     * 自定义 Dust 颜色。
+     */
+    final Color color;
+    /**
      * 当前定时刷新帧数。
      */
     int frame;
@@ -40,6 +47,12 @@ public final class TrailTask extends HandyRunnable {
      * 弹簧轨迹的下坠距离。
      */
     double fall;
+    /**
+     * 精灵当前的位置。
+     */
+    Location fairyCurrent;
+    double fairyTargetX = Double.NaN;
+    double fairyTargetZ = Double.NaN;
 
     /**
      * 创建指定运动模式的拖尾任务。
@@ -47,11 +60,14 @@ public final class TrailTask extends HandyRunnable {
      * @param entity 实体
      * @param type   拖尾类型
      * @param mode   运动模式
+     * @param color  自定义 Dust 颜色，为空时使用白色
      */
-    public TrailTask(@NotNull Entity entity, @NotNull TrailTypeEnum type, @NotNull TrailModeTypeEnum mode) {
+    public TrailTask(@NotNull Entity entity, @NotNull TrailTypeEnum type, @NotNull TrailModeTypeEnum mode,
+                     @Nullable Color color) {
         this.entity = entity;
         this.type = type;
         this.mode = mode;
+        this.color = color == null ? Color.WHITE : color;
     }
 
     /**
@@ -73,6 +89,17 @@ public final class TrailTask extends HandyRunnable {
      */
     public void trigger() {
         TrailModeAlgorithm.trigger(mode, this);
+    }
+
+    /**
+     * 在指定位置发送当前拖尾粒子。
+     *
+     * @param location 位置
+     * @param amount   数量
+     * @param offset   扩散范围
+     */
+    void spawnAt(@NotNull Location location, int amount, double offset) {
+        type.spawnAt(location, amount, offset, color);
     }
 
 }

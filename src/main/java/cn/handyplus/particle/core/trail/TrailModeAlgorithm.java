@@ -2,7 +2,10 @@ package cn.handyplus.particle.core.trail;
 
 import cn.handyplus.particle.constants.ParticleConstants;
 import org.bukkit.Location;
+import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * 普通粒子拖尾运动模式算法。
@@ -46,8 +49,17 @@ final class TrailModeAlgorithm {
             case SLINKY:
                 slinky(task);
                 break;
+            case FOOT_CIRCLE:
+                footCircle(task);
+                break;
+            case COLOR_SPIN:
+                colorSpin(task);
+                break;
+            case FAIRY:
+                fairy(task);
+                break;
             default:
-                task.type.spawn(task.entity);
+                task.spawnAt(task.entity.getLocation().clone().add(0.0D, task.type.getY(), 0.0D), 4, 1.0D);
         }
     }
 
@@ -84,7 +96,7 @@ final class TrailModeAlgorithm {
         Location location = task.entity.getLocation().clone().add(0.0D, ParticleConstants.PLAYER_HEAD_Y_OFFSET, 0.0D);
         location.setPitch(0.0F);
         location.setYaw(task.frame * 30.0F);
-        task.type.spawnAt(location.add(location.getDirection()), 3, 0.0D);
+        task.spawnAt(location.add(location.getDirection()), 3, 0.0D);
     }
 
     /**
@@ -98,7 +110,7 @@ final class TrailModeAlgorithm {
         for (int angle = 45; angle < 360; angle += 90) {
             Location point = origin.clone();
             point.setYaw(angle + task.frame);
-            task.type.spawnAt(point.add(point.getDirection().multiply(1.4D)), 2, 0.0D);
+            task.spawnAt(point.add(point.getDirection().multiply(1.4D)), 2, 0.0D);
         }
     }
 
@@ -120,7 +132,7 @@ final class TrailModeAlgorithm {
             Location point = origin.clone();
             point.setPitch(0.0F);
             point.setYaw(angle);
-            task.type.spawnAt(point.add(point.getDirection().multiply(phase * 0.02D)), 3, 0.0D);
+            task.spawnAt(point.add(point.getDirection().multiply(phase * 0.02D)), 3, 0.0D);
         }
     }
 
@@ -132,7 +144,7 @@ final class TrailModeAlgorithm {
     private static void helix(TrailTask task) {
         Location origin = task.entity.getLocation().clone().add(0.0D, 1.0D, 0.0D);
         double angle = task.frame * 0.35D;
-        task.type.spawnAt(origin.add(Math.cos(angle), Math.sin(angle * 0.5D), Math.sin(angle)), 2, 0.0D);
+        task.spawnAt(origin.add(Math.cos(angle), Math.sin(angle * 0.5D), Math.sin(angle)), 2, 0.0D);
     }
 
     /**
@@ -149,7 +161,7 @@ final class TrailModeAlgorithm {
                 offset = Math.PI;
             }
             Location point = origin.clone().add(Math.cos(angle + offset), Math.sin(angle * 0.4D), Math.sin(angle + offset));
-            task.type.spawnAt(point, 1, 0.0D);
+            task.spawnAt(point, 1, 0.0D);
         }
     }
 
@@ -163,7 +175,7 @@ final class TrailModeAlgorithm {
         double radius = 0.2D + (task.frame % 20) * 0.04D;
         double height = 0.5D + (task.frame % 20) * 0.08D;
         Location location = task.entity.getLocation().clone().add(Math.cos(angle) * radius, height, Math.sin(angle) * radius);
-        task.type.spawnAt(location, 2, 0.0D);
+        task.spawnAt(location, 2, 0.0D);
     }
 
     /**
@@ -181,7 +193,7 @@ final class TrailModeAlgorithm {
         }
         task.shotFrame++;
         Location location = task.shotOrigin.clone().add(task.shotOrigin.getDirection().multiply(task.shotFrame * 0.4D));
-        task.type.spawnAt(location, 4, 0.2D);
+        task.spawnAt(location, 4, 0.2D);
     }
 
     /**
@@ -204,7 +216,7 @@ final class TrailModeAlgorithm {
         Location location = task.shotOrigin.clone()
                 .add(direction.getDirection().multiply(x))
                 .add(0.0D, y, 0.0D);
-        task.type.spawnAt(location, 1, 0.0D);
+        task.spawnAt(location, 1, 0.0D);
 
         boolean fallFrame = task.shotFrame == 14 || task.shotFrame == 33;
         boolean belowFallLimit = task.fall < 5.0D;
@@ -218,6 +230,72 @@ final class TrailModeAlgorithm {
             }
         }
         task.shotFrame++;
+    }
+
+    /**
+     * 在实体脚下绘制完整圆圈。
+     *
+     * @param task 当前拖尾任务
+     */
+    private static void footCircle(TrailTask task) {
+        Location origin = task.entity.getLocation();
+        double angle = 0.0D;
+        for (int i = 0; i < 25; i++) {
+            double x = ParticleConstants.PLAYER_CIRCLE_RADIUS * Math.sin(angle);
+            double z = ParticleConstants.PLAYER_CIRCLE_RADIUS * Math.cos(angle);
+            task.spawnAt(origin.clone().add(x, 0.0D, z), 1, 0.0D);
+            angle += 0.251D;
+        }
+    }
+
+    /**
+     * 在实体头部周围旋转一个粒子点。
+     *
+     * @param task 当前拖尾任务
+     */
+    private static void colorSpin(TrailTask task) {
+        Location location = task.entity.getLocation().clone().add(0.0D, ParticleConstants.PLAYER_HEAD_Y_OFFSET, 0.0D);
+        location.setPitch(0.0F);
+        location.setYaw((task.frame + 1) * 30.0F);
+        task.spawnAt(location.add(location.getDirection()), 1, 0.0D);
+    }
+
+    /**
+     * 推进实体附近游动的粒子点。
+     *
+     * @param task 当前拖尾任务
+     */
+    private static void fairy(TrailTask task) {
+        Location entityLocation = task.entity.getLocation();
+        if (task.fairyCurrent == null || task.fairyCurrent.getWorld() != entityLocation.getWorld() || task.fairyCurrent.distanceSquared(entityLocation) > 1600.0D) {
+            task.fairyCurrent = entityLocation.clone().add(randomOffset(10), 2.5D, randomOffset(10));
+            task.fairyTargetX = Double.NaN;
+            task.fairyTargetZ = Double.NaN;
+        }
+        if (task.fairyCurrent.distanceSquared(entityLocation) > 16.0D) {
+            if (Double.isNaN(task.fairyTargetX)) {
+                task.fairyTargetX = randomOffset(20);
+                task.fairyTargetZ = randomOffset(20);
+            }
+            Location target = entityLocation.clone().add(task.fairyTargetX, ParticleConstants.PLAYER_HEAD_Y_OFFSET, task.fairyTargetZ);
+            Vector direction = target.toVector().subtract(task.fairyCurrent.toVector());
+            task.fairyCurrent.setDirection(direction);
+        } else {
+            task.fairyTargetX = Double.NaN;
+            task.fairyTargetZ = Double.NaN;
+        }
+        task.fairyCurrent.add(task.fairyCurrent.getDirection().multiply(0.3D));
+        task.spawnAt(task.fairyCurrent, 3, 0.0D);
+    }
+
+    /**
+     * 生成以 0.1 格为步长的随机坐标偏移。
+     *
+     * @param range 最大十分位偏移
+     * @return 随机偏移
+     */
+    private static double randomOffset(int range) {
+        return ThreadLocalRandom.current().nextInt(-range, range + 1) * 0.1D;
     }
 
 }

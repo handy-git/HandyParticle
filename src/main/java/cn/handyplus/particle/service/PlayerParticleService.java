@@ -67,6 +67,7 @@ public final class PlayerParticleService {
         Db<PlayerParticleEntity> db = Db.use(PlayerParticleEntity.class);
         db.update().set(PlayerParticleEntity::getPlayerName, entity.getPlayerName())
                 .set(PlayerParticleEntity::getType, entity.getType())
+                .set(PlayerParticleEntity::getColor, entity.getColor())
                 .set(PlayerParticleEntity::getMode, entity.getMode());
         db.execution().updateById(entity.getId());
     }

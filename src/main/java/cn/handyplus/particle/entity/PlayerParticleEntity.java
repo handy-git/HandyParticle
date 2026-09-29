@@ -37,6 +37,9 @@ public class PlayerParticleEntity {
     @TableField(value = "type", comment = "类型名称", notNull = true)
     private String type;
 
+    @TableField(value = "color", comment = "粒子颜色")
+    private String color;
+
     @TableField(value = "mode", comment = "运动模式")
     private String mode;
 }

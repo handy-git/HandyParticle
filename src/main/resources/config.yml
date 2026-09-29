@@ -14,4 +14,4 @@ refreshInterval:
   wing: 4
   block: 20
   rain: 4
-  event: 4
+  confetti: 4

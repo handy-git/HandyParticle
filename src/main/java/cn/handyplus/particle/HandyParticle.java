@@ -8,6 +8,7 @@ import cn.handyplus.particle.core.trail.TrailModeTypeEnum;
 import cn.handyplus.particle.entity.EntityParticleEntity;
 import cn.handyplus.particle.service.EntityParticleService;
 import cn.handyplus.particle.util.ConfigUtil;
+import cn.handyplus.particle.util.ParticleColorUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -71,7 +72,7 @@ public final class HandyParticle extends JavaPlugin {
             }
             // 数据库只保存实体 UUID；仅恢复当前服务器仍能解析到的实体。
             ParticleTypeEnum type = ParticleTypeEnum.getEnumThrow(saved.getType());
-            HandyParticleApi.enable(entity, type, TrailModeTypeEnum.get(saved.getMode()));
+            HandyParticleApi.enable(entity, type, saved.getMode() == null ? null : TrailModeTypeEnum.get(saved.getMode()), ParticleColorUtil.parse(saved.getColor()));
         }
     }
 

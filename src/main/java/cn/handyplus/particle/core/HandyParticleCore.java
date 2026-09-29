@@ -6,14 +6,8 @@ import cn.handyplus.particle.constants.ParticleCategoryTypeEnum;
 import cn.handyplus.particle.constants.ParticleConstants;
 import cn.handyplus.particle.core.block.BlockTrailTask;
 import cn.handyplus.particle.core.block.BlockTrailTypeEnum;
-import cn.handyplus.particle.core.event.EventCircleTask;
-import cn.handyplus.particle.core.event.EventCircleTypeEnum;
-import cn.handyplus.particle.core.event.EventColorSpinTask;
-import cn.handyplus.particle.core.event.EventColorSpinTypeEnum;
-import cn.handyplus.particle.core.event.EventConfettiTask;
-import cn.handyplus.particle.core.event.EventConfettiTypeEnum;
-import cn.handyplus.particle.core.event.EventFairyTask;
-import cn.handyplus.particle.core.event.EventFairyTypeEnum;
+import cn.handyplus.particle.core.confetti.ConfettiTask;
+import cn.handyplus.particle.core.confetti.ConfettiTypeEnum;
 import cn.handyplus.particle.core.rain.ItemRainTask;
 import cn.handyplus.particle.core.rain.ItemRainTypeEnum;
 import cn.handyplus.particle.core.trail.TrailModeTypeEnum;
@@ -25,6 +19,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -65,10 +60,11 @@ public class HandyParticleCore {
      * @param entity 实体
      * @param type   内置拖尾类型
      * @param mode   运动模式
+     * @param color  自定义 Dust 颜色，其他类型忽略
      * @return 实体有效且已发起调度请求时返回 true
      */
-    public static synchronized boolean setTrail(@NotNull Entity entity, @NotNull TrailTypeEnum type, @NotNull TrailModeTypeEnum mode) {
-        return start(entity, new TrailTask(entity, type, mode), ParticleCategoryTypeEnum.TRAIL);
+    public static synchronized boolean setTrail(@NotNull Entity entity, @NotNull TrailTypeEnum type, @NotNull TrailModeTypeEnum mode, Color color) {
+        return start(entity, new TrailTask(entity, type, mode, color), ParticleCategoryTypeEnum.TRAIL);
     }
 
     /**
@@ -110,47 +106,14 @@ public class HandyParticleCore {
     }
 
     /**
-     * 启用指定实体的三色纸屑效果。
+     * 启用指定实体的纸屑效果。
      *
      * @param entity 实体
-     * @param type   纸屑染料组合
+     * @param type   纸屑物品组合
      * @return 实体有效且已发起调度请求时返回 true
      */
-    public static synchronized boolean setConfetti(@NotNull Entity entity, @NotNull EventConfettiTypeEnum type) {
-        return start(entity, new EventConfettiTask(entity, type), ParticleCategoryTypeEnum.EVENT);
-    }
-
-    /**
-     * 启用指定实体的旋转色环效果。
-     *
-     * @param entity 实体
-     * @param type   色环颜色
-     * @return 实体有效且已发起调度请求时返回 true
-     */
-    public static synchronized boolean setColorSpin(@NotNull Entity entity, @NotNull EventColorSpinTypeEnum type) {
-        return start(entity, new EventColorSpinTask(entity, type), ParticleCategoryTypeEnum.EVENT);
-    }
-
-    /**
-     * 启用指定实体的脚下圆圈效果。
-     *
-     * @param entity 实体
-     * @param type   圆圈颜色
-     * @return 实体有效且已发起调度请求时返回 true
-     */
-    public static synchronized boolean setCircle(@NotNull Entity entity, @NotNull EventCircleTypeEnum type) {
-        return start(entity, new EventCircleTask(entity, type), ParticleCategoryTypeEnum.EVENT);
-    }
-
-    /**
-     * 启用指定实体的粒子精灵效果。
-     *
-     * @param entity 实体
-     * @param type   精灵颜色
-     * @return 实体有效且已发起调度请求时返回 true
-     */
-    public static synchronized boolean setFairy(@NotNull Entity entity, @NotNull EventFairyTypeEnum type) {
-        return start(entity, new EventFairyTask(entity, type), ParticleCategoryTypeEnum.EVENT);
+    public static synchronized boolean setConfetti(@NotNull Entity entity, @NotNull ConfettiTypeEnum type) {
+        return start(entity, new ConfettiTask(entity, type), ParticleCategoryTypeEnum.CONFETTI);
     }
 
     /**
@@ -195,10 +158,15 @@ public class HandyParticleCore {
      * @param task     新任务
      * @param category 粒子类别
      */
-    private static boolean start(@NotNull Entity entity, @NotNull HandyRunnable task,
-                                 @NotNull ParticleCategoryTypeEnum category) {
-        if (!entity.isValid() || (entity instanceof Player && !((Player) entity).isOnline())) {
+    private static boolean start(@NotNull Entity entity, @NotNull HandyRunnable task, @NotNull ParticleCategoryTypeEnum category) {
+        if (!entity.isValid()) {
             return false;
+        }
+        if (entity instanceof Player) {
+            Player player = (Player) entity;
+            if (!player.isOnline()) {
+                return false;
+            }
         }
         UUID entityId = entity.getUniqueId();
         // 同一实体同一类别只保留一个任务，重新设置时先停止旧任务，避免重复刷新粒子。

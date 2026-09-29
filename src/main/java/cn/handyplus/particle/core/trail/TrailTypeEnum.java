@@ -2,9 +2,12 @@ package cn.handyplus.particle.core.trail;
 
 import com.cryptomorin.xseries.particles.ParticleDisplay;
 import com.cryptomorin.xseries.particles.XParticle;
+import lombok.Getter;
 import org.bukkit.Location;
-import org.bukkit.entity.Entity;
 import org.jetbrains.annotations.NotNull;
+
+import java.awt.*;
+
 
 /**
  * 内置粒子拖尾。
@@ -143,7 +146,11 @@ public enum TrailTypeEnum {
     /**
      * 粉色纸屑拖尾。
      */
-    TRAIL_PINK_CONFETTI(XParticle.CHERRY_LEAVES, 0.2D);
+    TRAIL_PINK_CONFETTI(XParticle.CHERRY_LEAVES, 0.2D),
+    /**
+     * 可指定颜色的 Dust 粒子拖尾。
+     */
+    TRAIL_COLOR(XParticle.DUST, 0.0D);
 
     /**
      * XParticle 粒子。
@@ -152,7 +159,9 @@ public enum TrailTypeEnum {
     private final XParticle particle;
     /**
      * 相对实体位置的纵向偏移。
+     *
      */
+    @Getter
     private final double y;
     /**
      * 粒子自身速度，与轨迹旋转速度无关。
@@ -183,23 +192,27 @@ public enum TrailTypeEnum {
     }
 
     /**
-     * 在实体位置生成一次拖尾，每次发射 4 个粒子，三个轴的扩散偏移均为 1。
+     * 判断当前粒子是否可指定颜色。
      *
-     * @param entity 实体
+     * @return 是否可指定颜色
      */
-    public void spawn(@NotNull Entity entity) {
-        Location location = entity.getLocation().clone().add(0.0D, y, 0.0D);
-        spawn(location, 4, 1.0D);
+    public boolean supportsColor() {
+        return this == TRAIL_COLOR;
     }
 
     /**
-     * 在指定位置生成一次拖尾粒子。
+     * 在指定位置生成带自定义颜色的拖尾粒子。
      *
      * @param location 生成位置
      * @param amount   数量
      * @param offset   扩散范围
+     * @param color    自定义颜色
      */
-    public void spawnAt(@NotNull Location location, int amount, double offset) {
+    public void spawnAt(@NotNull Location location, int amount, double offset, @NotNull Color color) {
+        if (supportsColor()) {
+            ParticleDisplay.of(particle).withCount(amount).offset(offset).withExtra(speed).withColor(color, 1.0F).spawn(location);
+            return;
+        }
         spawn(location, amount, offset);
     }
 
@@ -216,7 +229,7 @@ public enum TrailTypeEnum {
                     .withCount(amount)
                     .offset(offset)
                     .withExtra(speed)
-                    .withColor(java.awt.Color.RED, 1.0F)
+                    .withColor(this == TRAIL_COLOR ? java.awt.Color.WHITE : java.awt.Color.RED, 1.0F)
                     .spawn(location);
         } else if (particle == XParticle.ENTITY_EFFECT) {
             ParticleDisplay.of(particle)

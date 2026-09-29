@@ -3,10 +3,7 @@ package cn.handyplus.particle.api;
 import cn.handyplus.lib.util.BaseUtil;
 import cn.handyplus.particle.constants.ParticleCategoryTypeEnum;
 import cn.handyplus.particle.core.block.BlockTrailTypeEnum;
-import cn.handyplus.particle.core.event.EventCircleTypeEnum;
-import cn.handyplus.particle.core.event.EventColorSpinTypeEnum;
-import cn.handyplus.particle.core.event.EventConfettiTypeEnum;
-import cn.handyplus.particle.core.event.EventFairyTypeEnum;
+import cn.handyplus.particle.core.confetti.ConfettiTypeEnum;
 import cn.handyplus.particle.core.rain.ItemRainTypeEnum;
 import cn.handyplus.particle.core.trail.TrailTypeEnum;
 import cn.handyplus.particle.core.wing.WingTypeEnum;
@@ -378,6 +375,10 @@ public enum ParticleTypeEnum {
      */
     TRAIL_PINK_CONFETTI(TrailTypeEnum.TRAIL_PINK_CONFETTI),
     /**
+     * 自定义颜色的 Dust 拖尾。
+     */
+    TRAIL_COLOR(TrailTypeEnum.TRAIL_COLOR),
+    /**
      * 彩色羊毛方块拖尾。
      */
     BLOCK_WOOL(BlockTrailTypeEnum.BLOCK_WOOL),
@@ -432,115 +433,31 @@ public enum ParticleTypeEnum {
     /**
      * 红、黄、绿三色纸屑。
      */
-    EVENT_CONFETTI_RED_YELLOW_GREEN(EventConfettiTypeEnum.CONFETTI_RED_YELLOW_GREEN),
+    CONFETTI_RED_YELLOW_GREEN(ConfettiTypeEnum.RED_YELLOW_GREEN),
     /**
      * 白、黑、紫三色纸屑。
      */
-    EVENT_CONFETTI_WHITE_BLACK_PURPLE(EventConfettiTypeEnum.CONFETTI_WHITE_BLACK_PURPLE),
+    CONFETTI_WHITE_BLACK_PURPLE(ConfettiTypeEnum.WHITE_BLACK_PURPLE),
     /**
      * 白、红、蓝三色纸屑。
      */
-    EVENT_CONFETTI_WHITE_RED_BLUE(EventConfettiTypeEnum.CONFETTI_WHITE_RED_BLUE),
+    CONFETTI_WHITE_RED_BLUE(ConfettiTypeEnum.WHITE_RED_BLUE),
     /**
      * 绿、蓝、黑三色纸屑。
      */
-    EVENT_CONFETTI_GREEN_BLUE_BLACK(EventConfettiTypeEnum.CONFETTI_GREEN_BLUE_BLACK),
+    CONFETTI_GREEN_BLUE_BLACK(ConfettiTypeEnum.GREEN_BLUE_BLACK),
     /**
      * 红、黄、白三色纸屑。
      */
-    EVENT_CONFETTI_RED_YELLOW_WHITE(EventConfettiTypeEnum.CONFETTI_RED_YELLOW_WHITE),
+    CONFETTI_RED_YELLOW_WHITE(ConfettiTypeEnum.RED_YELLOW_WHITE),
     /**
      * 黑、黄、紫三色纸屑。
      */
-    EVENT_CONFETTI_BLACK_YELLOW_PURPLE(EventConfettiTypeEnum.CONFETTI_BLACK_YELLOW_PURPLE),
+    CONFETTI_BLACK_YELLOW_PURPLE(ConfettiTypeEnum.BLACK_YELLOW_PURPLE),
     /**
      * 红、绿、黑三色纸屑。
      */
-    EVENT_CONFETTI_RED_GREEN_BLACK(EventConfettiTypeEnum.CONFETTI_RED_GREEN_BLACK),
-    /**
-     * 白色旋转色环。
-     */
-    EVENT_COLOR_SPIN_WHITE(EventColorSpinTypeEnum.COLOR_SPIN_WHITE),
-    /**
-     * 红色旋转色环。
-     */
-    EVENT_COLOR_SPIN_RED(EventColorSpinTypeEnum.COLOR_SPIN_RED),
-    /**
-     * 黄色旋转色环。
-     */
-    EVENT_COLOR_SPIN_YELLOW(EventColorSpinTypeEnum.COLOR_SPIN_YELLOW),
-    /**
-     * 绿色旋转色环。
-     */
-    EVENT_COLOR_SPIN_GREEN(EventColorSpinTypeEnum.COLOR_SPIN_GREEN),
-    /**
-     * 蓝色旋转色环。
-     */
-    EVENT_COLOR_SPIN_BLUE(EventColorSpinTypeEnum.COLOR_SPIN_BLUE),
-    /**
-     * 紫色旋转色环。
-     */
-    EVENT_COLOR_SPIN_PURPLE(EventColorSpinTypeEnum.COLOR_SPIN_PURPLE),
-    /**
-     * 黑色旋转色环。
-     */
-    EVENT_COLOR_SPIN_BLACK(EventColorSpinTypeEnum.COLOR_SPIN_BLACK),
-    /**
-     * 白色脚下圆圈。
-     */
-    EVENT_CIRCLE_WHITE(EventCircleTypeEnum.CIRCLE_WHITE),
-    /**
-     * 红色脚下圆圈。
-     */
-    EVENT_CIRCLE_RED(EventCircleTypeEnum.CIRCLE_RED),
-    /**
-     * 黄色脚下圆圈。
-     */
-    EVENT_CIRCLE_YELLOW(EventCircleTypeEnum.CIRCLE_YELLOW),
-    /**
-     * 绿色脚下圆圈。
-     */
-    EVENT_CIRCLE_GREEN(EventCircleTypeEnum.CIRCLE_GREEN),
-    /**
-     * 蓝色脚下圆圈。
-     */
-    EVENT_CIRCLE_BLUE(EventCircleTypeEnum.CIRCLE_BLUE),
-    /**
-     * 紫色脚下圆圈。
-     */
-    EVENT_CIRCLE_PURPLE(EventCircleTypeEnum.CIRCLE_PURPLE),
-    /**
-     * 黑色脚下圆圈。
-     */
-    EVENT_CIRCLE_BLACK(EventCircleTypeEnum.CIRCLE_BLACK),
-    /**
-     * 绿色粒子精灵。
-     */
-    EVENT_FAIRY_GREEN(EventFairyTypeEnum.FAIRY_GREEN),
-    /**
-     * 蓝色粒子精灵。
-     */
-    EVENT_FAIRY_BLUE(EventFairyTypeEnum.FAIRY_BLUE),
-    /**
-     * 紫色粒子精灵。
-     */
-    EVENT_FAIRY_PURPLE(EventFairyTypeEnum.FAIRY_PURPLE),
-    /**
-     * 红色粒子精灵。
-     */
-    EVENT_FAIRY_RED(EventFairyTypeEnum.FAIRY_RED),
-    /**
-     * 黑色粒子精灵。
-     */
-    EVENT_FAIRY_BLACK(EventFairyTypeEnum.FAIRY_BLACK),
-    /**
-     * 白色粒子精灵。
-     */
-    EVENT_FAIRY_WHITE(EventFairyTypeEnum.FAIRY_WHITE),
-    /**
-     * 黄色粒子精灵。
-     */
-    EVENT_FAIRY_YELLOW(EventFairyTypeEnum.FAIRY_YELLOW);
+    CONFETTI_RED_GREEN_BLACK(ConfettiTypeEnum.RED_GREEN_BLACK);
 
     /**
      * 固定翅膀组合，粒子类型时为空。
@@ -567,29 +484,11 @@ public enum ParticleTypeEnum {
     @Nullable
     private final ItemRainTypeEnum itemRain;
     /**
-     * 固定染料组合的纸屑效果。
+     * 固定物品组合的纸屑效果。
      */
     @Getter(AccessLevel.PACKAGE)
     @Nullable
-    private final EventConfettiTypeEnum eventConfetti;
-    /**
-     * 固定颜色的旋转色环效果。
-     */
-    @Getter(AccessLevel.PACKAGE)
-    @Nullable
-    private final EventColorSpinTypeEnum eventColorSpin;
-    /**
-     * 固定颜色的粒子精灵效果。
-     */
-    @Getter(AccessLevel.PACKAGE)
-    @Nullable
-    private final EventFairyTypeEnum eventFairy;
-    /**
-     * 固定颜色的脚下圆圈效果。
-     */
-    @Getter(AccessLevel.PACKAGE)
-    @Nullable
-    private EventCircleTypeEnum eventCircle;
+    private final ConfettiTypeEnum confetti;
     /**
      * 效果所属类别。
      */
@@ -606,9 +505,7 @@ public enum ParticleTypeEnum {
         this.builtinTrail = null;
         this.blockTrail = null;
         this.itemRain = null;
-        this.eventConfetti = null;
-        this.eventColorSpin = null;
-        this.eventFairy = null;
+        this.confetti = null;
         this.category = ParticleCategoryTypeEnum.WING;
     }
 
@@ -622,9 +519,7 @@ public enum ParticleTypeEnum {
         this.builtinTrail = builtinTrail;
         this.blockTrail = null;
         this.itemRain = null;
-        this.eventConfetti = null;
-        this.eventColorSpin = null;
-        this.eventFairy = null;
+        this.confetti = null;
         this.category = ParticleCategoryTypeEnum.TRAIL;
     }
 
@@ -638,9 +533,7 @@ public enum ParticleTypeEnum {
         this.builtinTrail = null;
         this.blockTrail = blockTrail;
         this.itemRain = null;
-        this.eventConfetti = null;
-        this.eventColorSpin = null;
-        this.eventFairy = null;
+        this.confetti = null;
         this.category = ParticleCategoryTypeEnum.BLOCK;
     }
 
@@ -654,75 +547,22 @@ public enum ParticleTypeEnum {
         this.builtinTrail = null;
         this.blockTrail = null;
         this.itemRain = itemRain;
-        this.eventConfetti = null;
-        this.eventColorSpin = null;
-        this.eventFairy = null;
+        this.confetti = null;
         this.category = ParticleCategoryTypeEnum.RAIN;
     }
 
     /**
-     * 创建纸屑活动效果类型。
+     * 创建纸屑效果类型。
      *
-     * @param eventConfetti 纸屑染料组合
+     * @param confetti 纸屑物品组合
      */
-    ParticleTypeEnum(@NotNull EventConfettiTypeEnum eventConfetti) {
+    ParticleTypeEnum(@NotNull ConfettiTypeEnum confetti) {
         this.wingType = null;
         this.builtinTrail = null;
         this.blockTrail = null;
         this.itemRain = null;
-        this.eventConfetti = eventConfetti;
-        this.eventColorSpin = null;
-        this.eventFairy = null;
-        this.category = ParticleCategoryTypeEnum.EVENT;
-    }
-
-    /**
-     * 创建旋转色环活动效果类型。
-     *
-     * @param eventColorSpin 旋转色环颜色
-     */
-    ParticleTypeEnum(@NotNull EventColorSpinTypeEnum eventColorSpin) {
-        this.wingType = null;
-        this.builtinTrail = null;
-        this.blockTrail = null;
-        this.itemRain = null;
-        this.eventConfetti = null;
-        this.eventColorSpin = eventColorSpin;
-        this.eventFairy = null;
-        this.category = ParticleCategoryTypeEnum.EVENT;
-    }
-
-    /**
-     * 创建粒子精灵活动效果类型。
-     *
-     * @param eventFairy 粒子精灵颜色
-     */
-    ParticleTypeEnum(@NotNull EventFairyTypeEnum eventFairy) {
-        this.wingType = null;
-        this.builtinTrail = null;
-        this.blockTrail = null;
-        this.itemRain = null;
-        this.eventConfetti = null;
-        this.eventColorSpin = null;
-        this.eventFairy = eventFairy;
-        this.category = ParticleCategoryTypeEnum.EVENT;
-    }
-
-    /**
-     * 创建脚下圆圈活动效果类型。
-     *
-     * @param eventCircle 圆圈颜色
-     */
-    ParticleTypeEnum(@NotNull EventCircleTypeEnum eventCircle) {
-        this.wingType = null;
-        this.builtinTrail = null;
-        this.blockTrail = null;
-        this.itemRain = null;
-        this.eventConfetti = null;
-        this.eventColorSpin = null;
-        this.eventFairy = null;
-        this.eventCircle = eventCircle;
-        this.category = ParticleCategoryTypeEnum.EVENT;
+        this.confetti = confetti;
+        this.category = ParticleCategoryTypeEnum.CONFETTI;
     }
 
     /**
@@ -733,6 +573,15 @@ public enum ParticleTypeEnum {
     @NotNull
     public String getDesc() {
         return BaseUtil.getLangMsg("particleTypeDesc." + name());
+    }
+
+    /**
+     * 判断效果是否支持自定义颜色。
+     *
+     * @return 是否支持自定义颜色
+     */
+    public boolean supportsColor() {
+        return builtinTrail != null && builtinTrail.supportsColor();
     }
 
     /**

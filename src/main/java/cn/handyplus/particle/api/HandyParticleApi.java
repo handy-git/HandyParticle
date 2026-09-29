@@ -8,6 +8,7 @@ import org.bukkit.entity.Entity;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.awt.*;
 import java.util.Objects;
 
 /**
@@ -39,10 +40,23 @@ public final class HandyParticleApi {
      *
      * @param entity 实体
      * @param type   粒子类型
-     * @param mode   普通拖尾运动模式，为空时使用默认模式
+     * @param mode   拖尾运动模式，为空时使用默认模式
      * @return 实体有效且已发起调度请求时返回 true
      */
     public static boolean enable(@NotNull Entity entity, @NotNull ParticleTypeEnum type, @Nullable TrailModeTypeEnum mode) {
+        return enable(entity, type, mode, null);
+    }
+
+    /**
+     * 启用粒子。
+     *
+     * @param entity 实体
+     * @param type   粒子类型
+     * @param mode   拖尾运动模式，为空时使用默认模式
+     * @param color  TRAIL_COLOR 的颜色，为空时使用白色
+     * @return 实体有效且已发起调度请求时返回 true
+     */
+    public static boolean enable(@NotNull Entity entity, @NotNull ParticleTypeEnum type, @Nullable TrailModeTypeEnum mode, @Nullable Color color) {
         Objects.requireNonNull(type, "type");
         // 翅膀
         if (type.getWingType() != null) {
@@ -56,26 +70,14 @@ public final class HandyParticleApi {
         if (type.getItemRain() != null) {
             return HandyParticleCore.setItemRain(entity, type.getItemRain());
         }
-        // 活动纸屑
-        if (type.getEventConfetti() != null) {
-            return HandyParticleCore.setConfetti(entity, type.getEventConfetti());
+        // 纸屑
+        if (type.getConfetti() != null) {
+            return HandyParticleCore.setConfetti(entity, type.getConfetti());
         }
-        // 活动旋转色环
-        if (type.getEventColorSpin() != null) {
-            return HandyParticleCore.setColorSpin(entity, type.getEventColorSpin());
-        }
-        // 活动脚下圆圈
-        if (type.getEventCircle() != null) {
-            return HandyParticleCore.setCircle(entity, type.getEventCircle());
-        }
-        // 活动粒子精灵
-        if (type.getEventFairy() != null) {
-            return HandyParticleCore.setFairy(entity, type.getEventFairy());
-        }
-        // 普通粒子
+        // 拖尾粒子
         TrailTypeEnum builtinTrail = Objects.requireNonNull(type.getBuiltinTrail(), "builtinTrail");
         TrailModeTypeEnum trailMode = mode == null ? TrailModeTypeEnum.DEFAULT : mode;
-        return HandyParticleCore.setTrail(entity, builtinTrail, trailMode);
+        return HandyParticleCore.setTrail(entity, builtinTrail, trailMode, color);
     }
 
     /**

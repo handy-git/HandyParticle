@@ -8,6 +8,7 @@ import cn.handyplus.particle.api.ParticleTypeEnum;
 import cn.handyplus.particle.core.trail.TrailModeTypeEnum;
 import cn.handyplus.particle.entity.PlayerParticleEntity;
 import cn.handyplus.particle.service.PlayerParticleService;
+import cn.handyplus.particle.util.ParticleColorUtil;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -36,11 +37,8 @@ public final class HandyLoginEventListener implements Listener {
             List<PlayerParticleEntity> saved = PlayerParticleService.findByUuid(playerId);
             for (PlayerParticleEntity entity : saved) {
                 ParticleTypeEnum particleTypeEnum = ParticleTypeEnum.getEnumThrow(entity.getType());
-                if (particleTypeEnum == null) {
-                    continue;
-                }
-                TrailModeTypeEnum trailModeTypeEnum = TrailModeTypeEnum.get(entity.getMode());
-                HandyParticleApi.enable(player, particleTypeEnum, trailModeTypeEnum);
+                TrailModeTypeEnum trailModeTypeEnum = entity.getMode() == null ? null : TrailModeTypeEnum.get(entity.getMode());
+                HandyParticleApi.enable(player, particleTypeEnum, trailModeTypeEnum, ParticleColorUtil.parse(entity.getColor()));
             }
         });
     }

@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 普通粒子拖尾的内置运动模式。
+ * 粒子拖尾的内置运动模式。
  *
  * @author handy
  */
@@ -47,10 +47,22 @@ public enum TrailModeTypeEnum {
     /**
      * 左键后生成弹簧下落轨迹。
      */
-    SLINKY;
+    SLINKY,
+    /**
+     * 在实体脚下绘制完整圆圈。
+     */
+    FOOT_CIRCLE,
+    /**
+     * 在实体头部周围旋转。
+     */
+    COLOR_SPIN,
+    /**
+     * 在实体附近游动并跟随。
+     */
+    FAIRY;
 
     /**
-     * 列出普通粒子拖尾可用的运动模式。
+     * 列出粒子拖尾可用的运动模式。
      *
      * @return 运动模式名称
      */
