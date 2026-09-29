@@ -6,3 +6,12 @@ isCheckUpdate: true
 
 # op登录时候是否发送更新提醒
 isCheckUpdateToOpMsg: true
+
+# 粒子刷新间隔，单位 tick（20 tick = 1 秒），最小为 1
+# 修改后需重新设置玩家效果，新任务才会使用新间隔
+refreshInterval:
+  trail: 2
+  wing: 2
+  block: 2
+  rain: 2
+  event: 2

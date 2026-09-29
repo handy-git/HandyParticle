@@ -2,6 +2,7 @@ package cn.handyplus.particle.core;
 
 import cn.handyplus.lib.internal.EntitySchedulerUtil;
 import cn.handyplus.lib.internal.HandyRunnable;
+import cn.handyplus.particle.constants.ParticleCategoryTypeEnum;
 import cn.handyplus.particle.core.block.BlockTrailTask;
 import cn.handyplus.particle.core.block.BlockTrailTypeEnum;
 import cn.handyplus.particle.core.event.EventColorSpinTask;
@@ -17,6 +18,7 @@ import cn.handyplus.particle.core.trail.TrailTask;
 import cn.handyplus.particle.core.trail.TrailTypeEnum;
 import cn.handyplus.particle.core.wing.WingTask;
 import cn.handyplus.particle.core.wing.WingTypeEnum;
+import cn.handyplus.particle.util.ConfigUtil;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
@@ -54,7 +56,7 @@ public class HandyParticleCore {
         if (!player.isOnline()) {
             return false;
         }
-        start(player, new WingTask(player, wingType));
+        start(player, new WingTask(player, wingType), ParticleCategoryTypeEnum.WING);
         return true;
     }
 
@@ -70,7 +72,7 @@ public class HandyParticleCore {
         if (!player.isOnline()) {
             return false;
         }
-        start(player, new TrailTask(player, type, mode));
+        start(player, new TrailTask(player, type, mode), ParticleCategoryTypeEnum.TRAIL);
         return true;
     }
 
@@ -97,7 +99,7 @@ public class HandyParticleCore {
         if (!player.isOnline()) {
             return false;
         }
-        start(player, new BlockTrailTask(player, type));
+        start(player, new BlockTrailTask(player, type), ParticleCategoryTypeEnum.BLOCK);
         return true;
     }
 
@@ -112,7 +114,7 @@ public class HandyParticleCore {
         if (!player.isOnline()) {
             return false;
         }
-        start(player, new ItemRainTask(player, type));
+        start(player, new ItemRainTask(player, type), ParticleCategoryTypeEnum.RAIN);
         return true;
     }
 
@@ -127,7 +129,7 @@ public class HandyParticleCore {
         if (!player.isOnline()) {
             return false;
         }
-        start(player, new EventConfettiTask(player, type));
+        start(player, new EventConfettiTask(player, type), ParticleCategoryTypeEnum.EVENT);
         return true;
     }
 
@@ -142,7 +144,7 @@ public class HandyParticleCore {
         if (!player.isOnline()) {
             return false;
         }
-        start(player, new EventColorSpinTask(player, type));
+        start(player, new EventColorSpinTask(player, type), ParticleCategoryTypeEnum.EVENT);
         return true;
     }
 
@@ -157,7 +159,7 @@ public class HandyParticleCore {
         if (!player.isOnline()) {
             return false;
         }
-        start(player, new EventFairyTask(player, type));
+        start(player, new EventFairyTask(player, type), ParticleCategoryTypeEnum.EVENT);
         return true;
     }
 
@@ -184,11 +186,12 @@ public class HandyParticleCore {
      *
      * @param player 玩家
      * @param task   新任务
+     * @param category 粒子类别
      */
-    private static void start(@NotNull Player player, @NotNull HandyRunnable task) {
+    private static void start(@NotNull Player player, @NotNull HandyRunnable task, @NotNull ParticleCategoryTypeEnum category) {
         UUID playerId = player.getUniqueId();
         disable(playerId);
-        EntitySchedulerUtil.runTaskTimer(player, task, 1L, 2L);
+        EntitySchedulerUtil.runTaskTimer(player, task, 1L, ConfigUtil.getRefreshInterval(category));
         TASK_MAP.put(playerId, task);
     }
 
