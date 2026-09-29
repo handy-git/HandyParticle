@@ -40,7 +40,7 @@ public enum ParticleCategoryTypeEnum {
      * @return 类别描述
      */
     public String getDesc() {
-        return BaseUtil.getLangMsg("particleCategoryDesc" + this.name());
+        return BaseUtil.getLangMsg("particleCategoryDesc." + this.name());
     }
 
     /**
