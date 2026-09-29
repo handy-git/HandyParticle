@@ -70,7 +70,7 @@ public class HandyParticleCore {
         if (!player.isOnline()) {
             return false;
         }
-        start(player, new TrailTask(player, type, type.getParticle(), mode));
+        start(player, new TrailTask(player, type, mode));
         return true;
     }
 

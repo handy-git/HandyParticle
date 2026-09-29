@@ -2,11 +2,7 @@ package cn.handyplus.particle.core.trail;
 
 import com.cryptomorin.xseries.particles.ParticleDisplay;
 import com.cryptomorin.xseries.particles.XParticle;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import org.bukkit.Color;
 import org.bukkit.Location;
-import org.bukkit.Particle;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
@@ -15,7 +11,6 @@ import org.jetbrains.annotations.NotNull;
  *
  * @author handy
  */
-@AllArgsConstructor
 public enum TrailTypeEnum {
     /**
      * 爱心粒子拖尾。
@@ -32,7 +27,7 @@ public enum TrailTypeEnum {
     /**
      * 红石粒子拖尾。
      */
-    TRAIL_FUN(XParticle.DUST, 0.0D, 1.0D, Particle.DustOptions.class),
+    TRAIL_FUN(XParticle.DUST, 0.0D, 1.0D),
     /**
      * 云朵粒子拖尾。
      */
@@ -88,7 +83,7 @@ public enum TrailTypeEnum {
     /**
      * 生物法术粒子拖尾。
      */
-    TRAIL_SPELL(XParticle.ENTITY_EFFECT, 0.0D, 0.0D, Color.class),
+    TRAIL_SPELL(XParticle.ENTITY_EFFECT, 0.0D),
     /**
      * 附魔台粒子拖尾。
      */
@@ -154,7 +149,6 @@ public enum TrailTypeEnum {
      * XParticle 粒子。
      */
     @NotNull
-    @Getter
     private final XParticle particle;
     /**
      * 相对玩家位置的纵向偏移。
@@ -164,11 +158,6 @@ public enum TrailTypeEnum {
      * 粒子自身速度，与轨迹旋转速度无关。
      */
     private final double speed;
-    /**
-     * 需要附加数据时使用的发射方式。
-     */
-    @NotNull
-    private final Class<?> dataType;
 
     /**
      * 创建使用默认速度的内置拖尾。
@@ -177,7 +166,7 @@ public enum TrailTypeEnum {
      * @param y        相对玩家位置的纵向偏移
      */
     TrailTypeEnum(@NotNull XParticle particle, double y) {
-        this(particle, y, 0.0D, Void.class);
+        this(particle, y, 0.0D);
     }
 
     /**
@@ -188,50 +177,48 @@ public enum TrailTypeEnum {
      * @param speed    粒子自身速度
      */
     TrailTypeEnum(@NotNull XParticle particle, double y, double speed) {
-        this(particle, y, speed, Void.class);
+        this.particle = particle;
+        this.y = y;
+        this.speed = speed;
     }
 
     /**
      * 在玩家位置生成一次拖尾，每次发射 4 个粒子，三个轴的扩散偏移均为 1。
      *
-     * @param player   玩家
-     * @param particle 已解析的 XParticle 粒子
+     * @param player 玩家
      */
-    public void spawn(@NotNull Player player, @NotNull XParticle particle) {
+    public void spawn(@NotNull Player player) {
         Location location = player.getLocation().clone().add(0.0D, y, 0.0D);
-        spawn(particle, location, 4, 1.0D);
+        spawn(location, 4, 1.0D);
     }
 
     /**
      * 在指定位置生成一次拖尾粒子。
      *
-     * @param particle 已解析的 XParticle 粒子
      * @param location 生成位置
      * @param amount   数量
      * @param offset   扩散范围
      */
-    public void spawnAt(@NotNull XParticle particle, @NotNull Location location, int amount, double offset) {
-        spawn(particle, location, amount, offset);
+    public void spawnAt(@NotNull Location location, int amount, double offset) {
+        spawn(location, amount, offset);
     }
 
     /**
      * 使用对应附加数据生成粒子。
      *
-     * @param particle 已解析的 XParticle 粒子
      * @param location 粒子位置
      * @param amount   粒子数量
      * @param offset   三个坐标轴的扩散范围
      */
-    private void spawn(@NotNull XParticle particle, @NotNull Location location, int amount, double offset) {
-        // 红石和生物法术需要与 Bukkit 粒子数据类型一致的附加数据。
-        if (dataType == Particle.DustOptions.class) {
+    private void spawn(@NotNull Location location, int amount, double offset) {
+        if (particle == XParticle.DUST) {
             ParticleDisplay.of(particle)
                     .withCount(amount)
                     .offset(offset)
                     .withExtra(speed)
                     .withColor(java.awt.Color.RED, 1.0F)
                     .spawn(location);
-        } else if (dataType == Color.class) {
+        } else if (particle == XParticle.ENTITY_EFFECT) {
             ParticleDisplay.of(particle)
                     .withCount(amount)
                     .offset(offset)
