@@ -1,6 +1,7 @@
 package cn.handyplus.particle.constants;
 
 import cn.handyplus.lib.constants.BaseConstants;
+import cn.handyplus.lib.util.BaseUtil;
 import cn.handyplus.particle.api.ParticleTypeEnum;
 
 import java.util.ArrayList;
@@ -32,6 +33,15 @@ public enum ParticleCategoryTypeEnum {
      * 活动效果。
      */
     EVENT;
+
+    /**
+     * 获取当前类别的本地化描述。
+     *
+     * @return 类别描述
+     */
+    public String getDesc() {
+        return BaseUtil.getLangMsg("particleCategoryDesc" + this.name());
+    }
 
     /**
      * 列出命令支持的效果类别。

@@ -1,6 +1,7 @@
 package cn.handyplus.particle.service;
 
 import cn.handyplus.lib.db.Db;
+import cn.handyplus.particle.constants.ParticleCategoryTypeEnum;
 import cn.handyplus.particle.entity.PlayerParticleEntity;
 import org.jetbrains.annotations.NotNull;
 
@@ -78,6 +79,19 @@ public final class PlayerParticleService {
     public static void delete(@NotNull UUID playerUuid) {
         Db<PlayerParticleEntity> db = Db.use(PlayerParticleEntity.class);
         db.where().eq(PlayerParticleEntity::getPlayerUuid, playerUuid);
+        db.execution().delete();
+    }
+
+    /**
+     * 删除玩家指定类别的粒子设置。
+     *
+     * @param playerUuid 玩家 UUID
+     * @param category   粒子类别
+     */
+    public static void delete(@NotNull UUID playerUuid, @NotNull ParticleCategoryTypeEnum category) {
+        Db<PlayerParticleEntity> db = Db.use(PlayerParticleEntity.class);
+        db.where().eq(PlayerParticleEntity::getPlayerUuid, playerUuid)
+                .eq(PlayerParticleEntity::getCategory, category.name());
         db.execution().delete();
     }
 

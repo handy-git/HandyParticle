@@ -194,6 +194,23 @@ public class HandyParticleCore {
     }
 
     /**
+     * 关闭指定玩家某一类别的粒子效果。
+     *
+     * @param player   玩家
+     * @param category 粒子类别
+     */
+    public static synchronized void disable(@NotNull Player player, @NotNull ParticleCategoryTypeEnum category) {
+        Map<ParticleCategoryTypeEnum, HandyRunnable> tasks = TASK_MAP.get(player.getUniqueId());
+        if (tasks == null) {
+            return;
+        }
+        stop(tasks.remove(category));
+        if (tasks.isEmpty()) {
+            TASK_MAP.remove(player.getUniqueId());
+        }
+    }
+
+    /**
      * 关闭全部粒子效果。
      */
     public static synchronized void disableAll() {

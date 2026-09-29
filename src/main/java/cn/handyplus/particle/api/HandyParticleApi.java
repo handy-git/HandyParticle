@@ -1,5 +1,6 @@
 package cn.handyplus.particle.api;
 
+import cn.handyplus.particle.constants.ParticleCategoryTypeEnum;
 import cn.handyplus.particle.core.HandyParticleCore;
 import cn.handyplus.particle.core.trail.TrailModeTypeEnum;
 import cn.handyplus.particle.core.trail.TrailTypeEnum;
@@ -84,6 +85,16 @@ public final class HandyParticleApi {
      */
     public static void disable(@NotNull Player player) {
         HandyParticleCore.disable(player);
+    }
+
+    /**
+     * 关闭指定玩家某一类别的粒子效果。
+     *
+     * @param player   玩家
+     * @param category 粒子类别
+     */
+    public static void disable(@NotNull Player player, @NotNull ParticleCategoryTypeEnum category) {
+        HandyParticleCore.disable(player, category);
     }
 
     /**

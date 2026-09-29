@@ -2,12 +2,15 @@ noPermission: "&8[&c✘&8] &7你没有权限执行该命令"
 
 reloadMsg: "&8[&a✔&8] &a插件配置已重载"
 setUsage: "&c用法: /hp set <玩家> <类别> <效果> [运动模式]"
-clearUsage: "&c用法: /hp clear <玩家>"
+clearUsage: "&c用法: /hp clear <玩家> [类别]"
 playerOffline: "&c玩家不在线"
 invalidParticleType: "&c未知的效果类型或当前服务端不支持"
 setSuccess: "&a已为 ${player} 设置 ${type} 粒子效果"
 setTargetNotice: "&a你的粒子效果已设置为 ${type}"
 clearSuccess: "&a已清除 ${player} 的粒子效果"
+clearCategorySuccess: "&a已清除 ${player} 的 ${category} 类粒子效果"
+clearTargetNotice: "&a你的全部粒子效果已清除"
+clearCategoryTargetNotice: "&a你的 ${category} 类粒子效果已清除"
 
 # 管理员帮助信息
 helps:
@@ -18,7 +21,7 @@ helps:
   - " &7参数:"
   - "   &8- &f reload     &7重载插件"
   - "   &8- &f set <玩家> <类别> <效果> [运动模式]  &7设置粒子效果"
-  - "   &8- &f clear <玩家>                &7清除粒子效果"
+  - "   &8- &f clear <玩家> [类别]         &7清除粒子效果"
   - ""
 
 # 粒子提醒
@@ -154,6 +157,15 @@ particleTypeDesc:
   EVENT_FAIRY_WHITE: "白色粒子精灵"
   EVENT_FAIRY_YELLOW: "黄色粒子精灵"
 
+# 类别提醒
+particleCategoryDesc:
+  TRAIL: "普通拖尾"
+  WING: "翅膀"
+  BLOCK: "方块拖尾"
+  RAIN: "物品雨"
+  EVENT: "活动效果"
+
+# 运动轨迹
 trailModeDesc:
   CIRCLE: "圆形轨迹"
   HELIX: "螺旋臂轨迹"
