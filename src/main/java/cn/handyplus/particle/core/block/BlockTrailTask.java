@@ -13,7 +13,10 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
 
 /**
  * 临时方块拖尾定时任务。
@@ -25,6 +28,7 @@ public final class BlockTrailTask extends HandyRunnable {
     private final Entity entity;
     private final BlockTrailTypeEnum type;
     private final Map<Location, Integer> locations = new HashMap<>();
+    private final Map<Location, Set<UUID>> viewers = new HashMap<>();
     private long tick;
 
     /**
@@ -46,10 +50,16 @@ public final class BlockTrailTask extends HandyRunnable {
         // 统一使用方块整数坐标，避免实体移动产生重复 key。
         location = block.getLocation();
         locations.putIfAbsent(location, 2);
+        Set<UUID> recipients = viewers.computeIfAbsent(location, ignored -> new HashSet<>());
         for (Player viewer : Bukkit.getOnlinePlayers()) {
-            if (viewer.getWorld() == location.getWorld() && viewer.getLocation().distanceSquared(location) <= 625.0D) {
-                sendBlockChange(viewer, location);
+            if (viewer.getWorld() != location.getWorld()) {
+                continue;
             }
+            if (viewer.getLocation().distanceSquared(location) > 625.0D) {
+                continue;
+            }
+            sendBlockChange(viewer, location);
+            recipients.add(viewer.getUniqueId());
         }
         tick++;
     }
@@ -59,13 +69,10 @@ public final class BlockTrailTask extends HandyRunnable {
      */
     public void cleanup() {
         for (Location location : locations.keySet()) {
-            for (Player viewer : Bukkit.getOnlinePlayers()) {
-                if (viewer.getWorld() == location.getWorld() && viewer.getLocation().distanceSquared(location) <= 625.0D) {
-                    restore(viewer, location);
-                }
-            }
+            restore(location);
         }
         locations.clear();
+        viewers.clear();
     }
 
     /**
@@ -84,15 +91,24 @@ public final class BlockTrailTask extends HandyRunnable {
     }
 
     /**
-     * 向附近玩家恢复真实方块外观。
+     * 向收到过临时方块的玩家恢复真实外观。
      *
      * @param location 方块位置
      */
     private void restore(@NotNull Location location) {
-        for (Player viewer : Bukkit.getOnlinePlayers()) {
-            if (viewer.getWorld() == location.getWorld() && viewer.getLocation().distanceSquared(location) <= 625.0D) {
-                restore(viewer, location);
+        Set<UUID> recipients = viewers.remove(location);
+        if (recipients == null) {
+            return;
+        }
+        for (UUID playerId : recipients) {
+            Player viewer = Bukkit.getPlayer(playerId);
+            if (viewer == null) {
+                continue;
             }
+            if (viewer.getWorld() != location.getWorld()) {
+                continue;
+            }
+            restore(viewer, location);
         }
     }
 
