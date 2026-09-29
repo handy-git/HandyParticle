@@ -6,7 +6,7 @@ import org.bukkit.Location;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-import java.awt.Color;
+import java.awt.*;
 
 /**
  * 活动效果粒子发送工具。

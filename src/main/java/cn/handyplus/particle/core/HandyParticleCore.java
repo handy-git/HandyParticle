@@ -17,7 +17,6 @@ import cn.handyplus.particle.core.trail.TrailTask;
 import cn.handyplus.particle.core.trail.TrailTypeEnum;
 import cn.handyplus.particle.core.wing.WingTask;
 import cn.handyplus.particle.core.wing.WingTypeEnum;
-import org.bukkit.Particle;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
@@ -68,11 +67,10 @@ public class HandyParticleCore {
      * @return 玩家在线且已发起调度请求时返回 true
      */
     public static synchronized boolean setTrail(@NotNull Player player, @NotNull TrailTypeEnum type, @NotNull TrailModeTypeEnum mode) {
-        Particle particle = type.resolveParticle();
         if (!player.isOnline()) {
             return false;
         }
-        start(player, new TrailTask(player, type, particle, mode));
+        start(player, new TrailTask(player, type, type.getParticle(), mode));
         return true;
     }
 

@@ -1,10 +1,9 @@
 package cn.handyplus.particle.core.wing;
 
-import com.cryptomorin.xseries.particles.XParticle;
 import com.cryptomorin.xseries.particles.ParticleDisplay;
+import com.cryptomorin.xseries.particles.XParticle;
 import org.bukkit.Color;
 import org.bukkit.Location;
-import org.bukkit.Particle;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
@@ -114,7 +113,6 @@ final class WingUtil {
     /**
      * 发射一个无需额外数据的粒子。
      *
-     * @param player   玩家
      * @param particle 粒子类型
      * @param location 发射位置
      */

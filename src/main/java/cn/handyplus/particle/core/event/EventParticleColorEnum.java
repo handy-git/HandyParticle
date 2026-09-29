@@ -2,7 +2,7 @@ package cn.handyplus.particle.core.event;
 
 import lombok.Getter;
 
-import java.awt.Color;
+import java.awt.*;
 
 /**
  * 活动效果使用的固定粒子颜色。

@@ -2,8 +2,8 @@ package cn.handyplus.particle.core.trail;
 
 import cn.handyplus.lib.internal.HandyRunnable;
 import cn.handyplus.particle.core.HandyParticleCore;
+import com.cryptomorin.xseries.particles.XParticle;
 import org.bukkit.Location;
-import org.bukkit.Particle;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
@@ -22,9 +22,9 @@ public final class TrailTask extends HandyRunnable {
      */
     final TrailTypeEnum type;
     /**
-     * 启用时解析并校验过的粒子。
+     * 启用时解析并校验过的 XParticle 粒子。
      */
-    final Particle particle;
+    final XParticle particle;
     /**
      * 当前运动模式。
      */
@@ -47,17 +47,6 @@ public final class TrailTask extends HandyRunnable {
     double fall;
 
     /**
-     * 创建默认运动模式的拖尾任务。
-     *
-     * @param player   玩家
-     * @param type     拖尾类型
-     * @param particle 粒子
-     */
-    public TrailTask(@NotNull Player player, @NotNull TrailTypeEnum type, @NotNull Particle particle) {
-        this(player, type, particle, TrailModeTypeEnum.DEFAULT);
-    }
-
-    /**
      * 创建指定运动模式的拖尾任务。
      *
      * @param player   玩家
@@ -65,7 +54,7 @@ public final class TrailTask extends HandyRunnable {
      * @param particle 粒子
      * @param mode     运动模式
      */
-    public TrailTask(@NotNull Player player, @NotNull TrailTypeEnum type, @NotNull Particle particle, @NotNull TrailModeTypeEnum mode) {
+    public TrailTask(@NotNull Player player, @NotNull TrailTypeEnum type, @NotNull XParticle particle, @NotNull TrailModeTypeEnum mode) {
         this.player = player;
         this.type = type;
         this.particle = particle;
