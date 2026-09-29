@@ -2,6 +2,8 @@ package cn.handyplus.particle.command.admin;
 
 import cn.handyplus.lib.command.HandyTab;
 import cn.handyplus.lib.command.IHandyCommandEvent;
+import cn.handyplus.lib.constants.BaseConstants;
+import cn.handyplus.lib.constants.VersionCheckEnum;
 import cn.handyplus.lib.core.MapUtil;
 import cn.handyplus.lib.util.AssertUtil;
 import cn.handyplus.lib.util.BaseUtil;
@@ -13,11 +15,13 @@ import cn.handyplus.particle.constants.ParticleCommandActionEnum;
 import cn.handyplus.particle.core.trail.TrailModeTypeEnum;
 import cn.handyplus.particle.entity.EntityParticleEntity;
 import cn.handyplus.particle.service.EntityParticleService;
+import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.util.RayTraceResult;
+import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
@@ -136,10 +140,44 @@ public final class EntityCommand implements IHandyCommandEvent {
      */
     @NotNull
     private Entity getTarget(@NotNull Player player) {
-        RayTraceResult trace = player.getWorld().rayTraceEntities(player.getEyeLocation(), player.getEyeLocation().getDirection(), 64.0D, 0.5D, entity -> entity != player);
-        Entity entity = trace == null ? null : trace.getHitEntity();
+        Entity entity;
+        if (BaseConstants.VERSION_ID >= VersionCheckEnum.V_1_13.getVersionId()) {
+            RayTraceResult trace = player.getWorld().rayTraceEntities(player.getEyeLocation(), player.getEyeLocation().getDirection(), 64.0D, 0.5D, target -> target != player);
+            entity = trace == null ? null : trace.getHitEntity();
+        } else {
+            entity = this.findTargetLegacy(player);
+        }
         AssertUtil.notNull(entity, BaseUtil.getLangMsg("entityNotFound"));
         return entity;
+    }
+
+    /**
+     * 使用旧版 Bukkit API 近似检测视线实体。
+     *
+     * @param player 玩家
+     * @return 命中的实体，不存在时返回 null
+     */
+    private Entity findTargetLegacy(@NotNull Player player) {
+        Location eye = player.getEyeLocation();
+        Vector direction = eye.getDirection().normalize();
+        Entity target = null;
+        double nearest = 64.0D;
+        for (Entity candidate : player.getNearbyEntities(64.0D, 64.0D, 64.0D)) {
+            if (candidate == player || !candidate.isValid()) {
+                continue;
+            }
+            Vector toEntity = candidate.getLocation().add(0.0D, 1.0D, 0.0D).toVector().subtract(eye.toVector());
+            double distance = toEntity.dot(direction);
+            if (distance < 0.0D || distance > nearest) {
+                continue;
+            }
+            Vector closest = direction.clone().multiply(distance);
+            if (toEntity.subtract(closest).lengthSquared() <= 0.5625D) {
+                nearest = distance;
+                target = candidate;
+            }
+        }
+        return target;
     }
 
 }
