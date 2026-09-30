@@ -26,12 +26,12 @@ public final class HandyParticleCommand implements TabExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String @NotNull [] args) {
         // 判断指令是否正确
         if (args.length < 1) {
-            sendHelp(sender);
+            this.sendHelp(sender);
             return true;
         }
         boolean rst = HandyCommandWrapper.onCommand(sender, cmd, label, args, BaseUtil.getLangMsg("noPermission"));
         if (!rst) {
-            sendHelp(sender);
+            this.sendHelp(sender);
         }
         return true;
     }

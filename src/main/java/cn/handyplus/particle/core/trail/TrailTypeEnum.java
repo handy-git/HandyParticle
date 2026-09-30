@@ -221,7 +221,7 @@ public enum TrailTypeEnum {
     @NotNull
     ParticleDisplay createDisplay(@NotNull Color color) {
         ParticleDisplay display = ParticleDisplay.of(particle).withExtra(speed);
-        if (supportsColor()) {
+        if (this.supportsColor()) {
             return display.withColor(color, 1.0F);
         }
         if (particle == XParticle.DUST) {

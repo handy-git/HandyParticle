@@ -54,11 +54,11 @@ public final class BlockTrailTask extends HandyRunnable {
     @Override
     public void run() {
         if (!entity.isValid()) {
-            cleanup();
+            this.cleanup();
             HandyParticleCore.disable(entity);
             return;
         }
-        expire();
+        this.expire();
         Location location = entity.getLocation().clone().subtract(0.0D, 1.0D, 0.0D);
         Block block = location.getBlock();
         if (!type.isGround(block)) {
@@ -68,7 +68,7 @@ public final class BlockTrailTask extends HandyRunnable {
         location = block.getLocation();
         locations.putIfAbsent(location, 2);
         Set<UUID> recipients = viewers.computeIfAbsent(location, ignored -> new HashSet<>());
-        sendBlockChanges(location, recipients);
+        this.sendBlockChanges(location, recipients);
         tick++;
     }
 
@@ -83,7 +83,7 @@ public final class BlockTrailTask extends HandyRunnable {
         if (BaseConstants.VERSION_ID >= VersionCheckEnum.V_1_13.getVersionId()) {
             BlockData blockData = type.blockData(tick);
             for (Player viewer : Bukkit.getOnlinePlayers()) {
-                if (isNearby(location, viewer)) {
+                if (this.isNearby(location, viewer)) {
                     viewer.sendBlockChange(location, blockData);
                     recipients.add(viewer.getUniqueId());
                 }
@@ -93,7 +93,7 @@ public final class BlockTrailTask extends HandyRunnable {
         Material material = type.legacyMaterial(tick);
         byte data = type.legacyData(tick);
         for (Player viewer : Bukkit.getOnlinePlayers()) {
-            if (isNearby(location, viewer)) {
+            if (this.isNearby(location, viewer)) {
                 viewer.sendBlockChange(location, material, data);
                 recipients.add(viewer.getUniqueId());
             }
@@ -119,7 +119,7 @@ public final class BlockTrailTask extends HandyRunnable {
      */
     public void cleanup() {
         for (Location location : locations.keySet()) {
-            restore(location);
+            this.restore(location);
         }
         locations.clear();
         viewers.clear();
@@ -135,7 +135,7 @@ public final class BlockTrailTask extends HandyRunnable {
                 entry.setValue(remaining);
                 return false;
             }
-            restore(entry.getKey());
+            this.restore(entry.getKey());
             return true;
         });
     }
@@ -158,7 +158,7 @@ public final class BlockTrailTask extends HandyRunnable {
             if (viewer.getWorld() != location.getWorld()) {
                 continue;
             }
-            restore(viewer, location);
+            this.restore(viewer, location);
         }
     }
 

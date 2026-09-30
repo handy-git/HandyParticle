@@ -2,7 +2,7 @@ package cn.handyplus.particle.command.admin;
 
 import cn.handyplus.lib.command.HandyTab;
 import cn.handyplus.lib.util.AssertUtil;
-import cn.handyplus.particle.api.ParticleTypeEnum;
+import cn.handyplus.particle.api.ParticleType;
 import cn.handyplus.particle.constants.ParticleCategoryTypeEnum;
 import cn.handyplus.particle.constants.ParticleCommandActionEnum;
 import cn.handyplus.particle.core.trail.TrailModeTypeEnum;
@@ -48,8 +48,8 @@ final class ParticleCommandHelper {
                 .next(context -> ParticleCategoryTypeEnum.get(ParticleCategoryTypeEnum.TRAIL));
         trails.next(TrailModeTypeEnum.getAll());
         // 自定义颜色的拖尾
-        trails.when(context -> Arrays.asList(ParticleTypeEnum.TRAIL_COLOR.name(),
-                        ParticleTypeEnum.TRAIL_COLOR.name() + "(" + ParticleTypeEnum.TRAIL_COLOR.getDesc() + ")"))
+        trails.when(context -> Arrays.asList(ParticleType.TRAIL_COLOR.getName(),
+                        ParticleType.TRAIL_COLOR.getName() + "(" + ParticleType.TRAIL_COLOR.getDesc() + ")"))
                 .next(TrailModeTypeEnum.getAll()).next("#FFFFFF");
 
         // 翅膀
@@ -80,7 +80,7 @@ final class ParticleCommandHelper {
      * @param usage        用法提示
      * @return 解析后的粒子选项
      */
-    static EffectOptions parseEffect(ParticleCategoryTypeEnum categoryType, ParticleTypeEnum particleType, @Nullable String option, @Nullable String colorValue, boolean hasExtra, String usage) {
+    static EffectOptions parseEffect(ParticleCategoryTypeEnum categoryType, ParticleType particleType, @Nullable String option, @Nullable String colorValue, boolean hasExtra, String usage) {
         AssertUtil.notTrue(particleType.getCategory() != categoryType, usage);
         Color color = null;
         TrailModeTypeEnum mode = null;

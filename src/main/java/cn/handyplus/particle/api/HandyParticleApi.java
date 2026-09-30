@@ -2,15 +2,9 @@ package cn.handyplus.particle.api;
 
 import cn.handyplus.particle.constants.ParticleCategoryTypeEnum;
 import cn.handyplus.particle.core.HandyParticleCore;
-import cn.handyplus.particle.core.trail.TrailModeTypeEnum;
-import cn.handyplus.particle.core.trail.TrailTypeEnum;
-import cn.handyplus.particle.core.wing.WingColorEnum;
-import cn.handyplus.particle.core.wing.WingModelEnum;
 import org.bukkit.entity.Entity;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
-import java.awt.*;
 import java.util.Objects;
 
 /**
@@ -27,51 +21,17 @@ public final class HandyParticleApi {
     }
 
     /**
-     * 启用指定外形和颜色图案的翅膀。
+     * 启用指定配置的粒子效果。
      *
      * @param entity 实体
-     * @param model  翅膀外形
-     * @param color  颜色图案
+     * @param type   粒子配置
      * @return 实体有效且已发起调度请求时返回 true
      */
-    public static boolean enable(@NotNull Entity entity, @NotNull WingModelEnum model, @NotNull WingColorEnum color) {
-        return HandyParticleCore.setWings(entity, model, color);
-    }
-
-    /**
-     * 启用粒子
-     *
-     * @param entity 实体
-     * @param type   粒子类型
-     * @return 实体有效且已发起调度请求时返回 true
-     */
-    public static boolean enable(@NotNull Entity entity, @NotNull ParticleTypeEnum type) {
-        return enable(entity, type, TrailModeTypeEnum.DEFAULT);
-    }
-
-    /**
-     * 启用粒子
-     *
-     * @param entity 实体
-     * @param type   粒子类型
-     * @param mode   拖尾运动模式，为空时使用默认模式
-     * @return 实体有效且已发起调度请求时返回 true
-     */
-    public static boolean enable(@NotNull Entity entity, @NotNull ParticleTypeEnum type, @Nullable TrailModeTypeEnum mode) {
-        return enable(entity, type, mode, null);
-    }
-
-    /**
-     * 启用粒子。
-     *
-     * @param entity 实体
-     * @param type   粒子类型
-     * @param mode   拖尾运动模式，为空时使用默认模式
-     * @param color  TRAIL_COLOR 的颜色，为空时使用白色
-     * @return 实体有效且已发起调度请求时返回 true
-     */
-    public static boolean enable(@NotNull Entity entity, @NotNull ParticleTypeEnum type, @Nullable TrailModeTypeEnum mode, @Nullable Color color) {
+    public static boolean enable(@NotNull Entity entity, @NotNull ParticleType type) {
         Objects.requireNonNull(type, "type");
+        if (type.getWingModel() != null) {
+            return HandyParticleCore.setWings(entity, type.getWingModel(), Objects.requireNonNull(type.getWingColor(), "wingColor"));
+        }
         // 方块粒子
         if (type.getBlockTrail() != null) {
             return HandyParticleCore.setBlock(entity, type.getBlockTrail());
@@ -85,9 +45,7 @@ public final class HandyParticleApi {
             return HandyParticleCore.setConfetti(entity, type.getConfetti());
         }
         // 拖尾粒子
-        TrailTypeEnum builtinTrail = Objects.requireNonNull(type.getBuiltinTrail(), "builtinTrail");
-        TrailModeTypeEnum trailMode = mode == null ? TrailModeTypeEnum.DEFAULT : mode;
-        return HandyParticleCore.setTrail(entity, builtinTrail, trailMode, color);
+        return HandyParticleCore.setTrail(entity, Objects.requireNonNull(type.getBuiltinTrail(), "builtinTrail"), Objects.requireNonNull(type.getMode(), "mode"), type.getColor());
     }
 
     /**

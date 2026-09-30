@@ -4,7 +4,7 @@ import cn.handyplus.lib.annotation.HandyListener;
 import cn.handyplus.lib.internal.HandyLoginEvent;
 import cn.handyplus.lib.internal.HandySchedulerUtil;
 import cn.handyplus.particle.api.HandyParticleApi;
-import cn.handyplus.particle.api.ParticleTypeEnum;
+import cn.handyplus.particle.api.ParticleType;
 import cn.handyplus.particle.constants.ParticleCategoryTypeEnum;
 import cn.handyplus.particle.core.trail.TrailModeTypeEnum;
 import cn.handyplus.particle.core.wing.WingColorEnum;
@@ -40,12 +40,14 @@ public final class HandyLoginEventListener implements Listener {
             List<PlayerParticleEntity> saved = PlayerParticleService.findByUuid(playerId);
             for (PlayerParticleEntity entity : saved) {
                 if (ParticleCategoryTypeEnum.WING.name().equalsIgnoreCase(entity.getCategory())) {
-                    HandyParticleApi.enable(player, WingModelEnum.getEnumThrow(entity.getType()), WingColorEnum.getEnumThrow(entity.getColor()));
+                    HandyParticleApi.enable(player, ParticleType.wing(
+                            WingModelEnum.getEnumThrow(entity.getType()), WingColorEnum.getEnumThrow(entity.getColor())));
                     continue;
                 }
-                ParticleTypeEnum particleTypeEnum = ParticleTypeEnum.getEnumThrow(entity.getType());
+                ParticleType particleTypeEnum = ParticleType.getEnumThrow(entity.getType());
                 TrailModeTypeEnum trailModeTypeEnum = entity.getMode() == null ? null : TrailModeTypeEnum.get(entity.getMode());
-                HandyParticleApi.enable(player, particleTypeEnum, trailModeTypeEnum, ParticleColorUtil.parse(entity.getColor()));
+                HandyParticleApi.enable(player, ParticleType.trail(particleTypeEnum.getBuiltinTrail(),
+                        trailModeTypeEnum, ParticleColorUtil.parse(entity.getColor())));
             }
         });
     }

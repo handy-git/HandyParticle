@@ -2,7 +2,7 @@ package cn.handyplus.particle.constants;
 
 import cn.handyplus.lib.constants.BaseConstants;
 import cn.handyplus.lib.util.BaseUtil;
-import cn.handyplus.particle.api.ParticleTypeEnum;
+import cn.handyplus.particle.api.ParticleType;
 import cn.handyplus.particle.core.wing.WingModelEnum;
 import org.jetbrains.annotations.NotNull;
 
@@ -86,9 +86,9 @@ public enum ParticleCategoryTypeEnum {
             return WingModelEnum.getAll();
         }
         boolean chinese = "zh_CN".equalsIgnoreCase(BaseConstants.CONFIG.getString("language", "zh_CN"));
-        for (ParticleTypeEnum type : ParticleTypeEnum.values()) {
+        for (ParticleType type : ParticleType.values()) {
             if (type.getCategory() == category) {
-                String name = type.name();
+                String name = type.getName();
                 result.add(chinese ? name + "(" + type.getDesc() + ")" : name);
             }
         }
