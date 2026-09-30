@@ -3,6 +3,7 @@ package cn.handyplus.particle.core.block;
 import cn.handyplus.lib.constants.BaseConstants;
 import cn.handyplus.lib.constants.VersionCheckEnum;
 import cn.handyplus.lib.internal.HandyRunnable;
+import cn.handyplus.lib.internal.HandySchedulerUtil;
 import cn.handyplus.particle.core.HandyParticleCore;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -12,6 +13,7 @@ import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -25,6 +27,11 @@ import java.util.UUID;
  * @author handy
  */
 public final class BlockTrailTask extends HandyRunnable {
+    /**
+     * Paper 1.17+ 支持按位置查询附近玩家。
+     */
+    private static final boolean NEARBY_PLAYERS_SUPPORTED = (HandySchedulerUtil.isPaper() || HandySchedulerUtil.isFolia()) && BaseConstants.VERSION_ID >= VersionCheckEnum.V_1_17.getVersionId();
+
     /**
      * 任务所属实体。
      */
@@ -84,14 +91,13 @@ public final class BlockTrailTask extends HandyRunnable {
             HandyParticleCore.disable(entity);
             return;
         }
-        this.expire();
         Location location = entity.getLocation().clone().subtract(0.0D, 1.0D, 0.0D);
         Block block = location.getBlock();
-        if (!BlockTrailTypeEnum.isGround(block)) {
+        location = BlockTrailTypeEnum.isGround(block) ? block.getLocation() : null;
+        this.expire(location);
+        if (location == null) {
             return;
         }
-        // 统一使用方块整数坐标，避免实体移动产生重复 key。
-        location = block.getLocation();
         locations.putIfAbsent(location, 2);
         Set<UUID> recipients = viewers.computeIfAbsent(location, ignored -> new HashSet<>());
         this.sendBlockChanges(location, recipients);
@@ -106,9 +112,12 @@ public final class BlockTrailTask extends HandyRunnable {
      */
     @SuppressWarnings("deprecation")
     private void sendBlockChanges(@NotNull Location location, @NotNull Set<UUID> recipients) {
+        Iterable<? extends Player> nearbyPlayers = NEARBY_PLAYERS_SUPPORTED
+                ? location.getWorld().getNearbyPlayers(location, 25.0D)
+                : location.getWorld().getPlayers();
         if (BaseConstants.VERSION_ID >= VersionCheckEnum.V_1_13.getVersionId()) {
             BlockData blockData = this.type == null ? this.customMaterials[(int) (this.tick % this.customMaterials.length)].createBlockData() : this.type.blockData(this.tick);
-            for (Player viewer : location.getWorld().getPlayers()) {
+            for (Player viewer : nearbyPlayers) {
                 if (this.isNearby(location, viewer)) {
                     viewer.sendBlockChange(location, blockData);
                     recipients.add(viewer.getUniqueId());
@@ -118,7 +127,7 @@ public final class BlockTrailTask extends HandyRunnable {
         }
         Material material = this.type == null ? this.customMaterials[(int) (this.tick % this.customMaterials.length)] : this.type.legacyMaterial(this.tick);
         byte data = this.type == null ? 0 : this.type.legacyData(this.tick);
-        for (Player viewer : location.getWorld().getPlayers()) {
+        for (Player viewer : nearbyPlayers) {
             if (this.isNearby(location, viewer)) {
                 viewer.sendBlockChange(location, material, data);
                 recipients.add(viewer.getUniqueId());
@@ -152,10 +161,16 @@ public final class BlockTrailTask extends HandyRunnable {
     }
 
     /**
-     * 恢复超过存活时间的临时方块。
+     * 为当前方块续期，并恢复超过存活时间的其他临时方块。
+     *
+     * @param current 当前仍在显示的方块，地面不符合条件时为空
      */
-    private void expire() {
+    private void expire(@Nullable Location current) {
         locations.entrySet().removeIf(entry -> {
+            if (entry.getKey().equals(current)) {
+                entry.setValue(2);
+                return false;
+            }
             int remaining = entry.getValue() - 1;
             if (remaining > 0) {
                 entry.setValue(remaining);
