@@ -57,6 +57,9 @@ public enum ItemRainTypeEnum {
             XMaterial.CYAN_WOOL, XMaterial.PURPLE_WOOL, XMaterial.BLUE_WOOL,
             XMaterial.BROWN_WOOL, XMaterial.GREEN_WOOL, XMaterial.RED_WOOL, XMaterial.BLACK_WOOL);
 
+    /**
+     * 当前服务端支持的物品雨材质。
+     */
     private final XMaterial[] materials;
 
     /**

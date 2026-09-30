@@ -27,10 +27,25 @@ import java.util.UUID;
  */
 @RequiredArgsConstructor
 public final class BlockTrailTask extends HandyRunnable {
+    /**
+     * 任务所属实体。
+     */
     private final Entity entity;
+    /**
+     * 当前使用的方块拖尾类型。
+     */
     private final BlockTrailTypeEnum type;
+    /**
+     * 当前仍在显示临时方块的位置及剩余帧数。
+     */
     private final Map<Location, Integer> locations = new HashMap<>();
+    /**
+     * 每个位置已收到临时方块外观的玩家。
+     */
     private final Map<Location, Set<UUID>> viewers = new HashMap<>();
+    /**
+     * 当前方块拖尾刷新帧数。
+     */
     private long tick;
 
     /**

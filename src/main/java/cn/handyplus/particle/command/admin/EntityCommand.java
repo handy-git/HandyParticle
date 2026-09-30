@@ -13,6 +13,8 @@ import cn.handyplus.particle.api.ParticleTypeEnum;
 import cn.handyplus.particle.constants.ParticleCategoryTypeEnum;
 import cn.handyplus.particle.constants.ParticleCommandActionEnum;
 import cn.handyplus.particle.core.trail.TrailModeTypeEnum;
+import cn.handyplus.particle.core.wing.WingColorEnum;
+import cn.handyplus.particle.core.wing.WingModelEnum;
 import cn.handyplus.particle.entity.EntityParticleEntity;
 import cn.handyplus.particle.service.EntityParticleService;
 import cn.handyplus.particle.util.ParticleColorUtil;
@@ -26,7 +28,6 @@ import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
-import java.util.Arrays;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -47,27 +48,30 @@ public final class EntityCommand implements IHandyCommandEvent {
         return "handyParticle.entity";
     }
 
+    /**
+     * 注册实体粒子命令的 Tab 补全。
+     *
+     * @param tab 命令补全节点
+     */
     @Override
     public void tab(HandyTab tab) {
-        HandyTab action = tab.next(ParticleCommandActionEnum.getAll());
-
-        HandyTab set = action.when(ParticleCommandActionEnum.SET.getValue()).next(ParticleCategoryTypeEnum.getAll());
-        HandyTab trails = set.when(ParticleCategoryTypeEnum.TRAIL.name()).next(context -> ParticleCategoryTypeEnum.get(ParticleCategoryTypeEnum.TRAIL));
-        trails.next(TrailModeTypeEnum.getAll());
-        trails.when(context -> Arrays.asList(ParticleTypeEnum.TRAIL_COLOR.name(),
-                        ParticleTypeEnum.TRAIL_COLOR.name() + "(" + ParticleTypeEnum.TRAIL_COLOR.getDesc() + ")"))
-                .next(TrailModeTypeEnum.getAll()).next("#FFFFFF");
-        set.when(ParticleCategoryTypeEnum.WING.name()).next(ParticleCategoryTypeEnum.get(ParticleCategoryTypeEnum.WING));
-        set.when(ParticleCategoryTypeEnum.BLOCK.name()).next(ParticleCategoryTypeEnum.get(ParticleCategoryTypeEnum.BLOCK));
-        set.when(ParticleCategoryTypeEnum.RAIN.name()).next(ParticleCategoryTypeEnum.get(ParticleCategoryTypeEnum.RAIN));
-        set.when(ParticleCategoryTypeEnum.CONFETTI.name()).next(ParticleCategoryTypeEnum.get(ParticleCategoryTypeEnum.CONFETTI));
-        action.when(ParticleCommandActionEnum.CLEAR.getValue()).next(ParticleCategoryTypeEnum.getAll());
+        ParticleCommandHelper.tab(tab, false);
     }
 
+    /**
+     * 按动作分发实体粒子命令。
+     *
+     * @param sender  命令执行者
+     * @param command Bukkit 命令
+     * @param label   命令别名
+     * @param args    命令参数
+     */
     @Override
     public void onCommand(CommandSender sender, Command command, String label, String[] args) {
+        AssertUtil.notTrue(args.length < 2, BaseUtil.getLangMsg("paramFailureMsg"));
+        String actionValue = args[1];
         Player player = AssertUtil.notPlayer(sender, BaseUtil.getLangMsg("entityPlayerOnly"));
-        ParticleCommandActionEnum action = ParticleCommandActionEnum.get(this.getArg(args, 1).orElse(null));
+        ParticleCommandActionEnum action = ParticleCommandActionEnum.get(actionValue);
         if (action == ParticleCommandActionEnum.SET) {
             this.set(player, args);
             return;
@@ -81,46 +85,84 @@ public final class EntityCommand implements IHandyCommandEvent {
 
     /**
      * 设置视线实体粒子效果。
+     *
+     * @param player 执行命令的玩家
+     * @param args   命令参数
      */
     private void set(Player player, String[] args) {
-        Entity entity = this.getTarget(player);
+        AssertUtil.notTrue(args.length < 4, BaseUtil.getLangMsg("paramFailureMsg"));
         String usage = BaseUtil.getLangMsg("entitySetUsage");
-        // 粒子类别
-        String category = this.getArg(args, 2, usage);
-        ParticleCategoryTypeEnum categoryType = ParticleCategoryTypeEnum.getEnumThrow(category);
-        // 粒子类型
-        String type = this.getArg(args, 3, usage);
-        ParticleTypeEnum particleType = ParticleTypeEnum.getEnumThrow(type);
-        // 判断类别是否匹配
-        AssertUtil.notTrue(particleType.getCategory() != categoryType, usage);
+        String category = args[2];
+        String type = args[3];
         String option = this.getArg(args, 4).orElse(null);
-        Color color = null;
-        TrailModeTypeEnum mode = null;
-        if (categoryType == ParticleCategoryTypeEnum.TRAIL) {
-            mode = option == null ? TrailModeTypeEnum.DEFAULT : TrailModeTypeEnum.get(option);
-            AssertUtil.notNull(mode, usage);
-            if (particleType.supportsColor()) {
-                color = ParticleColorUtil.parse(this.getArg(args, 5).orElse(null));
-            } else {
-                AssertUtil.notTrue(this.getArg(args, 5).isPresent(), usage);
-            }
-        } else {
-            AssertUtil.notTrue(option != null, usage);
-            AssertUtil.notTrue(this.getArg(args, 5).isPresent(), usage);
+        String colorValue = this.getArg(args, 5).orElse(null);
+        boolean hasExtra = this.getArg(args, 6).isPresent();
+        ParticleCategoryTypeEnum categoryType = ParticleCategoryTypeEnum.getEnumThrow(category);
+        if (categoryType == ParticleCategoryTypeEnum.WING) {
+            this.setWing(player, args, usage);
+            return;
         }
-        AssertUtil.notTrue(this.getArg(args, 6).isPresent(), usage);
-        HandyParticleApi.enable(entity, particleType, mode, color);
-        save(entity, categoryType, particleType, mode, color);
+        ParticleTypeEnum particleType = ParticleTypeEnum.getEnumThrow(type);
+        ParticleCommandHelper.EffectOptions options = ParticleCommandHelper.parseEffect(categoryType, particleType, option, colorValue, hasExtra, usage);
+        Entity entity = this.getTarget(player);
+        HandyParticleApi.enable(entity, particleType, options.mode, options.color);
+        save(entity, categoryType, particleType, options.mode, options.color);
         MessageUtil.sendMessage(player, BaseUtil.getLangMsg("entitySetSuccess", MapUtil.of("type", particleType.getDesc())));
     }
 
     /**
+     * 设置视线实体翅膀。
+     *
+     * @param player 玩家
+     * @param args   命令参数
+     * @param usage  用法提示
+     */
+    private void setWing(Player player, String[] args, String usage) {
+        AssertUtil.notTrue(args.length < 5, BaseUtil.getLangMsg("paramFailureMsg"));
+        String modelValue = args[3];
+        String colorValue = args[4];
+        WingModelEnum model = WingModelEnum.getEnumThrow(modelValue);
+        WingColorEnum color = WingColorEnum.getEnumThrow(colorValue);
+        Entity entity = this.getTarget(player);
+        HandyParticleApi.enable(entity, model, color);
+        saveWing(entity, model, color);
+        MessageUtil.sendMessage(player, BaseUtil.getLangMsg("entitySetSuccess", MapUtil.of("type", model.name() + "_" + color.name())));
+    }
+
+    /**
+     * 保存实体翅膀设置。
+     *
+     * @param entity 实体
+     * @param model  翅膀外形
+     * @param color  颜色图案
+     */
+    private void saveWing(@NotNull Entity entity, @NotNull WingModelEnum model, @NotNull WingColorEnum color) {
+        UUID entityUuid = entity.getUniqueId();
+        EntityParticleEntity saved = EntityParticleEntity.builder()
+                .entityUuid(entityUuid)
+                .category(ParticleCategoryTypeEnum.WING.name())
+                .type(model.name())
+                .color(color.name())
+                .build();
+        Optional<EntityParticleEntity> existing = EntityParticleService.find(entityUuid, ParticleCategoryTypeEnum.WING.name());
+        if (existing.isPresent()) {
+            saved.setId(existing.get().getId());
+            EntityParticleService.update(saved);
+            return;
+        }
+        EntityParticleService.add(saved);
+    }
+
+    /**
      * 清除视线实体粒子效果。
+     *
+     * @param player 执行命令的玩家
+     * @param args   命令参数
      */
     private void clear(Player player, String[] args) {
+        String category = this.getArg(args, 2).orElse(null);
         Entity entity = this.getTarget(player);
         UUID entityUuid = entity.getUniqueId();
-        String category = this.getArg(args, 2).orElse(null);
         if (category == null) {
             HandyParticleApi.disable(entity);
             EntityParticleService.delete(entityUuid);

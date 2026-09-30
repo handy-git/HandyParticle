@@ -16,29 +16,21 @@ import java.awt.*;
  */
 final class WingUtil {
     /**
-     * 彩色翅膀点使用的粒子。
+     * 火焰翅膀点显示对象。
      */
-    private static final XParticle COLOR_PARTICLE = XParticle.DUST;
+    private static final ParticleDisplay FLAME_DISPLAY = ParticleDisplay.of(XParticle.FLAME).withCount(1);
     /**
-     * 火焰翅膀点使用的粒子。
+     * 女巫法术翅膀点显示对象。
      */
-    private static final XParticle FLAME_PARTICLE = XParticle.FLAME;
+    private static final ParticleDisplay WITCH_DISPLAY = ParticleDisplay.of(XParticle.WITCH).withCount(1);
     /**
-     * 女巫法术翅膀点使用的粒子。
+     * 熔岩滴落翅膀点显示对象。
      */
-    private static final XParticle WITCH_PARTICLE = XParticle.WITCH;
+    private static final ParticleDisplay DRIP_LAVA_DISPLAY = ParticleDisplay.of(XParticle.DRIPPING_LAVA).withCount(1);
     /**
-     * 熔岩滴落翅膀点使用的粒子。
+     * 魔法暴击翅膀点显示对象。
      */
-    private static final XParticle DRIP_LAVA_PARTICLE = XParticle.DRIPPING_LAVA;
-    /**
-     * 魔法暴击翅膀点使用的粒子。
-     */
-    private static final XParticle CRIT_PARTICLE = XParticle.ENCHANTED_HIT;
-    private static final ParticleDisplay FLAME_DISPLAY = ParticleDisplay.of(FLAME_PARTICLE).withCount(1);
-    private static final ParticleDisplay WITCH_DISPLAY = ParticleDisplay.of(WITCH_PARTICLE).withCount(1);
-    private static final ParticleDisplay DRIP_LAVA_DISPLAY = ParticleDisplay.of(DRIP_LAVA_PARTICLE).withCount(1);
-    private static final ParticleDisplay CRIT_DISPLAY = ParticleDisplay.of(CRIT_PARTICLE).withCount(1);
+    private static final ParticleDisplay CRIT_DISPLAY = ParticleDisplay.of(XParticle.ENCHANTED_HIT).withCount(1);
 
     /**
      * 禁止实例化渲染工具。
@@ -49,15 +41,34 @@ final class WingUtil {
     /**
      * 渲染指定实体的翅膀。
      *
-     * @param entity   实体
-     * @param wingType 翅膀组合
+     * @param entity 实体
+     * @param points 翅膀点阵
      */
-    static void render(@NotNull Entity entity, @NotNull WingTypeEnum wingType) {
+    static void render(@NotNull Entity entity, @NotNull WingPoint[] points) {
         Location origin = entity.getLocation().clone();
         origin.setPitch(0.0F);
         origin.add(origin.getDirection().multiply(-0.3D));
-        drawWing(origin, wingType.getPoints(), -120.0F);
-        drawWing(origin, wingType.getPoints(), 120.0F);
+        drawWing(origin, points, -120.0F);
+        drawWing(origin, points, 120.0F);
+    }
+
+    /**
+     * 组合外形和颜色图案的点阵。
+     *
+     * @param model 翅膀外形
+     * @param color 颜色图案
+     * @return 翅膀点阵
+     */
+    @NotNull
+    static WingPoint[] createPoints(@NotNull WingModelEnum model, @NotNull WingColorEnum color) {
+        int[][] shape = model.getShape();
+        int[][] palette = color.getPalette();
+        WingPoint[] points = new WingPoint[shape.length];
+        for (int index = 0; index < shape.length; index++) {
+            int[] point = shape[index];
+            points[index] = new WingPoint(point[0], point[1], point[2], palette[point[0]][point[1]]);
+        }
+        return points;
     }
 
     /**
@@ -95,59 +106,29 @@ final class WingUtil {
             case 2:
             case 3:
                 int rgb = point.getColor();
-                ParticleDisplay.of(COLOR_PARTICLE)
+                ParticleDisplay.of(XParticle.DUST)
                         .withColor(new Color(rgb), 1.0F)
                         .spawn(location);
                 return;
             // 火焰粒子
             case 4:
-                spawnSimple(FLAME_PARTICLE, location);
+                FLAME_DISPLAY.spawn(location);
                 return;
             // 女巫法术粒子
             case 5:
-                spawnSimple(WITCH_PARTICLE, location);
+                WITCH_DISPLAY.spawn(location);
                 return;
             // 熔岩滴落粒子
             case 6:
-                spawnSimple(DRIP_LAVA_PARTICLE, location);
+                DRIP_LAVA_DISPLAY.spawn(location);
                 return;
             // 魔法暴击粒子
             case 7:
-                spawnSimple(CRIT_PARTICLE, location);
+                CRIT_DISPLAY.spawn(location);
                 return;
             default:
                 return;
         }
-    }
-
-    /**
-     * 发射一个无需额外数据的粒子。
-     *
-     * @param particle 粒子类型
-     * @param location 发射位置
-     */
-    private static void spawnSimple(@NotNull XParticle particle, @NotNull Location location) {
-        getSimpleDisplay(particle).spawn(location);
-    }
-
-    /**
-     * 获取固定粒子类型的复用显示对象。
-     *
-     * @param particle 粒子类型
-     * @return 粒子显示对象
-     */
-    @NotNull
-    private static ParticleDisplay getSimpleDisplay(@NotNull XParticle particle) {
-        if (particle == FLAME_PARTICLE) {
-            return FLAME_DISPLAY;
-        }
-        if (particle == WITCH_PARTICLE) {
-            return WITCH_DISPLAY;
-        }
-        if (particle == DRIP_LAVA_PARTICLE) {
-            return DRIP_LAVA_DISPLAY;
-        }
-        return CRIT_DISPLAY;
     }
 
 }

@@ -6,242 +6,17 @@ import cn.handyplus.particle.core.block.BlockTrailTypeEnum;
 import cn.handyplus.particle.core.confetti.ConfettiTypeEnum;
 import cn.handyplus.particle.core.rain.ItemRainTypeEnum;
 import cn.handyplus.particle.core.trail.TrailTypeEnum;
-import cn.handyplus.particle.core.wing.WingTypeEnum;
 import lombok.AccessLevel;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * 可直接启用的翅膀组合与内置粒子效果。
+ * 可直接启用的内置粒子效果。
  *
  * @author handy
  */
 public enum ParticleTypeEnum {
-    /**
-     * 天使渐变一翅膀。
-     */
-    WING_GRADIENT1_ANGEL(WingTypeEnum.ANGEL_GRADIENT1),
-    /**
-     * 天使渐变二翅膀。
-     */
-    WING_GRADIENT2_ANGEL(WingTypeEnum.ANGEL_GRADIENT2),
-    /**
-     * 天使渐变三翅膀。
-     */
-    WING_GRADIENT3_ANGEL(WingTypeEnum.ANGEL_GRADIENT3),
-    /**
-     * 天使蘑菇翅膀。
-     */
-    WING_MUSHROOM_ANGEL(WingTypeEnum.ANGEL_MUSHROOM),
-    /**
-     * 天使火焰翅膀。
-     */
-    WING_FIRE_ANGEL(WingTypeEnum.ANGEL_FIRE),
-    /**
-     * 天使彩色翅膀。
-     */
-    WING_COLORS_ANGEL(WingTypeEnum.ANGEL_COLORS),
-    /**
-     * 天使飞行翅膀。
-     */
-    WING_FLY_ANGEL(WingTypeEnum.ANGEL_FLY),
-    /**
-     * 蝴蝶渐变一翅膀。
-     */
-    WING_GRADIENT1_BUTTERFLY(WingTypeEnum.BUTTERFLY_GRADIENT1),
-    /**
-     * 蝴蝶渐变二翅膀。
-     */
-    WING_GRADIENT2_BUTTERFLY(WingTypeEnum.BUTTERFLY_GRADIENT2),
-    /**
-     * 蝴蝶渐变三翅膀。
-     */
-    WING_GRADIENT3_BUTTERFLY(WingTypeEnum.BUTTERFLY_GRADIENT3),
-    /**
-     * 蝴蝶蘑菇翅膀。
-     */
-    WING_MUSHROOM_BUTTERFLY(WingTypeEnum.BUTTERFLY_MUSHROOM),
-    /**
-     * 蝴蝶火焰翅膀。
-     */
-    WING_FIRE_BUTTERFLY(WingTypeEnum.BUTTERFLY_FIRE),
-    /**
-     * 蝴蝶彩色翅膀。
-     */
-    WING_COLORS_BUTTERFLY(WingTypeEnum.BUTTERFLY_COLORS),
-    /**
-     * 蝴蝶飞行翅膀。
-     */
-    WING_FLY_BUTTERFLY(WingTypeEnum.BUTTERFLY_FLY),
-    /**
-     * 精灵渐变一翅膀。
-     */
-    WING_GRADIENT1_ELF(WingTypeEnum.ELF_GRADIENT1),
-    /**
-     * 精灵渐变二翅膀。
-     */
-    WING_GRADIENT2_ELF(WingTypeEnum.ELF_GRADIENT2),
-    /**
-     * 精灵渐变三翅膀。
-     */
-    WING_GRADIENT3_ELF(WingTypeEnum.ELF_GRADIENT3),
-    /**
-     * 精灵蘑菇翅膀。
-     */
-    WING_MUSHROOM_ELF(WingTypeEnum.ELF_MUSHROOM),
-    /**
-     * 精灵火焰翅膀。
-     */
-    WING_FIRE_ELF(WingTypeEnum.ELF_FIRE),
-    /**
-     * 精灵彩色翅膀。
-     */
-    WING_COLORS_ELF(WingTypeEnum.ELF_COLORS),
-    /**
-     * 精灵飞行翅膀。
-     */
-    WING_FLY_ELF(WingTypeEnum.ELF_FLY),
-    /**
-     * 长翼渐变一翅膀。
-     */
-    WING_GRADIENT1_LONG(WingTypeEnum.LONG_GRADIENT1),
-    /**
-     * 长翼渐变二翅膀。
-     */
-    WING_GRADIENT2_LONG(WingTypeEnum.LONG_GRADIENT2),
-    /**
-     * 长翼渐变三翅膀。
-     */
-    WING_GRADIENT3_LONG(WingTypeEnum.LONG_GRADIENT3),
-    /**
-     * 长翼蘑菇翅膀。
-     */
-    WING_MUSHROOM_LONG(WingTypeEnum.LONG_MUSHROOM),
-    /**
-     * 长翼火焰翅膀。
-     */
-    WING_FIRE_LONG(WingTypeEnum.LONG_FIRE),
-    /**
-     * 长翼彩色翅膀。
-     */
-    WING_COLORS_LONG(WingTypeEnum.LONG_COLORS),
-    /**
-     * 长翼飞行翅膀。
-     */
-    WING_FLY_LONG(WingTypeEnum.LONG_FLY),
-    /**
-     * 蝴蝶二渐变一翅膀。
-     */
-    WING_GRADIENT1_BUTTERFLY2(WingTypeEnum.BUTTERFLY2_GRADIENT1),
-    /**
-     * 蝴蝶二渐变二翅膀。
-     */
-    WING_GRADIENT2_BUTTERFLY2(WingTypeEnum.BUTTERFLY2_GRADIENT2),
-    /**
-     * 蝴蝶二渐变三翅膀。
-     */
-    WING_GRADIENT3_BUTTERFLY2(WingTypeEnum.BUTTERFLY2_GRADIENT3),
-    /**
-     * 蝴蝶二蘑菇翅膀。
-     */
-    WING_MUSHROOM_BUTTERFLY2(WingTypeEnum.BUTTERFLY2_MUSHROOM),
-    /**
-     * 蝴蝶二火焰翅膀。
-     */
-    WING_FIRE_BUTTERFLY2(WingTypeEnum.BUTTERFLY2_FIRE),
-    /**
-     * 蝴蝶二彩色翅膀。
-     */
-    WING_COLORS_BUTTERFLY2(WingTypeEnum.BUTTERFLY2_COLORS),
-    /**
-     * 蝴蝶二飞行翅膀。
-     */
-    WING_FLY_BUTTERFLY2(WingTypeEnum.BUTTERFLY2_FLY),
-    /**
-     * 短翼渐变一翅膀。
-     */
-    WING_GRADIENT1_SHORT(WingTypeEnum.SHORT_GRADIENT1),
-    /**
-     * 短翼渐变二翅膀。
-     */
-    WING_GRADIENT2_SHORT(WingTypeEnum.SHORT_GRADIENT2),
-    /**
-     * 短翼渐变三翅膀。
-     */
-    WING_GRADIENT3_SHORT(WingTypeEnum.SHORT_GRADIENT3),
-    /**
-     * 短翼蘑菇翅膀。
-     */
-    WING_MUSHROOM_SHORT(WingTypeEnum.SHORT_MUSHROOM),
-    /**
-     * 短翼火焰翅膀。
-     */
-    WING_FIRE_SHORT(WingTypeEnum.SHORT_FIRE),
-    /**
-     * 短翼彩色翅膀。
-     */
-    WING_COLORS_SHORT(WingTypeEnum.SHORT_COLORS),
-    /**
-     * 短翼飞行翅膀。
-     */
-    WING_FLY_SHORT(WingTypeEnum.SHORT_FLY),
-    /**
-     * 恶魔渐变一翅膀。
-     */
-    WING_GRADIENT1_DEMON(WingTypeEnum.DEMON_GRADIENT1),
-    /**
-     * 恶魔渐变二翅膀。
-     */
-    WING_GRADIENT2_DEMON(WingTypeEnum.DEMON_GRADIENT2),
-    /**
-     * 恶魔渐变三翅膀。
-     */
-    WING_GRADIENT3_DEMON(WingTypeEnum.DEMON_GRADIENT3),
-    /**
-     * 恶魔蘑菇翅膀。
-     */
-    WING_MUSHROOM_DEMON(WingTypeEnum.DEMON_MUSHROOM),
-    /**
-     * 恶魔火焰翅膀。
-     */
-    WING_FIRE_DEMON(WingTypeEnum.DEMON_FIRE),
-    /**
-     * 恶魔彩色翅膀。
-     */
-    WING_COLORS_DEMON(WingTypeEnum.DEMON_COLORS),
-    /**
-     * 恶魔飞行翅膀。
-     */
-    WING_FLY_DEMON(WingTypeEnum.DEMON_FLY),
-    /**
-     * 暗夜渐变一翅膀。
-     */
-    WING_GRADIENT1_NIGHT(WingTypeEnum.NIGHT_GRADIENT1),
-    /**
-     * 暗夜渐变二翅膀。
-     */
-    WING_GRADIENT2_NIGHT(WingTypeEnum.NIGHT_GRADIENT2),
-    /**
-     * 暗夜渐变三翅膀。
-     */
-    WING_GRADIENT3_NIGHT(WingTypeEnum.NIGHT_GRADIENT3),
-    /**
-     * 暗夜蘑菇翅膀。
-     */
-    WING_MUSHROOM_NIGHT(WingTypeEnum.NIGHT_MUSHROOM),
-    /**
-     * 暗夜火焰翅膀。
-     */
-    WING_FIRE_NIGHT(WingTypeEnum.NIGHT_FIRE),
-    /**
-     * 暗夜彩色翅膀。
-     */
-    WING_COLORS_NIGHT(WingTypeEnum.NIGHT_COLORS),
-    /**
-     * 暗夜飞行翅膀。
-     */
-    WING_FLY_NIGHT(WingTypeEnum.NIGHT_FLY),
     /**
      * 爱心拖尾。
      */
@@ -460,12 +235,6 @@ public enum ParticleTypeEnum {
     CONFETTI_RED_GREEN_BLACK(ConfettiTypeEnum.RED_GREEN_BLACK);
 
     /**
-     * 固定翅膀组合，粒子类型时为空。
-     */
-    @Getter(AccessLevel.PACKAGE)
-    @Nullable
-    private final WingTypeEnum wingType;
-    /**
      * 固定参数的内置粒子类型，翅膀类型时为空。
      */
     @Getter(AccessLevel.PACKAGE)
@@ -496,26 +265,11 @@ public enum ParticleTypeEnum {
     private final ParticleCategoryTypeEnum category;
 
     /**
-     * 创建翅膀类型。
-     *
-     * @param wingType 翅膀组合
-     */
-    ParticleTypeEnum(@NotNull WingTypeEnum wingType) {
-        this.wingType = wingType;
-        this.builtinTrail = null;
-        this.blockTrail = null;
-        this.itemRain = null;
-        this.confetti = null;
-        this.category = ParticleCategoryTypeEnum.WING;
-    }
-
-    /**
      * 创建内置拖尾类型。
      *
      * @param builtinTrail 内置拖尾
      */
     ParticleTypeEnum(@NotNull TrailTypeEnum builtinTrail) {
-        this.wingType = null;
         this.builtinTrail = builtinTrail;
         this.blockTrail = null;
         this.itemRain = null;
@@ -529,7 +283,6 @@ public enum ParticleTypeEnum {
      * @param blockTrail 方块拖尾
      */
     ParticleTypeEnum(@NotNull BlockTrailTypeEnum blockTrail) {
-        this.wingType = null;
         this.builtinTrail = null;
         this.blockTrail = blockTrail;
         this.itemRain = null;
@@ -543,7 +296,6 @@ public enum ParticleTypeEnum {
      * @param itemRain 物品雨组合
      */
     ParticleTypeEnum(@NotNull ItemRainTypeEnum itemRain) {
-        this.wingType = null;
         this.builtinTrail = null;
         this.blockTrail = null;
         this.itemRain = itemRain;
@@ -557,7 +309,6 @@ public enum ParticleTypeEnum {
      * @param confetti 纸屑物品组合
      */
     ParticleTypeEnum(@NotNull ConfettiTypeEnum confetti) {
-        this.wingType = null;
         this.builtinTrail = null;
         this.blockTrail = null;
         this.itemRain = null;

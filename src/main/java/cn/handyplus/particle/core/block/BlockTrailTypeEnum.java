@@ -92,6 +92,9 @@ public enum BlockTrailTypeEnum {
             XMaterial.COAL_BLOCK, XMaterial.COPPER_BLOCK, XMaterial.NETHERITE_BLOCK,
             XMaterial.RAW_IRON_BLOCK, XMaterial.RAW_GOLD_BLOCK, XMaterial.RAW_COPPER_BLOCK);
 
+    /**
+     * 默认允许生成方块拖尾的地面材质。
+     */
     private static final List<XMaterial> GROUND = Arrays.asList(
             XMaterial.GRASS_BLOCK, XMaterial.STONE, XMaterial.COBBLESTONE, XMaterial.DIRT, XMaterial.SAND,
             XMaterial.GRAVEL, XMaterial.COAL_BLOCK, XMaterial.COAL_ORE, XMaterial.IRON_ORE, XMaterial.GOLD_BLOCK,
@@ -104,6 +107,9 @@ public enum BlockTrailTypeEnum {
             XMaterial.DIORITE, XMaterial.GRANITE, XMaterial.ANDESITE, XMaterial.DIRT_PATH, XMaterial.MYCELIUM,
             XMaterial.PODZOL, XMaterial.SOUL_SAND, XMaterial.SOUL_SOIL, XMaterial.END_STONE,
             XMaterial.SANDSTONE, XMaterial.RED_SANDSTONE, XMaterial.BLACKSTONE, XMaterial.BASALT);
+    /**
+     * 当前服务端可用的地面材质集合。
+     */
     private static final Set<Material> GROUND_MATERIALS = EnumSet.noneOf(Material.class);
 
     static {
@@ -115,6 +121,9 @@ public enum BlockTrailTypeEnum {
         }
     }
 
+    /**
+     * 当前服务端支持的组合材质。
+     */
     private final XMaterial[] materials;
 
     /**

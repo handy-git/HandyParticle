@@ -41,14 +41,6 @@ public enum TrailModeTypeEnum {
      */
     SPIRAL,
     /**
-     * 左键后向视线方向发射。
-     */
-    SHOOTER,
-    /**
-     * 左键后生成弹簧下落轨迹。
-     */
-    SLINKY,
-    /**
      * 在实体脚下绘制完整圆圈。
      */
     FOOT_CIRCLE,

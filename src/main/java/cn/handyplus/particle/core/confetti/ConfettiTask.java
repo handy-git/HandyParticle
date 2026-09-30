@@ -15,7 +15,13 @@ import org.jetbrains.annotations.NotNull;
  * @author handy
  */
 public final class ConfettiTask extends HandyRunnable {
+    /**
+     * 任务所属实体。
+     */
     private final Entity entity;
+    /**
+     * 当前纸屑物品对应的可复用粒子显示对象。
+     */
     private final ParticleDisplay[] displays;
 
     /**

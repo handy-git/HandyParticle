@@ -43,6 +43,9 @@ public enum ConfettiTypeEnum {
      */
     RED_GREEN_BLACK(XMaterial.RED_DYE, XMaterial.GREEN_DYE, XMaterial.BLACK_DYE);
 
+    /**
+     * 当前服务端支持的纸屑材质。
+     */
     private final XMaterial[] materials;
 
     /**

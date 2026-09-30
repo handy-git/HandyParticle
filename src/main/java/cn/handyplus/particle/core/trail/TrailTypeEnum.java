@@ -201,25 +201,12 @@ public enum TrailTypeEnum {
     }
 
     /**
-     * 在指定位置生成带自定义颜色的拖尾粒子。
+     * 使用预先配置的显示对象生成粒子。
      *
+     * @param display  预先配置的显示对象
      * @param location 生成位置
      * @param amount   数量
      * @param offset   扩散范围
-     * @param color    自定义颜色
-     */
-    public void spawnAt(@NotNull Location location, int amount, double offset, @NotNull Color color) {
-        ParticleDisplay display = createDisplay(color);
-        spawnAt(display, location, amount, offset);
-    }
-
-    /**
-     * 使用预先配置的显示对象生成粒子。
-     *
-     * @param display 预先配置的显示对象
-     * @param location 生成位置
-     * @param amount 数量
-     * @param offset 扩散范围
      */
     void spawnAt(@NotNull ParticleDisplay display, @NotNull Location location, int amount, double offset) {
         display.withCount(amount).offset(offset).spawn(location);

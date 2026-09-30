@@ -4,6 +4,8 @@ import cn.handyplus.particle.constants.ParticleCategoryTypeEnum;
 import cn.handyplus.particle.core.HandyParticleCore;
 import cn.handyplus.particle.core.trail.TrailModeTypeEnum;
 import cn.handyplus.particle.core.trail.TrailTypeEnum;
+import cn.handyplus.particle.core.wing.WingColorEnum;
+import cn.handyplus.particle.core.wing.WingModelEnum;
 import org.bukkit.entity.Entity;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -22,6 +24,18 @@ public final class HandyParticleApi {
      * 禁止实例化粒子 API。
      */
     private HandyParticleApi() {
+    }
+
+    /**
+     * 启用指定外形和颜色图案的翅膀。
+     *
+     * @param entity 实体
+     * @param model  翅膀外形
+     * @param color  颜色图案
+     * @return 实体有效且已发起调度请求时返回 true
+     */
+    public static boolean enable(@NotNull Entity entity, @NotNull WingModelEnum model, @NotNull WingColorEnum color) {
+        return HandyParticleCore.setWings(entity, model, color);
     }
 
     /**
@@ -58,10 +72,6 @@ public final class HandyParticleApi {
      */
     public static boolean enable(@NotNull Entity entity, @NotNull ParticleTypeEnum type, @Nullable TrailModeTypeEnum mode, @Nullable Color color) {
         Objects.requireNonNull(type, "type");
-        // 翅膀
-        if (type.getWingType() != null) {
-            return HandyParticleCore.setWings(entity, type.getWingType());
-        }
         // 方块粒子
         if (type.getBlockTrail() != null) {
             return HandyParticleCore.setBlock(entity, type.getBlockTrail());

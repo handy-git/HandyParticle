@@ -13,8 +13,9 @@ import cn.handyplus.particle.core.rain.ItemRainTypeEnum;
 import cn.handyplus.particle.core.trail.TrailModeTypeEnum;
 import cn.handyplus.particle.core.trail.TrailTask;
 import cn.handyplus.particle.core.trail.TrailTypeEnum;
+import cn.handyplus.particle.core.wing.WingColorEnum;
+import cn.handyplus.particle.core.wing.WingModelEnum;
 import cn.handyplus.particle.core.wing.WingTask;
-import cn.handyplus.particle.core.wing.WingTypeEnum;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -31,7 +32,13 @@ import java.util.UUID;
  *
  * @author handy
  */
-public class HandyParticleCore {
+public final class HandyParticleCore {
+
+    /**
+     * 工具类禁止实例化。
+     */
+    private HandyParticleCore() {
+    }
 
     /**
      * 实体当前启用的粒子任务。
@@ -39,20 +46,15 @@ public class HandyParticleCore {
     private static final Map<UUID, Map<ParticleCategoryTypeEnum, HandyRunnable>> TASK_MAP = new HashMap<>();
 
     /**
-     * 禁止实例化
-     */
-    private HandyParticleCore() {
-    }
-
-    /**
-     * 启用指定实体的粒子翅膀。
+     * 启用指定外形和颜色图案的翅膀。
      *
-     * @param entity   实体
-     * @param wingType 翅膀组合
+     * @param entity 实体
+     * @param model  翅膀外形
+     * @param color  颜色图案
      * @return 实体有效且已发起调度请求时返回 true
      */
-    public static synchronized boolean setWings(@NotNull Entity entity, @NotNull WingTypeEnum wingType) {
-        return start(entity, new WingTask(entity, wingType), ParticleCategoryTypeEnum.WING);
+    public static synchronized boolean setWings(@NotNull Entity entity, @NotNull WingModelEnum model, @NotNull WingColorEnum color) {
+        return start(entity, new WingTask(entity, model, color), ParticleCategoryTypeEnum.WING);
     }
 
     /**
@@ -66,22 +68,6 @@ public class HandyParticleCore {
      */
     public static synchronized boolean setTrail(@NotNull Entity entity, @NotNull TrailTypeEnum type, @NotNull TrailModeTypeEnum mode, Color color) {
         return start(entity, new TrailTask(entity, type, mode, color), ParticleCategoryTypeEnum.TRAIL);
-    }
-
-    /**
-     * 触发玩家当前普通粒子拖尾的点击型运动。
-     *
-     * @param player 玩家
-     */
-    public static synchronized void triggerTrail(@NotNull Player player) {
-        Map<ParticleCategoryTypeEnum, HandyRunnable> tasks = TASK_MAP.get(player.getUniqueId());
-        if (tasks == null) {
-            return;
-        }
-        HandyRunnable task = tasks.get(ParticleCategoryTypeEnum.TRAIL);
-        if (task instanceof TrailTask) {
-            ((TrailTask) task).trigger();
-        }
     }
 
     /**

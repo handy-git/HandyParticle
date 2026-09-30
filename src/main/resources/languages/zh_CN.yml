@@ -3,6 +3,7 @@ noPermission: "&8[&c✘&8] &7你没有权限执行该命令"
 reloadMsg: "&8[&a✔&8] &a插件配置已重载"
 setUsage: "&c用法: /hp player set <玩家> <类别> <效果> [运动轨迹] [颜色]"
 clearUsage: "&c用法: /hp player clear <玩家> [类别]"
+paramFailureMsg: "&8[&c✘&8] &7参数不足,请使用TAB补全"
 playerUsage: "&c用法: /hp player <set|clear> ..."
 entityUsage: "&c用法: /hp entity <set|clear> ..."
 entitySetUsage: "&c用法: /hp entity set <类别> <效果> [运动轨迹] [颜色]"
@@ -155,6 +156,27 @@ particleCategoryDesc:
   BLOCK: "方块拖尾"
   RAIN: "物品雨"
   CONFETTI: "纸屑"
+
+# 翅膀样式
+wingModelDesc:
+  ANGEL: "天使"
+  SHORT: "短翼"
+  DEMON: "恶魔"
+  NIGHT: "暗夜"
+  ELF: "精灵"
+  LONG: "长翼"
+  BUTTERFLY: "蝴蝶"
+  BUTTERFLY2: "蝴蝶二"
+
+# 翅膀颜色图案
+wingColorDesc:
+  GRADIENT1: "渐变一"
+  GRADIENT2: "渐变二"
+  GRADIENT3: "渐变三"
+  MUSHROOM: "蘑菇"
+  FIRE: "火焰"
+  COLORS: "彩色"
+  FLY: "飞行"
 
 # 运动轨迹
 trailModeDesc:

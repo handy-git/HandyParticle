@@ -21,13 +21,34 @@ import java.util.concurrent.ThreadLocalRandom;
  * @author handy
  */
 public final class ItemRainTask extends HandyRunnable {
+    /**
+     * 物品雨粒子的存活帧数。
+     */
     private static final int DROP_TTL = 5;
+    /**
+     * 物品雨每帧的下落距离。
+     */
     private static final double DROP_STEP = 0.25D;
+    /**
+     * 物品雨相对实体头部的水平范围。
+     */
     private static final double RAIN_RADIUS = 0.8D;
 
+    /**
+     * 任务所属实体。
+     */
     private final Entity entity;
+    /**
+     * 当前物品组合对应的可复用粒子显示对象。
+     */
     private final ParticleDisplay[] displays;
+    /**
+     * 当前正在下落的物品位置及年龄。
+     */
     private final Map<Location, Integer> drops = new HashMap<>();
+    /**
+     * 当前物品雨刷新帧数。
+     */
     private long tick;
 
     /**

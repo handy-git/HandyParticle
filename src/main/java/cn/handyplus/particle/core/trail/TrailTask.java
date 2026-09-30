@@ -41,22 +41,16 @@ public final class TrailTask extends HandyRunnable {
      */
     int frame;
     /**
-     * 点击型轨迹的起点，空值表示未触发。
-     */
-    Location shotOrigin;
-    /**
-     * 点击型轨迹已绘制的帧数。
-     */
-    int shotFrame;
-    /**
-     * 弹簧轨迹的下坠距离。
-     */
-    double fall;
-    /**
      * 精灵当前的位置。
      */
     Location fairyCurrent;
+    /**
+     * 精灵下一目标点的 X 轴偏移，NaN 表示尚未生成目标。
+     */
     double fairyTargetX = Double.NaN;
+    /**
+     * 精灵下一目标点的 Z 轴偏移，NaN 表示尚未生成目标。
+     */
     double fairyTargetZ = Double.NaN;
 
     /**
@@ -67,8 +61,7 @@ public final class TrailTask extends HandyRunnable {
      * @param mode   运动模式
      * @param color  自定义 Dust 颜色，为空时使用白色
      */
-    public TrailTask(@NotNull Entity entity, @NotNull TrailTypeEnum type, @NotNull TrailModeTypeEnum mode,
-                     @Nullable Color color) {
+    public TrailTask(@NotNull Entity entity, @NotNull TrailTypeEnum type, @NotNull TrailModeTypeEnum mode, @Nullable Color color) {
         this.entity = entity;
         this.type = type;
         this.mode = mode;
@@ -88,13 +81,6 @@ public final class TrailTask extends HandyRunnable {
         // 每次调度只推进一帧，点击型模式则在触发后由同一状态继续推进。
         TrailModeAlgorithm.render(mode, this);
         frame++;
-    }
-
-    /**
-     * 左键空气时开始一次点击型运动。
-     */
-    public void trigger() {
-        TrailModeAlgorithm.trigger(mode, this);
     }
 
     /**
