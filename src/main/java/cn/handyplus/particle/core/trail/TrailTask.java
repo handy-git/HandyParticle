@@ -2,6 +2,7 @@ package cn.handyplus.particle.core.trail;
 
 import cn.handyplus.lib.internal.HandyRunnable;
 import cn.handyplus.particle.core.HandyParticleCore;
+import com.cryptomorin.xseries.particles.ParticleDisplay;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.jetbrains.annotations.NotNull;
@@ -31,6 +32,10 @@ public final class TrailTask extends HandyRunnable {
      * 自定义 Dust 颜色。
      */
     final Color color;
+    /**
+     * 当前任务复用的粒子显示对象。
+     */
+    private final ParticleDisplay display;
     /**
      * 当前定时刷新帧数。
      */
@@ -68,6 +73,7 @@ public final class TrailTask extends HandyRunnable {
         this.type = type;
         this.mode = mode;
         this.color = color == null ? Color.WHITE : color;
+        this.display = type.createDisplay(this.color);
     }
 
     /**
@@ -99,7 +105,7 @@ public final class TrailTask extends HandyRunnable {
      * @param offset   扩散范围
      */
     void spawnAt(@NotNull Location location, int amount, double offset) {
-        type.spawnAt(location, amount, offset, color);
+        type.spawnAt(display, location, amount, offset);
     }
 
 }

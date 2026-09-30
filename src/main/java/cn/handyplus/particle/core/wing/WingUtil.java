@@ -35,6 +35,10 @@ final class WingUtil {
      * 魔法暴击翅膀点使用的粒子。
      */
     private static final XParticle CRIT_PARTICLE = XParticle.ENCHANTED_HIT;
+    private static final ParticleDisplay FLAME_DISPLAY = ParticleDisplay.of(FLAME_PARTICLE).withCount(1);
+    private static final ParticleDisplay WITCH_DISPLAY = ParticleDisplay.of(WITCH_PARTICLE).withCount(1);
+    private static final ParticleDisplay DRIP_LAVA_DISPLAY = ParticleDisplay.of(DRIP_LAVA_PARTICLE).withCount(1);
+    private static final ParticleDisplay CRIT_DISPLAY = ParticleDisplay.of(CRIT_PARTICLE).withCount(1);
 
     /**
      * 禁止实例化渲染工具。
@@ -69,8 +73,11 @@ final class WingUtil {
         Vector direction = rotated.getDirection();
         double stepX = direction.getX() * 0.2D;
         double stepZ = direction.getZ() * 0.2D;
+        Location location = rotated.clone();
         for (WingPoint point : points) {
-            Location location = rotated.clone().add(stepX * point.getColumn(), 0.2D * (14 - point.getRow()), stepZ * point.getColumn());
+            location.setX(rotated.getX() + stepX * point.getColumn());
+            location.setY(rotated.getY() + 0.2D * (14 - point.getRow()));
+            location.setZ(rotated.getZ() + stepZ * point.getColumn());
             spawn(location, point);
         }
     }
@@ -120,7 +127,27 @@ final class WingUtil {
      * @param location 发射位置
      */
     private static void spawnSimple(@NotNull XParticle particle, @NotNull Location location) {
-        ParticleDisplay.of(particle).withCount(1).spawn(location);
+        getSimpleDisplay(particle).spawn(location);
+    }
+
+    /**
+     * 获取固定粒子类型的复用显示对象。
+     *
+     * @param particle 粒子类型
+     * @return 粒子显示对象
+     */
+    @NotNull
+    private static ParticleDisplay getSimpleDisplay(@NotNull XParticle particle) {
+        if (particle == FLAME_PARTICLE) {
+            return FLAME_DISPLAY;
+        }
+        if (particle == WITCH_PARTICLE) {
+            return WITCH_DISPLAY;
+        }
+        if (particle == DRIP_LAVA_PARTICLE) {
+            return DRIP_LAVA_DISPLAY;
+        }
+        return CRIT_DISPLAY;
     }
 
 }

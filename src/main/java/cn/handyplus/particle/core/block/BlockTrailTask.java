@@ -14,10 +14,8 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
@@ -55,18 +53,50 @@ public final class BlockTrailTask extends HandyRunnable {
         location = block.getLocation();
         locations.putIfAbsent(location, 2);
         Set<UUID> recipients = viewers.computeIfAbsent(location, ignored -> new HashSet<>());
-        List<Player> nearby = new ArrayList<>();
-        for (Player viewer : Bukkit.getOnlinePlayers()) {
-            if (viewer.getWorld() != location.getWorld()) {
-                continue;
-            }
-            if (viewer.getLocation().distanceSquared(location) > 625.0D) {
-                continue;
-            }
-            nearby.add(viewer);
-        }
-        sendBlockChanges(location, nearby, recipients);
+        sendBlockChanges(location, recipients);
         tick++;
+    }
+
+    /**
+     * 向当前范围内的玩家发送临时方块外观。
+     *
+     * @param location   方块位置
+     * @param recipients 收到外观的玩家记录
+     */
+    @SuppressWarnings("deprecation")
+    private void sendBlockChanges(@NotNull Location location, @NotNull Set<UUID> recipients) {
+        if (BaseConstants.VERSION_ID >= VersionCheckEnum.V_1_13.getVersionId()) {
+            BlockData blockData = type.blockData(tick);
+            for (Player viewer : Bukkit.getOnlinePlayers()) {
+                if (isNearby(location, viewer)) {
+                    viewer.sendBlockChange(location, blockData);
+                    recipients.add(viewer.getUniqueId());
+                }
+            }
+            return;
+        }
+        Material material = type.legacyMaterial(tick);
+        byte data = type.legacyData(tick);
+        for (Player viewer : Bukkit.getOnlinePlayers()) {
+            if (isNearby(location, viewer)) {
+                viewer.sendBlockChange(location, material, data);
+                recipients.add(viewer.getUniqueId());
+            }
+        }
+    }
+
+    /**
+     * 判断玩家是否在临时方块的可见范围内。
+     *
+     * @param location 方块位置
+     * @param viewer   玩家
+     * @return 是否在范围内
+     */
+    private boolean isNearby(@NotNull Location location, @NotNull Player viewer) {
+        if (viewer.getWorld() != location.getWorld()) {
+            return false;
+        }
+        return viewer.getLocation().distanceSquared(location) <= 625.0D;
     }
 
     /**
@@ -114,34 +144,6 @@ public final class BlockTrailTask extends HandyRunnable {
                 continue;
             }
             restore(viewer, location);
-        }
-    }
-
-    /**
-     * 为本轮观察者复用同一份方块外观数据。
-     *
-     * @param location   方块位置
-     * @param nearby     范围内的玩家
-     * @param recipients 收到外观的玩家记录
-     */
-    @SuppressWarnings("deprecation")
-    private void sendBlockChanges(@NotNull Location location, @NotNull List<Player> nearby, @NotNull Set<UUID> recipients) {
-        if (nearby.isEmpty()) {
-            return;
-        }
-        if (BaseConstants.VERSION_ID >= VersionCheckEnum.V_1_13.getVersionId()) {
-            BlockData data = type.blockData(tick);
-            for (Player viewer : nearby) {
-                viewer.sendBlockChange(location, data);
-                recipients.add(viewer.getUniqueId());
-            }
-            return;
-        }
-        Material material = type.legacyMaterial(tick);
-        byte data = type.legacyData(tick);
-        for (Player viewer : nearby) {
-            viewer.sendBlockChange(location, material, data);
-            recipients.add(viewer.getUniqueId());
         }
     }
 

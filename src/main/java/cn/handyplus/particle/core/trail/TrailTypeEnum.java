@@ -209,42 +209,40 @@ public enum TrailTypeEnum {
      * @param color    自定义颜色
      */
     public void spawnAt(@NotNull Location location, int amount, double offset, @NotNull Color color) {
-        if (supportsColor()) {
-            ParticleDisplay.of(particle).withCount(amount).offset(offset).withExtra(speed).withColor(color, 1.0F).spawn(location);
-            return;
-        }
-        spawn(location, amount, offset);
+        ParticleDisplay display = createDisplay(color);
+        spawnAt(display, location, amount, offset);
     }
 
     /**
-     * 使用对应附加数据生成粒子。
+     * 使用预先配置的显示对象生成粒子。
      *
-     * @param location 粒子位置
-     * @param amount   粒子数量
-     * @param offset   三个坐标轴的扩散范围
+     * @param display 预先配置的显示对象
+     * @param location 生成位置
+     * @param amount 数量
+     * @param offset 扩散范围
      */
-    private void spawn(@NotNull Location location, int amount, double offset) {
-        if (particle == XParticle.DUST) {
-            ParticleDisplay.of(particle)
-                    .withCount(amount)
-                    .offset(offset)
-                    .withExtra(speed)
-                    .withColor(Color.RED, 1.0F)
-                    .spawn(location);
-        } else if (particle == XParticle.ENTITY_EFFECT) {
-            ParticleDisplay.of(particle)
-                    .withCount(amount)
-                    .offset(offset)
-                    .withExtra(speed)
-                    .withColor(new Color(255, 0, 255), 1.0F)
-                    .spawn(location);
-        } else {
-            ParticleDisplay.of(particle)
-                    .withCount(amount)
-                    .offset(offset)
-                    .withExtra(speed)
-                    .spawn(location);
+    void spawnAt(@NotNull ParticleDisplay display, @NotNull Location location, int amount, double offset) {
+        display.withCount(amount).offset(offset).spawn(location);
+    }
+
+    /**
+     * 创建当前拖尾任务使用的显示对象。
+     *
+     * @param color Dust 粒子颜色
+     * @return 预先配置的显示对象
+     */
+    @NotNull
+    ParticleDisplay createDisplay(@NotNull Color color) {
+        ParticleDisplay display = ParticleDisplay.of(particle).withExtra(speed);
+        if (supportsColor()) {
+            return display.withColor(color, 1.0F);
         }
+        if (particle == XParticle.DUST) {
+            return display.withColor(Color.RED, 1.0F);
+        } else if (particle == XParticle.ENTITY_EFFECT) {
+            return display.withColor(new Color(255, 0, 255), 1.0F);
+        }
+        return display;
     }
 
 }
