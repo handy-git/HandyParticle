@@ -59,9 +59,6 @@ public final class HandyParticle extends JavaPlugin {
 
     /**
      * 恢复当前已加载实体的粒子效果。
-     *
-     * <p>数据库只保存实体 UUID；仅恢复当前服务器仍能解析到的实体。
-     * 无法解析的类别或效果视为历史脏数据，直接清理该记录并输出控制台提示。
      */
     private void restoreEntityParticles() {
         for (EntityParticleEntity saved : EntityParticleService.findAll()) {

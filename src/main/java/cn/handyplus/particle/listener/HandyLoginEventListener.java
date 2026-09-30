@@ -25,8 +25,6 @@ public final class HandyLoginEventListener implements Listener {
     /**
      * 恢复玩家保存的效果。
      *
-     * <p>无法解析的类别或效果视为历史脏数据，直接清理该记录并输出控制台提示。
-     *
      * @param event 登录事件
      */
     @EventHandler

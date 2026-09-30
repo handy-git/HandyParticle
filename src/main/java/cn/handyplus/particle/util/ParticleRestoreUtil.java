@@ -16,10 +16,6 @@ import java.awt.Color;
 /**
  * 数据库粒子记录解析工具。
  *
- * <p>记录中的类别、效果、外形、图案需要能匹配到当前版本的枚举，否则该项设置无法启用；
- * 颜色只在支持自定义颜色的拖尾上才允许存在。解析失败时输出控制台提示并返回 null，
- * 调用方负责清理对应记录，一条脏数据不应中断整批恢复。
- *
  * @author handy
  */
 public final class ParticleRestoreUtil {

@@ -1,9 +1,7 @@
 package cn.handyplus.particle.constants;
 
-import cn.handyplus.lib.constants.BaseConstants;
 import cn.handyplus.lib.util.BaseUtil;
 import cn.handyplus.particle.api.ParticleTypeEnum;
-import cn.handyplus.particle.core.wing.WingModelEnum;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -85,6 +83,7 @@ public enum ParticleCategoryTypeEnum {
      *
      * @return 可补全的效果类别名称
      */
+    @NotNull
     public static List<String> getAll() {
         List<String> result = new ArrayList<>();
         for (ParticleCategoryTypeEnum category : ParticleCategoryTypeEnum.values()) {
@@ -94,17 +93,15 @@ public enum ParticleCategoryTypeEnum {
     }
 
     /**
-     * 列出指定类别的效果名称。
+     * 列出指定类别下的效果名称。
      *
      * @param category 效果类别
      * @return 类别对应的效果名称
      */
-    public static List<String> get(ParticleCategoryTypeEnum category) {
+    @NotNull
+    public static List<String> get(@NotNull ParticleCategoryTypeEnum category) {
         List<String> result = new ArrayList<>();
-        if (category == WING) {
-            return WingModelEnum.getAll();
-        }
-        boolean chinese = "zh_CN".equalsIgnoreCase(BaseConstants.CONFIG.getString("language", "zh_CN"));
+        boolean chinese = ParticleConstants.isChinese();
         for (ParticleTypeEnum type : ParticleTypeEnum.values()) {
             if (type.getCategory() == category) {
                 String name = type.name();

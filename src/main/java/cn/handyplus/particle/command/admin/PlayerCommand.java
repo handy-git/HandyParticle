@@ -23,7 +23,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.awt.*;
+import java.awt.Color;
 import java.util.Optional;
 
 /**
@@ -67,7 +67,7 @@ public final class PlayerCommand implements IHandyCommandEvent {
      * @param args    命令参数
      */
     @Override
-    public void onCommand(CommandSender sender, Command command, String label, String[] args) {
+    public void onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         AssertUtil.notTrue(args.length < 2, BaseUtil.getLangMsg("paramFailureMsg"));
         String actionValue = args[1];
         ParticleCommandActionEnum action = ParticleCommandActionEnum.get(actionValue);
@@ -88,7 +88,7 @@ public final class PlayerCommand implements IHandyCommandEvent {
      * @param sender 执行者
      * @param args   命令参数
      */
-    private void set(CommandSender sender, String[] args) {
+    private void set(@NotNull CommandSender sender, @NotNull String[] args) {
         AssertUtil.notTrue(args.length < 5, BaseUtil.getLangMsg("paramFailureMsg"));
         String usage = BaseUtil.getLangMsg("setUsage");
         String playerName = args[2];
@@ -122,7 +122,7 @@ public final class PlayerCommand implements IHandyCommandEvent {
      * @param player 目标玩家
      * @param args   命令参数
      */
-    private void setWing(CommandSender sender, Player player, String[] args) {
+    private void setWing(@NotNull CommandSender sender, @NotNull Player player, @NotNull String[] args) {
         AssertUtil.notTrue(args.length < 6, BaseUtil.getLangMsg("paramFailureMsg"));
         String usage = BaseUtil.getLangMsg("setWingUsage");
         String modelValue = args[4];
@@ -172,8 +172,9 @@ public final class PlayerCommand implements IHandyCommandEvent {
      * @param sender 执行者
      * @param args   命令参数
      */
-    private void clear(CommandSender sender, String[] args) {
+    private void clear(@NotNull CommandSender sender, @NotNull String[] args) {
         AssertUtil.notTrue(args.length < 3, BaseUtil.getLangMsg("paramFailureMsg"));
+        AssertUtil.notTrue(this.getArg(args, 4).isPresent(), BaseUtil.getLangMsg("clearUsage"));
         String playerName = args[2];
         String categoryName = this.getArg(args, 3).orElse(null);
         Player player = BaseUtil.getOnlinePlayer(playerName).orElse(null);
@@ -202,7 +203,7 @@ public final class PlayerCommand implements IHandyCommandEvent {
      * @param mode         运动模式
      * @param color        粒子颜色
      */
-    private void save(@NotNull Player player, @NotNull ParticleTypeEnum particleType, @Nullable TrailModeTypeEnum mode, Color color) {
+    private void save(@NotNull Player player, @NotNull ParticleTypeEnum particleType, @Nullable TrailModeTypeEnum mode, @Nullable Color color) {
         Optional<PlayerParticleEntity> existing = PlayerParticleService.findByUuidAndCategory(player.getUniqueId(), particleType.getCategory().name());
         if (existing.isPresent()) {
             PlayerParticleEntity saved = existing.get();
@@ -232,7 +233,7 @@ public final class PlayerCommand implements IHandyCommandEvent {
      * @param senderMessage 执行者消息
      * @param targetMessage 目标玩家消息
      */
-    private void sendClearMessage(CommandSender sender, Player player, String senderMessage, String targetMessage) {
+    private void sendClearMessage(@NotNull CommandSender sender, @NotNull Player player, @NotNull String senderMessage, @NotNull String targetMessage) {
         MessageUtil.sendMessage(sender, senderMessage);
         if (sender != player) {
             MessageUtil.sendMessage(player, targetMessage);

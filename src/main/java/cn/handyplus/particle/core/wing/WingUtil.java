@@ -8,7 +8,7 @@ import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.awt.*;
+import java.awt.Color;
 
 /**
  * 粒子翅膀渲染工具。
@@ -17,21 +17,9 @@ import java.awt.*;
  */
 final class WingUtil {
     /**
-     * 火焰翅膀点显示对象。
+     * 翅膀点阵的横向与纵向间距。
      */
-    private static final ParticleDisplay FLAME_DISPLAY = ParticleDisplay.of(XParticle.FLAME).withCount(1);
-    /**
-     * 女巫法术翅膀点显示对象。
-     */
-    private static final ParticleDisplay WITCH_DISPLAY = ParticleDisplay.of(XParticle.WITCH).withCount(1);
-    /**
-     * 熔岩滴落翅膀点显示对象。
-     */
-    private static final ParticleDisplay DRIP_LAVA_DISPLAY = ParticleDisplay.of(XParticle.DRIPPING_LAVA).withCount(1);
-    /**
-     * 魔法暴击翅膀点显示对象。
-     */
-    private static final ParticleDisplay CRIT_DISPLAY = ParticleDisplay.of(XParticle.ENCHANTED_HIT).withCount(1);
+    private static final double GRID_STEP = 0.2D;
 
     /**
      * 禁止实例化渲染工具。
@@ -83,12 +71,12 @@ final class WingUtil {
         Location rotated = origin.clone();
         rotated.setYaw(rotated.getYaw() - angle);
         Vector direction = rotated.getDirection();
-        double stepX = direction.getX() * 0.2D;
-        double stepZ = direction.getZ() * 0.2D;
+        double stepX = direction.getX() * GRID_STEP;
+        double stepZ = direction.getZ() * GRID_STEP;
         Location location = rotated.clone();
         for (WingPoint point : points) {
             location.setX(rotated.getX() + stepX * point.getColumn());
-            location.setY(rotated.getY() + 0.2D * (14 - point.getRow()));
+            location.setY(rotated.getY() + GRID_STEP * (14 - point.getRow()));
             location.setZ(rotated.getZ() + stepZ * point.getColumn());
             ParticleDisplay display = point.getDisplay();
             if (display != null) {
@@ -112,18 +100,6 @@ final class WingUtil {
             case 2:
             case 3:
                 return ParticleDisplay.of(XParticle.DUST).withColor(new Color(rgb), 1.0F);
-            // 火焰粒子
-            case 4:
-                return FLAME_DISPLAY;
-            // 女巫法术粒子
-            case 5:
-                return WITCH_DISPLAY;
-            // 熔岩滴落粒子
-            case 6:
-                return DRIP_LAVA_DISPLAY;
-            // 魔法暴击粒子
-            case 7:
-                return CRIT_DISPLAY;
             default:
                 return null;
         }

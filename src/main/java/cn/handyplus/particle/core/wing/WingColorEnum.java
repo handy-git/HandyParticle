@@ -1,7 +1,7 @@
 package cn.handyplus.particle.core.wing;
 
-import cn.handyplus.lib.constants.BaseConstants;
 import cn.handyplus.lib.util.BaseUtil;
+import cn.handyplus.particle.constants.ParticleConstants;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -66,12 +66,12 @@ public enum WingColorEnum {
     /**
      * 获取所有颜色图案名称。
      *
-     * @return 颜色图案名称
+     * @return 颜色图案名称，中文环境下附带描述
      */
     @NotNull
     public static List<String> getAll() {
         List<String> result = new ArrayList<>();
-        boolean chinese = "zh_CN".equalsIgnoreCase(BaseConstants.CONFIG.getString("language", "zh_CN"));
+        boolean chinese = ParticleConstants.isChinese();
         for (WingColorEnum color : values()) {
             result.add(chinese ? color.name() + "(" + color.getDesc() + ")" : color.name());
         }
@@ -89,7 +89,7 @@ public enum WingColorEnum {
         if (value == null) {
             return null;
         }
-        String name = value.split("\\(", 2)[0].trim();
+        String name = ParticleConstants.trimDescription(value);
         for (WingColorEnum color : values()) {
             if (color.name().equalsIgnoreCase(name)) {
                 return color;

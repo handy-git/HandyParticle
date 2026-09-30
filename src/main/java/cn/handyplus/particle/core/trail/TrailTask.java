@@ -8,7 +8,7 @@ import org.bukkit.entity.Entity;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.awt.*;
+import java.awt.Color;
 
 /**
  * 内置粒子拖尾定时任务。
@@ -39,7 +39,7 @@ public final class TrailTask extends HandyRunnable {
     /**
      * 当前定时刷新帧数。
      */
-    int frame;
+    long frame;
     /**
      * 精灵当前的位置。
      */
@@ -66,7 +66,8 @@ public final class TrailTask extends HandyRunnable {
         this.type = type;
         this.mode = mode;
         this.color = color == null ? Color.WHITE : color;
-        this.display = type.createDisplay(this.color);
+        // 粒子数量与扩散范围由运动模式固定，构造时写入一次即可
+        this.display = type.createDisplay(mode, this.color);
     }
 
     /**
@@ -87,11 +88,9 @@ public final class TrailTask extends HandyRunnable {
      * 在指定位置发送当前拖尾粒子。
      *
      * @param location 位置
-     * @param amount   数量
-     * @param offset   扩散范围
      */
-    void spawnAt(@NotNull Location location, int amount, double offset) {
-        type.spawnAt(display, location, amount, offset);
+    void spawnAt(@NotNull Location location) {
+        type.spawnAt(display, location);
     }
 
 }

@@ -187,12 +187,13 @@ wingColorDesc:
 
 # 运动轨迹
 trailModeDesc:
+  DEFAULT: "默认轨迹"
   CIRCLE: "圆形轨迹"
+  MAGICIAN: "魔法环轨迹"
+  PULSE: "脉冲轨迹"
+  HELIX: "螺旋臂轨迹"
+  DNA: "双螺旋轨迹"
+  SPIRAL: "升降螺旋轨迹"
   FOOT_CIRCLE: "脚下圆圈"
   COLOR_SPIN: "旋转色环"
   FAIRY: "粒子精灵"
-  HELIX: "螺旋臂轨迹"
-  SPIRAL: "升降螺旋轨迹"
-  WAVES: "波浪轨迹"
-  PULSE: "脉冲轨迹"
-  SHIELD: "护盾轨迹"

@@ -1,7 +1,7 @@
 package cn.handyplus.particle.core.wing;
 
-import cn.handyplus.lib.constants.BaseConstants;
 import cn.handyplus.lib.util.BaseUtil;
+import cn.handyplus.particle.constants.ParticleConstants;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -70,12 +70,12 @@ public enum WingModelEnum {
     /**
      * 获取所有模型名称。
      *
-     * @return 模型名称
+     * @return 模型名称，中文环境下附带描述
      */
     @NotNull
     public static List<String> getAll() {
         List<String> result = new ArrayList<>();
-        boolean chinese = "zh_CN".equalsIgnoreCase(BaseConstants.CONFIG.getString("language", "zh_CN"));
+        boolean chinese = ParticleConstants.isChinese();
         for (WingModelEnum model : values()) {
             result.add(chinese ? model.name() + "(" + model.getDesc() + ")" : model.name());
         }
@@ -93,7 +93,7 @@ public enum WingModelEnum {
         if (value == null) {
             return null;
         }
-        String name = value.split("\\(", 2)[0].trim();
+        String name = ParticleConstants.trimDescription(value);
         for (WingModelEnum model : values()) {
             if (model.name().equalsIgnoreCase(name)) {
                 return model;

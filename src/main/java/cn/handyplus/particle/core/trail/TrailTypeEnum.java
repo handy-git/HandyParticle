@@ -6,7 +6,7 @@ import lombok.Getter;
 import org.bukkit.Location;
 import org.jetbrains.annotations.NotNull;
 
-import java.awt.*;
+import java.awt.Color;
 
 
 /**
@@ -205,22 +205,21 @@ public enum TrailTypeEnum {
      *
      * @param display  预先配置的显示对象
      * @param location 生成位置
-     * @param amount   数量
-     * @param offset   扩散范围
      */
-    void spawnAt(@NotNull ParticleDisplay display, @NotNull Location location, int amount, double offset) {
-        display.withCount(amount).offset(offset).spawn(location);
+    void spawnAt(@NotNull ParticleDisplay display, @NotNull Location location) {
+        display.spawn(location);
     }
 
     /**
-     * 创建当前拖尾任务使用的显示对象。
+     * 创建当前拖尾任务使用的显示对象，粒子数量与扩散范围来自运动模式。
      *
+     * @param mode  运动模式
      * @param color Dust 粒子颜色
      * @return 预先配置的显示对象
      */
     @NotNull
-    ParticleDisplay createDisplay(@NotNull Color color) {
-        ParticleDisplay display = ParticleDisplay.of(particle).withExtra(speed);
+    ParticleDisplay createDisplay(@NotNull TrailModeTypeEnum mode, @NotNull Color color) {
+        ParticleDisplay display = ParticleDisplay.of(particle).withExtra(speed).withCount(mode.getCount()).offset(mode.getOffset());
         if (this.supportsColor()) {
             return display.withColor(color, 1.0F);
         }

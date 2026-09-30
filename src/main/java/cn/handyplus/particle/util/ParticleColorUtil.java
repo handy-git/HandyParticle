@@ -5,7 +5,7 @@ import cn.handyplus.lib.util.BaseUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.awt.*;
+import java.awt.Color;
 
 /**
  * 粒子颜色解析工具。

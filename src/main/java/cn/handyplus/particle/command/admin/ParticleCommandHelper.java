@@ -10,9 +10,10 @@ import cn.handyplus.particle.core.wing.WingColorEnum;
 import cn.handyplus.particle.core.wing.WingModelEnum;
 import cn.handyplus.particle.util.ParticleColorUtil;
 import lombok.AllArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.awt.*;
+import java.awt.Color;
 import java.util.Arrays;
 
 /**
@@ -34,7 +35,7 @@ final class ParticleCommandHelper {
      * @param tab       命令根补全节点
      * @param hasTarget 是否包含目标玩家参数
      */
-    static void tab(HandyTab tab, boolean hasTarget) {
+    static void tab(@NotNull HandyTab tab, boolean hasTarget) {
         HandyTab action = tab.next(ParticleCommandActionEnum.getAll());
         // set
         HandyTab set = action.when(ParticleCommandActionEnum.SET.getValue());
@@ -79,7 +80,8 @@ final class ParticleCommandHelper {
      * @param usage        用法提示
      * @return 解析后的粒子选项
      */
-    static EffectOptions parseEffect(ParticleCategoryTypeEnum categoryType, ParticleTypeEnum particleType, @Nullable String option, @Nullable String colorValue, boolean hasExtra, String usage) {
+    @NotNull
+    static EffectOptions parseEffect(@NotNull ParticleCategoryTypeEnum categoryType, @NotNull ParticleTypeEnum particleType, @Nullable String option, @Nullable String colorValue, boolean hasExtra, @NotNull String usage) {
         AssertUtil.notTrue(particleType.getCategory() != categoryType, usage);
         Color color = null;
         TrailModeTypeEnum mode = null;

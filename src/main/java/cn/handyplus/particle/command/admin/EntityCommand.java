@@ -27,6 +27,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.util.RayTraceResult;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.awt.*;
 import java.util.Optional;
@@ -68,7 +69,7 @@ public final class EntityCommand implements IHandyCommandEvent {
      * @param args    命令参数
      */
     @Override
-    public void onCommand(CommandSender sender, Command command, String label, String[] args) {
+    public void onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         AssertUtil.notTrue(args.length < 2, BaseUtil.getLangMsg("paramFailureMsg"));
         String actionValue = args[1];
         Player player = AssertUtil.notPlayer(sender, BaseUtil.getLangMsg("entityPlayerOnly"));
@@ -90,7 +91,7 @@ public final class EntityCommand implements IHandyCommandEvent {
      * @param player 执行命令的玩家
      * @param args   命令参数
      */
-    private void set(Player player, String[] args) {
+    private void set(@NotNull Player player, @NotNull String[] args) {
         AssertUtil.notTrue(args.length < 4, BaseUtil.getLangMsg("paramFailureMsg"));
         String usage = BaseUtil.getLangMsg("entitySetUsage");
         String category = args[2];
@@ -117,7 +118,7 @@ public final class EntityCommand implements IHandyCommandEvent {
      * @param player 玩家
      * @param args   命令参数
      */
-    private void setWing(Player player, String[] args) {
+    private void setWing(@NotNull Player player, @NotNull String[] args) {
         AssertUtil.notTrue(args.length < 5, BaseUtil.getLangMsg("paramFailureMsg"));
         boolean hasExtra = this.getArg(args, 5).isPresent();
         AssertUtil.notTrue(hasExtra, BaseUtil.getLangMsg("entitySetWingUsage"));
@@ -162,7 +163,8 @@ public final class EntityCommand implements IHandyCommandEvent {
      * @param player 执行命令的玩家
      * @param args   命令参数
      */
-    private void clear(Player player, String[] args) {
+    private void clear(@NotNull Player player, @NotNull String[] args) {
+        AssertUtil.notTrue(this.getArg(args, 3).isPresent(), BaseUtil.getLangMsg("entityClearUsage"));
         String category = this.getArg(args, 2).orElse(null);
         Entity entity = this.getTarget(player);
         UUID entityUuid = entity.getUniqueId();
@@ -187,7 +189,7 @@ public final class EntityCommand implements IHandyCommandEvent {
      * @param mode         运动模式，非拖尾类别为空
      * @param color        自定义粒子颜色，可为空
      */
-    private void save(@NotNull Entity entity, @NotNull ParticleCategoryTypeEnum categoryType, @NotNull ParticleTypeEnum particleType, TrailModeTypeEnum mode, Color color) {
+    private void save(@NotNull Entity entity, @NotNull ParticleCategoryTypeEnum categoryType, @NotNull ParticleTypeEnum particleType, @Nullable TrailModeTypeEnum mode, @Nullable Color color) {
         UUID entityUuid = entity.getUniqueId();
         EntityParticleEntity saved = EntityParticleEntity.builder()
                 .entityUuid(entityUuid)
@@ -213,12 +215,13 @@ public final class EntityCommand implements IHandyCommandEvent {
      */
     @NotNull
     private Entity getTarget(@NotNull Player player) {
+        Location eye = player.getEyeLocation();
         Entity entity;
         if (BaseConstants.VERSION_ID >= VersionCheckEnum.V_1_13.getVersionId()) {
-            RayTraceResult trace = player.getWorld().rayTraceEntities(player.getEyeLocation(), player.getEyeLocation().getDirection(), 64.0D, 0.5D, target -> target != player);
+            RayTraceResult trace = player.getWorld().rayTraceEntities(eye, eye.getDirection(), 64.0D, 0.5D, target -> target != player);
             entity = trace == null ? null : trace.getHitEntity();
         } else {
-            entity = this.findTargetLegacy(player);
+            entity = this.findTargetLegacy(player, eye);
         }
         AssertUtil.notNull(entity, BaseUtil.getLangMsg("entityNotFound"));
         return entity;
@@ -228,24 +231,25 @@ public final class EntityCommand implements IHandyCommandEvent {
      * 使用旧版 Bukkit API 近似检测视线实体。
      *
      * @param player 玩家
+     * @param eye    玩家眼睛位置
      * @return 命中的实体，不存在时返回 null
      */
-    private Entity findTargetLegacy(@NotNull Player player) {
-        Location eye = player.getEyeLocation();
+    private Entity findTargetLegacy(@NotNull Player player, @NotNull Location eye) {
         Vector direction = eye.getDirection().normalize();
+        Vector eyeVector = eye.toVector();
         Entity target = null;
         double nearest = 64.0D;
         for (Entity candidate : player.getNearbyEntities(64.0D, 64.0D, 64.0D)) {
             if (candidate == player || !candidate.isValid()) {
                 continue;
             }
-            Vector toEntity = candidate.getLocation().add(0.0D, 1.0D, 0.0D).toVector().subtract(eye.toVector());
+            Vector toEntity = candidate.getLocation().add(0.0D, 1.0D, 0.0D).toVector().subtract(eyeVector);
             double distance = toEntity.dot(direction);
             if (distance < 0.0D || distance > nearest) {
                 continue;
             }
-            Vector closest = direction.clone().multiply(distance);
-            if (toEntity.subtract(closest).lengthSquared() <= 0.5625D) {
+            // 垂直距离的平方为 |toEntity|² - 投影长度²，避免每个候选都构造新向量
+            if (toEntity.lengthSquared() - distance * distance <= 0.5625D) {
                 nearest = distance;
                 target = candidate;
             }
