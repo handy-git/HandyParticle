@@ -86,7 +86,7 @@ public final class HandyParticleCore {
     /**
      * 启用指定材质组成的方块拖尾。
      *
-     * @param entity 目标实体
+     * @param entity    目标实体
      * @param materials 方块材质列表
      * @return 实体有效且已发起调度请求时返回 true
      */
@@ -109,7 +109,7 @@ public final class HandyParticleCore {
      * 启用指定物品组成的物品雨。
      *
      * @param entity 目标实体
-     * @param items 物品列表
+     * @param items  物品列表
      * @return 实体有效且已发起调度请求时返回 true
      */
     public static synchronized boolean setItemRain(@NotNull Entity entity, @NotNull ItemStack[] items) {
@@ -131,7 +131,7 @@ public final class HandyParticleCore {
      * 启用指定物品组成的纸屑粒子。
      *
      * @param entity 目标实体
-     * @param items 纸屑物品列表
+     * @param items  纸屑物品列表
      * @return 实体有效且已发起调度请求时返回 true
      */
     public static synchronized boolean setConfetti(@NotNull Entity entity, @NotNull ItemStack[] items) {
@@ -195,9 +195,30 @@ public final class HandyParticleCore {
         Map<ParticleCategoryTypeEnum, HandyRunnable> tasks = TASK_MAP.computeIfAbsent(entityId, ignored -> new EnumMap<>(ParticleCategoryTypeEnum.class));
         stop(tasks.put(category, task));
         Long period = ParticleConstants.REFRESH_INTERVALS.getOrDefault(category, 2L);
-        // 使用实体调度器绑定任务生命周期，实体失效后由调度器自动终止执行。
-        EntitySchedulerUtil.runTaskTimer(entity, task, 1L, period);
-        return true;
+        // 实体调度器退役时只移除当前任务，避免旧回调清掉后续替换的效果。
+        boolean scheduled = EntitySchedulerUtil.runTaskTimer(entity, task, 1L, period, () -> onRetired(entityId, category, task));
+        if (!scheduled) {
+            onRetired(entityId, category, task);
+        }
+        return scheduled;
+    }
+
+    /**
+     * 移除退役或未能提交的实体任务，不在退役回调中操作实体或区块。
+     *
+     * @param entityId 实体 UUID
+     * @param category 粒子类别
+     * @param task     退役的任务
+     */
+    private static synchronized void onRetired(@NotNull UUID entityId, @NotNull ParticleCategoryTypeEnum category, @NotNull HandyRunnable task) {
+        Map<ParticleCategoryTypeEnum, HandyRunnable> tasks = TASK_MAP.get(entityId);
+        if (tasks == null || tasks.get(category) != task) {
+            return;
+        }
+        tasks.remove(category);
+        if (tasks.isEmpty()) {
+            TASK_MAP.remove(entityId);
+        }
     }
 
     /**
