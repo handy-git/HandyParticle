@@ -1,6 +1,7 @@
 package cn.handyplus.particle.util;
 
 import cn.handyplus.lib.core.PatternUtil;
+import cn.handyplus.lib.util.BaseUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -17,13 +18,13 @@ public final class ParticleColorUtil {
     }
 
     /**
-     * 解析十六进制 RGB 颜色。
+     * 解析十六进制 RGB 颜色，格式非法时返回 null。
      *
      * @param value 颜色文本，格式为 #RGB 或 #RRGGBB，可为空
-     * @return 解析后的颜色
+     * @return 解析后的颜色，为空或格式非法时返回 null
      */
     @Nullable
-    public static Color parse(@Nullable String value) {
+    public static Color get(@Nullable String value) {
         if (value == null) {
             return null;
         }
@@ -32,7 +33,7 @@ public final class ParticleColorUtil {
             colorText = colorText.substring(1);
         }
         if (!PatternUtil.RPG_PATTERN.matcher("&" + colorText).matches()) {
-            throw new IllegalArgumentException("颜色必须使用 #RGB 或 #RRGGBB 格式");
+            return null;
         }
         String hex = colorText.substring(1);
         if (hex.length() == 3) {
@@ -41,6 +42,24 @@ public final class ParticleColorUtil {
                     hex.charAt(2) + hex.charAt(2);
         }
         return new Color(Integer.parseInt(hex, 16));
+    }
+
+    /**
+     * 解析十六进制 RGB 颜色。
+     *
+     * @param value 颜色文本，格式为 #RGB 或 #RRGGBB，可为空
+     * @return 解析后的颜色，为空时返回 null
+     */
+    @Nullable
+    public static Color parse(@Nullable String value) {
+        if (value == null) {
+            return null;
+        }
+        Color color = get(value);
+        if (color == null) {
+            throw new IllegalArgumentException(BaseUtil.getLangMsg("invalidColor"));
+        }
+        return color;
     }
 
     /**

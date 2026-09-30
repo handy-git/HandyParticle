@@ -6,6 +6,7 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -82,18 +83,37 @@ public enum WingModelEnum {
     }
 
     /**
-     * 解析模型名称。
+     * 解析模型名称，未匹配到时返回 null。
      *
-     * @param value 模型名称
-     * @return 模型
+     * @param value 模型名称，可为空
+     * @return 模型，未匹配到时返回 null
      */
-    public static WingModelEnum getEnumThrow(@NotNull String value) {
+    @Nullable
+    public static WingModelEnum get(@Nullable String value) {
+        if (value == null) {
+            return null;
+        }
         String name = value.split("\\(", 2)[0].trim();
         for (WingModelEnum model : values()) {
             if (model.name().equalsIgnoreCase(name)) {
                 return model;
             }
         }
-        throw new IllegalArgumentException("not found wing model: " + value);
+        return null;
+    }
+
+    /**
+     * 解析模型名称。
+     *
+     * @param value 模型名称
+     * @return 模型
+     */
+    @NotNull
+    public static WingModelEnum getEnumThrow(@NotNull String value) {
+        WingModelEnum model = get(value);
+        if (model == null) {
+            throw new IllegalArgumentException(BaseUtil.getLangMsg("invalidWingModel"));
+        }
+        return model;
     }
 }

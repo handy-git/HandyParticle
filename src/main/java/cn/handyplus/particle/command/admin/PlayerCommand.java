@@ -101,7 +101,7 @@ public final class PlayerCommand implements IHandyCommandEvent {
         Player player = BaseUtil.getOnlinePlayer(playerName).orElse(null);
         AssertUtil.notNull(player, BaseUtil.getLangMsg("playerOffline"));
         if (categoryType == ParticleCategoryTypeEnum.WING) {
-            this.setWing(sender, player, args, usage);
+            this.setWing(sender, player, args);
             return;
         }
         ParticleTypeEnum particleType = ParticleTypeEnum.getEnumThrow(type);
@@ -121,10 +121,10 @@ public final class PlayerCommand implements IHandyCommandEvent {
      * @param sender 执行者
      * @param player 目标玩家
      * @param args   命令参数
-     * @param usage  用法提示
      */
-    private void setWing(CommandSender sender, Player player, String[] args, String usage) {
+    private void setWing(CommandSender sender, Player player, String[] args) {
         AssertUtil.notTrue(args.length < 6, BaseUtil.getLangMsg("paramFailureMsg"));
+        String usage = BaseUtil.getLangMsg("setWingUsage");
         String modelValue = args[4];
         String colorValue = args[5];
         boolean hasExtra = this.getArg(args, 6).isPresent();

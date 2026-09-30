@@ -53,10 +53,9 @@ public final class CustomBlockParticle implements ParticleType {
      * 启用自定义方块拖尾。
      *
      * @param entity 目标实体
-     * @return 实体有效且已发起调度请求时返回 true
      */
     @Override
-    public boolean enable(@NotNull Entity entity) {
-        return HandyParticleCore.setBlock(entity, this.materials.clone());
+    public void enable(@NotNull Entity entity) {
+        HandyParticleCore.setBlock(entity, this.materials.clone());
     }
 }

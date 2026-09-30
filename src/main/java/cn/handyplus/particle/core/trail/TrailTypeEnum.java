@@ -157,9 +157,9 @@ public enum TrailTypeEnum {
      */
     @NotNull
     private final XParticle particle;
+
     /**
      * 相对实体位置的纵向偏移。
-     *
      */
     @Getter
     private final double y;

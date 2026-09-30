@@ -553,11 +553,14 @@ public enum ParticleTypeEnum implements ParticleType {
     /**
      * 按已保存的名称查找预置，忽略命令补全中的本地化描述。
      *
-     * @param value 预置名称
+     * @param value 预置名称，可为空
      * @return 对应预置，未找到时返回 null
      */
     @Nullable
-    public static ParticleTypeEnum getEnum(@NotNull String value) {
+    public static ParticleTypeEnum getEnum(@Nullable String value) {
+        if (value == null) {
+            return null;
+        }
         String name = value.split("\\(", 2)[0].trim().toUpperCase(Locale.ROOT);
         for (ParticleTypeEnum type : values()) {
             if (type.name().equals(name)) {
@@ -577,7 +580,7 @@ public enum ParticleTypeEnum implements ParticleType {
     public static ParticleTypeEnum getEnumThrow(@NotNull String value) {
         ParticleTypeEnum type = getEnum(value);
         if (type == null) {
-            throw new IllegalArgumentException("not found particleType: " + value);
+            throw new IllegalArgumentException(BaseUtil.getLangMsg("invalidParticleType"));
         }
         return type;
     }
@@ -596,7 +599,7 @@ public enum ParticleTypeEnum implements ParticleType {
                 return type;
             }
         }
-        throw new IllegalArgumentException("not found wing: " + model + " / " + color);
+        throw new IllegalArgumentException(BaseUtil.getLangMsg("invalidWingPreset"));
     }
 
     /**
@@ -633,11 +636,10 @@ public enum ParticleTypeEnum implements ParticleType {
      * 启用当前预设。
      *
      * @param entity 目标实体
-     * @return 实体有效且已发起调度请求时返回 true
      */
     @Override
-    public boolean enable(@NotNull Entity entity) {
-        return this.enable(entity, TrailModeTypeEnum.DEFAULT, null);
+    public void enable(@NotNull Entity entity) {
+        this.enable(entity, TrailModeTypeEnum.DEFAULT, null);
     }
 
     /**
@@ -646,21 +648,24 @@ public enum ParticleTypeEnum implements ParticleType {
      * @param entity 目标实体
      * @param mode   拖尾运动模式
      * @param color  Dust 颜色
-     * @return 实体有效且已发起调度请求时返回 true
      */
-    boolean enable(@NotNull Entity entity, @NotNull TrailModeTypeEnum mode, @Nullable Color color) {
+    void enable(@NotNull Entity entity, @NotNull TrailModeTypeEnum mode, @Nullable Color color) {
         if (this.wingModel != null) {
-            return HandyParticleCore.setWings(entity, this.wingModel, this.wingColor);
+            HandyParticleCore.setWings(entity, this.wingModel, this.wingColor);
+            return;
         }
         if (this.blockTrail != null) {
-            return HandyParticleCore.setBlock(entity, this.blockTrail);
+            HandyParticleCore.setBlock(entity, this.blockTrail);
+            return;
         }
         if (this.itemRain != null) {
-            return HandyParticleCore.setItemRain(entity, this.itemRain);
+            HandyParticleCore.setItemRain(entity, this.itemRain);
+            return;
         }
         if (this.confetti != null) {
-            return HandyParticleCore.setConfetti(entity, this.confetti);
+            HandyParticleCore.setConfetti(entity, this.confetti);
+            return;
         }
-        return HandyParticleCore.setTrail(entity, this.builtinTrail, mode, color);
+        HandyParticleCore.setTrail(entity, this.builtinTrail, mode, color);
     }
 }

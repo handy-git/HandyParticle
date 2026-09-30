@@ -2,17 +2,12 @@ package cn.handyplus.particle;
 
 import cn.handyplus.lib.InitApi;
 import cn.handyplus.lib.util.MessageUtil;
-import cn.handyplus.particle.api.CustomTrailParticle;
 import cn.handyplus.particle.api.HandyParticleApi;
-import cn.handyplus.particle.api.ParticleTypeEnum;
-import cn.handyplus.particle.constants.ParticleCategoryTypeEnum;
-import cn.handyplus.particle.core.trail.TrailModeTypeEnum;
-import cn.handyplus.particle.core.wing.WingColorEnum;
-import cn.handyplus.particle.core.wing.WingModelEnum;
+import cn.handyplus.particle.api.ParticleType;
 import cn.handyplus.particle.entity.EntityParticleEntity;
 import cn.handyplus.particle.service.EntityParticleService;
 import cn.handyplus.particle.util.ConfigUtil;
-import cn.handyplus.particle.util.ParticleColorUtil;
+import cn.handyplus.particle.util.ParticleRestoreUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -64,6 +59,9 @@ public final class HandyParticle extends JavaPlugin {
 
     /**
      * 恢复当前已加载实体的粒子效果。
+     *
+     * <p>数据库只保存实体 UUID；仅恢复当前服务器仍能解析到的实体。
+     * 无法解析的类别或效果视为历史脏数据，直接清理该记录并输出控制台提示。
      */
     private void restoreEntityParticles() {
         for (EntityParticleEntity saved : EntityParticleService.findAll()) {
@@ -74,18 +72,14 @@ public final class HandyParticle extends JavaPlugin {
             if (entity == null || !entity.isValid()) {
                 continue;
             }
-            if (ParticleCategoryTypeEnum.WING.name().equalsIgnoreCase(saved.getCategory())) {
-                HandyParticleApi.enable(entity, ParticleTypeEnum.wing(WingModelEnum.getEnumThrow(saved.getType()), WingColorEnum.getEnumThrow(saved.getColor())));
+            ParticleType particleType = ParticleRestoreUtil.parse("实体 " + saved.getEntityUuid(), saved.getCategory(),
+                    saved.getType(), saved.getColor(), saved.getMode());
+            if (particleType == null) {
+                // 不清理的话每次启动都会重复尝试同一条无效记录
+                EntityParticleService.delete(saved.getEntityUuid(), saved.getCategory());
                 continue;
             }
-            // 数据库只保存实体 UUID；仅恢复当前服务器仍能解析到的实体。
-            ParticleTypeEnum type = ParticleTypeEnum.getEnumThrow(saved.getType());
-            if (type.getCategory() == ParticleCategoryTypeEnum.TRAIL) {
-                TrailModeTypeEnum mode = saved.getMode() == null ? null : TrailModeTypeEnum.get(saved.getMode());
-                HandyParticleApi.enable(entity, new CustomTrailParticle(type, mode == null ? TrailModeTypeEnum.DEFAULT : mode, ParticleColorUtil.parse(saved.getColor())));
-                continue;
-            }
-            HandyParticleApi.enable(entity, type);
+            HandyParticleApi.enable(entity, particleType);
         }
     }
 

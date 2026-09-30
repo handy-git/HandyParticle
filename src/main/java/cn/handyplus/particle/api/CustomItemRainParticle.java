@@ -50,14 +50,13 @@ public final class CustomItemRainParticle implements ParticleType {
      * 启用自定义物品雨。
      *
      * @param entity 目标实体
-     * @return 实体有效且已发起调度请求时返回 true
      */
     @Override
-    public boolean enable(@NotNull Entity entity) {
+    public void enable(@NotNull Entity entity) {
         ItemStack[] copies = new ItemStack[this.items.length];
         for (int index = 0; index < this.items.length; index++) {
             copies[index] = this.items[index].clone();
         }
-        return HandyParticleCore.setItemRain(entity, copies);
+        HandyParticleCore.setItemRain(entity, copies);
     }
 }

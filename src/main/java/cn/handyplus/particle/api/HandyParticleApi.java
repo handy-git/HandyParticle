@@ -21,12 +21,13 @@ public final class HandyParticleApi {
     /**
      * 启用指定效果。
      *
+     * <p>实体无效或调度失败时不会生效，也不会有任何提示。
+     *
      * @param entity 目标实体
      * @param type   粒子效果
-     * @return 实体有效且已发起调度请求时返回 true
      */
-    public static boolean enable(@NotNull Entity entity, @NotNull ParticleType type) {
-        return type.enable(entity);
+    public static void enable(@NotNull Entity entity, @NotNull ParticleType type) {
+        type.enable(entity);
     }
 
     /**

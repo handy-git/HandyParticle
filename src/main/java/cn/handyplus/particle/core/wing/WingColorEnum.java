@@ -6,6 +6,7 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -78,18 +79,37 @@ public enum WingColorEnum {
     }
 
     /**
-     * 解析颜色图案名称。
+     * 解析颜色图案名称，未匹配到时返回 null。
      *
-     * @param value 颜色图案名称
-     * @return 颜色图案
+     * @param value 颜色图案名称，可为空
+     * @return 颜色图案，未匹配到时返回 null
      */
-    public static WingColorEnum getEnumThrow(@NotNull String value) {
+    @Nullable
+    public static WingColorEnum get(@Nullable String value) {
+        if (value == null) {
+            return null;
+        }
         String name = value.split("\\(", 2)[0].trim();
         for (WingColorEnum color : values()) {
             if (color.name().equalsIgnoreCase(name)) {
                 return color;
             }
         }
-        throw new IllegalArgumentException("not found wing color: " + value);
+        return null;
+    }
+
+    /**
+     * 解析颜色图案名称。
+     *
+     * @param value 颜色图案名称
+     * @return 颜色图案
+     */
+    @NotNull
+    public static WingColorEnum getEnumThrow(@NotNull String value) {
+        WingColorEnum color = get(value);
+        if (color == null) {
+            throw new IllegalArgumentException(BaseUtil.getLangMsg("invalidWingColor"));
+        }
+        return color;
     }
 }

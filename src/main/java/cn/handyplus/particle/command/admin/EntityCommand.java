@@ -100,7 +100,7 @@ public final class EntityCommand implements IHandyCommandEvent {
         boolean hasExtra = this.getArg(args, 6).isPresent();
         ParticleCategoryTypeEnum categoryType = ParticleCategoryTypeEnum.getEnumThrow(category);
         if (categoryType == ParticleCategoryTypeEnum.WING) {
-            this.setWing(player, args, usage);
+            this.setWing(player, args);
             return;
         }
         ParticleTypeEnum particleType = ParticleTypeEnum.getEnumThrow(type);
@@ -116,10 +116,11 @@ public final class EntityCommand implements IHandyCommandEvent {
      *
      * @param player 玩家
      * @param args   命令参数
-     * @param usage  用法提示
      */
-    private void setWing(Player player, String[] args, String usage) {
+    private void setWing(Player player, String[] args) {
         AssertUtil.notTrue(args.length < 5, BaseUtil.getLangMsg("paramFailureMsg"));
+        boolean hasExtra = this.getArg(args, 5).isPresent();
+        AssertUtil.notTrue(hasExtra, BaseUtil.getLangMsg("entitySetWingUsage"));
         String modelValue = args[3];
         String colorValue = args[4];
         WingModelEnum model = WingModelEnum.getEnumThrow(modelValue);

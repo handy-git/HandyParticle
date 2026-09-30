@@ -23,10 +23,11 @@ public interface ParticleType {
     /**
      * 启用当前粒子效果。
      *
+     * <p>实体无效或调度失败时不会生效，也不会有任何提示。
+     *
      * @param entity 目标实体
-     * @return 实体有效且已发起调度请求时返回 true
      */
-    boolean enable(@NotNull Entity entity);
+    void enable(@NotNull Entity entity);
 
     /**
      * 关闭目标实体在当前效果所属类别下的粒子效果。

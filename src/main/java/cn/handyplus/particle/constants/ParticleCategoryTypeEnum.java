@@ -49,11 +49,14 @@ public enum ParticleCategoryTypeEnum {
     /**
      * 按名称查找粒子类别。
      *
-     * @param value 类别名称
+     * @param value 类别名称，可为空
      * @return 粒子类别，未找到时返回 null
      */
     @Nullable
-    public static ParticleCategoryTypeEnum getEnum(@NotNull String value) {
+    public static ParticleCategoryTypeEnum getEnum(@Nullable String value) {
+        if (value == null) {
+            return null;
+        }
         for (ParticleCategoryTypeEnum category : values()) {
             if (category.name().equalsIgnoreCase(value)) {
                 return category;
@@ -72,7 +75,7 @@ public enum ParticleCategoryTypeEnum {
     public static ParticleCategoryTypeEnum getEnumThrow(@NotNull String value) {
         ParticleCategoryTypeEnum category = getEnum(value);
         if (category == null) {
-            throw new IllegalArgumentException("not found particleCategoryType: " + value);
+            throw new IllegalArgumentException(BaseUtil.getLangMsg("invalidParticleCategory"));
         }
         return category;
     }

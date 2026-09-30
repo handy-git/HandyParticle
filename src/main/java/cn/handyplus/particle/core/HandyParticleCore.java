@@ -53,10 +53,9 @@ public final class HandyParticleCore {
      * @param entity 实体
      * @param model  翅膀外形
      * @param color  颜色图案
-     * @return 实体有效且已发起调度请求时返回 true
      */
-    public static synchronized boolean setWings(@NotNull Entity entity, @NotNull WingModelEnum model, @NotNull WingColorEnum color) {
-        return start(entity, new WingTask(entity, model, color), ParticleCategoryTypeEnum.WING);
+    public static synchronized void setWings(@NotNull Entity entity, @NotNull WingModelEnum model, @NotNull WingColorEnum color) {
+        start(entity, new WingTask(entity, model, color), ParticleCategoryTypeEnum.WING);
     }
 
     /**
@@ -66,10 +65,9 @@ public final class HandyParticleCore {
      * @param type   内置拖尾类型
      * @param mode   运动模式
      * @param color  自定义 Dust 颜色，其他类型忽略
-     * @return 实体有效且已发起调度请求时返回 true
      */
-    public static synchronized boolean setTrail(@NotNull Entity entity, @NotNull TrailTypeEnum type, @NotNull TrailModeTypeEnum mode, Color color) {
-        return start(entity, new TrailTask(entity, type, mode, color), ParticleCategoryTypeEnum.TRAIL);
+    public static synchronized void setTrail(@NotNull Entity entity, @NotNull TrailTypeEnum type, @NotNull TrailModeTypeEnum mode, Color color) {
+        start(entity, new TrailTask(entity, type, mode, color), ParticleCategoryTypeEnum.TRAIL);
     }
 
     /**
@@ -77,10 +75,9 @@ public final class HandyParticleCore {
      *
      * @param entity 实体
      * @param type   方块拖尾类型
-     * @return 实体有效且已发起调度请求时返回 true
      */
-    public static synchronized boolean setBlock(@NotNull Entity entity, @NotNull BlockTrailTypeEnum type) {
-        return start(entity, new BlockTrailTask(entity, type), ParticleCategoryTypeEnum.BLOCK);
+    public static synchronized void setBlock(@NotNull Entity entity, @NotNull BlockTrailTypeEnum type) {
+        start(entity, new BlockTrailTask(entity, type), ParticleCategoryTypeEnum.BLOCK);
     }
 
     /**
@@ -88,10 +85,9 @@ public final class HandyParticleCore {
      *
      * @param entity    目标实体
      * @param materials 方块材质列表
-     * @return 实体有效且已发起调度请求时返回 true
      */
-    public static synchronized boolean setBlock(@NotNull Entity entity, @NotNull Material[] materials) {
-        return start(entity, new BlockTrailTask(entity, materials), ParticleCategoryTypeEnum.BLOCK);
+    public static synchronized void setBlock(@NotNull Entity entity, @NotNull Material[] materials) {
+        start(entity, new BlockTrailTask(entity, materials), ParticleCategoryTypeEnum.BLOCK);
     }
 
     /**
@@ -99,10 +95,9 @@ public final class HandyParticleCore {
      *
      * @param entity 实体
      * @param type   物品雨类型
-     * @return 实体有效且已发起调度请求时返回 true
      */
-    public static synchronized boolean setItemRain(@NotNull Entity entity, @NotNull ItemRainTypeEnum type) {
-        return start(entity, new ItemRainTask(entity, type), ParticleCategoryTypeEnum.RAIN);
+    public static synchronized void setItemRain(@NotNull Entity entity, @NotNull ItemRainTypeEnum type) {
+        start(entity, new ItemRainTask(entity, type), ParticleCategoryTypeEnum.RAIN);
     }
 
     /**
@@ -110,10 +105,9 @@ public final class HandyParticleCore {
      *
      * @param entity 目标实体
      * @param items  物品列表
-     * @return 实体有效且已发起调度请求时返回 true
      */
-    public static synchronized boolean setItemRain(@NotNull Entity entity, @NotNull ItemStack[] items) {
-        return start(entity, new ItemRainTask(entity, items), ParticleCategoryTypeEnum.RAIN);
+    public static synchronized void setItemRain(@NotNull Entity entity, @NotNull ItemStack[] items) {
+        start(entity, new ItemRainTask(entity, items), ParticleCategoryTypeEnum.RAIN);
     }
 
     /**
@@ -121,10 +115,9 @@ public final class HandyParticleCore {
      *
      * @param entity 实体
      * @param type   纸屑物品组合
-     * @return 实体有效且已发起调度请求时返回 true
      */
-    public static synchronized boolean setConfetti(@NotNull Entity entity, @NotNull ConfettiTypeEnum type) {
-        return start(entity, new ConfettiTask(entity, type), ParticleCategoryTypeEnum.CONFETTI);
+    public static synchronized void setConfetti(@NotNull Entity entity, @NotNull ConfettiTypeEnum type) {
+        start(entity, new ConfettiTask(entity, type), ParticleCategoryTypeEnum.CONFETTI);
     }
 
     /**
@@ -132,10 +125,9 @@ public final class HandyParticleCore {
      *
      * @param entity 目标实体
      * @param items  纸屑物品列表
-     * @return 实体有效且已发起调度请求时返回 true
      */
-    public static synchronized boolean setConfetti(@NotNull Entity entity, @NotNull ItemStack[] items) {
-        return start(entity, new ConfettiTask(entity, items), ParticleCategoryTypeEnum.CONFETTI);
+    public static synchronized void setConfetti(@NotNull Entity entity, @NotNull ItemStack[] items) {
+        start(entity, new ConfettiTask(entity, items), ParticleCategoryTypeEnum.CONFETTI);
     }
 
     /**
@@ -180,14 +172,14 @@ public final class HandyParticleCore {
      * @param task     新任务
      * @param category 粒子类别
      */
-    private static boolean start(@NotNull Entity entity, @NotNull HandyRunnable task, @NotNull ParticleCategoryTypeEnum category) {
+    private static void start(@NotNull Entity entity, @NotNull HandyRunnable task, @NotNull ParticleCategoryTypeEnum category) {
         if (!entity.isValid()) {
-            return false;
+            return;
         }
         if (entity instanceof Player) {
             Player player = (Player) entity;
             if (!player.isOnline()) {
-                return false;
+                return;
             }
         }
         UUID entityId = entity.getUniqueId();
@@ -200,7 +192,6 @@ public final class HandyParticleCore {
         if (!scheduled) {
             onRetired(entityId, category, task);
         }
-        return scheduled;
     }
 
     /**

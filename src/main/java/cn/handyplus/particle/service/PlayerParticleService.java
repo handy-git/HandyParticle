@@ -87,13 +87,23 @@ public final class PlayerParticleService {
      * 删除玩家指定类别的粒子设置。
      *
      * @param playerUuid 玩家 UUID
+     * @param category   粒子类别名称
+     */
+    public static void delete(@NotNull UUID playerUuid, @NotNull String category) {
+        Db<PlayerParticleEntity> db = Db.use(PlayerParticleEntity.class);
+        db.where().eq(PlayerParticleEntity::getPlayerUuid, playerUuid)
+                .eq(PlayerParticleEntity::getCategory, category);
+        db.execution().delete();
+    }
+
+    /**
+     * 删除玩家指定类别的粒子设置。
+     *
+     * @param playerUuid 玩家 UUID
      * @param category   粒子类别
      */
     public static void delete(@NotNull UUID playerUuid, @NotNull ParticleCategoryTypeEnum category) {
-        Db<PlayerParticleEntity> db = Db.use(PlayerParticleEntity.class);
-        db.where().eq(PlayerParticleEntity::getPlayerUuid, playerUuid)
-                .eq(PlayerParticleEntity::getCategory, category.name());
-        db.execution().delete();
+        delete(playerUuid, category.name());
     }
 
 }
