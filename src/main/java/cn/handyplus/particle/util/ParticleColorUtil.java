@@ -31,7 +31,7 @@ public final class ParticleColorUtil {
         if (colorText.startsWith("&#") || colorText.startsWith("§#")) {
             colorText = colorText.substring(1);
         }
-        if (!PatternUtil.isMatch(PatternUtil.RPG_PATTERN.pattern(), "&" + colorText)) {
+        if (!PatternUtil.RPG_PATTERN.matcher("&" + colorText).matches()) {
             throw new IllegalArgumentException("颜色必须使用 #RGB 或 #RRGGBB 格式");
         }
         String hex = colorText.substring(1);

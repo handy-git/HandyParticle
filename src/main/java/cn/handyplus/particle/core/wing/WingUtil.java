@@ -6,6 +6,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.awt.*;
 
@@ -45,7 +46,7 @@ final class WingUtil {
      * @param points 翅膀点阵
      */
     static void render(@NotNull Entity entity, @NotNull WingPoint[] points) {
-        Location origin = entity.getLocation().clone();
+        Location origin = entity.getLocation();
         origin.setPitch(0.0F);
         origin.add(origin.getDirection().multiply(-0.3D));
         drawWing(origin, points, -120.0F);
@@ -66,7 +67,7 @@ final class WingUtil {
         WingPoint[] points = new WingPoint[shape.length];
         for (int index = 0; index < shape.length; index++) {
             int[] point = shape[index];
-            points[index] = new WingPoint(point[0], point[1], point[2], palette[point[0]][point[1]]);
+            points[index] = new WingPoint(point[0], point[1], displayFor(point[2], palette[point[0]][point[1]]));
         }
         return points;
     }
@@ -89,45 +90,42 @@ final class WingUtil {
             location.setX(rotated.getX() + stepX * point.getColumn());
             location.setY(rotated.getY() + 0.2D * (14 - point.getRow()));
             location.setZ(rotated.getZ() + stepZ * point.getColumn());
-            spawn(location, point);
+            ParticleDisplay display = point.getDisplay();
+            if (display != null) {
+                display.spawn(location);
+            }
         }
     }
 
     /**
-     * 根据点阵类型发射粒子。
+     * 根据点阵类型创建粒子显示对象。
      *
-     * @param location 发射位置
-     * @param point    点阵数据
+     * @param type 点阵类型
+     * @param rgb  图案颜色
+     * @return 粒子显示对象，未知类型时为空
      */
-    private static void spawn(@NotNull Location location, @NotNull WingPoint point) {
-        switch (point.getType()) {
+    @Nullable
+    private static ParticleDisplay displayFor(int type, int rgb) {
+        switch (type) {
             // 图案 RGB 彩色粒子
             case 1:
             case 2:
             case 3:
-                int rgb = point.getColor();
-                ParticleDisplay.of(XParticle.DUST)
-                        .withColor(new Color(rgb), 1.0F)
-                        .spawn(location);
-                return;
+                return ParticleDisplay.of(XParticle.DUST).withColor(new Color(rgb), 1.0F);
             // 火焰粒子
             case 4:
-                FLAME_DISPLAY.spawn(location);
-                return;
+                return FLAME_DISPLAY;
             // 女巫法术粒子
             case 5:
-                WITCH_DISPLAY.spawn(location);
-                return;
+                return WITCH_DISPLAY;
             // 熔岩滴落粒子
             case 6:
-                DRIP_LAVA_DISPLAY.spawn(location);
-                return;
+                return DRIP_LAVA_DISPLAY;
             // 魔法暴击粒子
             case 7:
-                CRIT_DISPLAY.spawn(location);
-                return;
+                return CRIT_DISPLAY;
             default:
-                return;
+                return null;
         }
     }
 

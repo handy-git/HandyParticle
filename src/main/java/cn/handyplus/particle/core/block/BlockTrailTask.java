@@ -108,7 +108,7 @@ public final class BlockTrailTask extends HandyRunnable {
     private void sendBlockChanges(@NotNull Location location, @NotNull Set<UUID> recipients) {
         if (BaseConstants.VERSION_ID >= VersionCheckEnum.V_1_13.getVersionId()) {
             BlockData blockData = this.type == null ? this.customMaterials[(int) (this.tick % this.customMaterials.length)].createBlockData() : this.type.blockData(this.tick);
-            for (Player viewer : Bukkit.getOnlinePlayers()) {
+            for (Player viewer : location.getWorld().getPlayers()) {
                 if (this.isNearby(location, viewer)) {
                     viewer.sendBlockChange(location, blockData);
                     recipients.add(viewer.getUniqueId());
@@ -118,7 +118,7 @@ public final class BlockTrailTask extends HandyRunnable {
         }
         Material material = this.type == null ? this.customMaterials[(int) (this.tick % this.customMaterials.length)] : this.type.legacyMaterial(this.tick);
         byte data = this.type == null ? 0 : this.type.legacyData(this.tick);
-        for (Player viewer : Bukkit.getOnlinePlayers()) {
+        for (Player viewer : location.getWorld().getPlayers()) {
             if (this.isNearby(location, viewer)) {
                 viewer.sendBlockChange(location, material, data);
                 recipients.add(viewer.getUniqueId());

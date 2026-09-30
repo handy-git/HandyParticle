@@ -1,7 +1,9 @@
 package cn.handyplus.particle.core.wing;
 
+import com.cryptomorin.xseries.particles.ParticleDisplay;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * 翅膀像素点。
@@ -20,11 +22,8 @@ final class WingPoint {
      */
     private final int column;
     /**
-     * 粒子类型，1-3 为彩色粒子，4-7 为特殊粒子。
+     * 预构建的粒子显示对象，未知类型时为空。
      */
-    private final int type;
-    /**
-     * pattern 对应的 RGB 颜色值。
-     */
-    private final int color;
+    @Nullable
+    private final ParticleDisplay display;
 }
