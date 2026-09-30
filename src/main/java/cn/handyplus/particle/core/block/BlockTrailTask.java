@@ -87,7 +87,7 @@ public final class BlockTrailTask extends HandyRunnable {
         this.expire();
         Location location = entity.getLocation().clone().subtract(0.0D, 1.0D, 0.0D);
         Block block = location.getBlock();
-        if (!BlockTrailTypeEnum.BLOCK_WOOL.isGround(block)) {
+        if (!BlockTrailTypeEnum.isGround(block)) {
             return;
         }
         // 统一使用方块整数坐标，避免实体移动产生重复 key。

@@ -122,6 +122,16 @@ public enum BlockTrailTypeEnum {
     }
 
     /**
+     * 判断实体脚下方块是否允许显示拖尾。
+     *
+     * @param block 实体脚下方块
+     * @return 是否允许
+     */
+    public static boolean isGround(@NotNull Block block) {
+        return GROUND_MATERIALS.contains(block.getType());
+    }
+
+    /**
      * 当前服务端支持的组合材质。
      */
     private final XMaterial[] materials;
@@ -151,16 +161,6 @@ public enum BlockTrailTypeEnum {
     @NotNull
     public XMaterial material(long tick) {
         return materials[(int) (tick % materials.length)];
-    }
-
-    /**
-     * 判断实体脚下方块是否允许显示拖尾。
-     *
-     * @param block 实体脚下方块
-     * @return 是否允许
-     */
-    public boolean isGround(@NotNull Block block) {
-        return GROUND_MATERIALS.contains(block.getType());
     }
 
     /**
