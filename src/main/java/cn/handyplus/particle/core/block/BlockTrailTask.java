@@ -4,7 +4,6 @@ import cn.handyplus.lib.constants.BaseConstants;
 import cn.handyplus.lib.constants.VersionCheckEnum;
 import cn.handyplus.lib.internal.HandyRunnable;
 import cn.handyplus.particle.core.HandyParticleCore;
-import lombok.RequiredArgsConstructor;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -25,7 +24,6 @@ import java.util.UUID;
  *
  * @author handy
  */
-@RequiredArgsConstructor
 public final class BlockTrailTask extends HandyRunnable {
     /**
      * 任务所属实体。
@@ -35,6 +33,10 @@ public final class BlockTrailTask extends HandyRunnable {
      * 当前使用的方块拖尾类型。
      */
     private final BlockTrailTypeEnum type;
+    /**
+     * 自定义方块材质列表，使用内置类型时为空。
+     */
+    private final Material[] customMaterials;
     /**
      * 当前仍在显示临时方块的位置及剩余帧数。
      */
@@ -49,6 +51,30 @@ public final class BlockTrailTask extends HandyRunnable {
     private long tick;
 
     /**
+     * 创建内置方块拖尾任务。
+     *
+     * @param entity 实体
+     * @param type   方块拖尾类型
+     */
+    public BlockTrailTask(@NotNull Entity entity, @NotNull BlockTrailTypeEnum type) {
+        this.entity = entity;
+        this.type = type;
+        this.customMaterials = null;
+    }
+
+    /**
+     * 创建自定义方块拖尾任务。
+     *
+     * @param entity    实体
+     * @param materials 自定义方块材质
+     */
+    public BlockTrailTask(@NotNull Entity entity, @NotNull Material[] materials) {
+        this.entity = entity;
+        this.type = null;
+        this.customMaterials = materials.clone();
+    }
+
+    /**
      * 在实体脚下发送临时方块外观。
      */
     @Override
@@ -61,7 +87,7 @@ public final class BlockTrailTask extends HandyRunnable {
         this.expire();
         Location location = entity.getLocation().clone().subtract(0.0D, 1.0D, 0.0D);
         Block block = location.getBlock();
-        if (!type.isGround(block)) {
+        if (!BlockTrailTypeEnum.BLOCK_WOOL.isGround(block)) {
             return;
         }
         // 统一使用方块整数坐标，避免实体移动产生重复 key。
@@ -81,7 +107,7 @@ public final class BlockTrailTask extends HandyRunnable {
     @SuppressWarnings("deprecation")
     private void sendBlockChanges(@NotNull Location location, @NotNull Set<UUID> recipients) {
         if (BaseConstants.VERSION_ID >= VersionCheckEnum.V_1_13.getVersionId()) {
-            BlockData blockData = type.blockData(tick);
+            BlockData blockData = this.type == null ? this.customMaterials[(int) (this.tick % this.customMaterials.length)].createBlockData() : this.type.blockData(this.tick);
             for (Player viewer : Bukkit.getOnlinePlayers()) {
                 if (this.isNearby(location, viewer)) {
                     viewer.sendBlockChange(location, blockData);
@@ -90,8 +116,8 @@ public final class BlockTrailTask extends HandyRunnable {
             }
             return;
         }
-        Material material = type.legacyMaterial(tick);
-        byte data = type.legacyData(tick);
+        Material material = this.type == null ? this.customMaterials[(int) (this.tick % this.customMaterials.length)] : this.type.legacyMaterial(this.tick);
+        byte data = this.type == null ? 0 : this.type.legacyData(this.tick);
         for (Player viewer : Bukkit.getOnlinePlayers()) {
             if (this.isNearby(location, viewer)) {
                 viewer.sendBlockChange(location, material, data);

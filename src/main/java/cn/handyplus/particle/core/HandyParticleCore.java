@@ -16,8 +16,10 @@ import cn.handyplus.particle.core.trail.TrailTypeEnum;
 import cn.handyplus.particle.core.wing.WingColorEnum;
 import cn.handyplus.particle.core.wing.WingModelEnum;
 import cn.handyplus.particle.core.wing.WingTask;
+import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
@@ -82,6 +84,17 @@ public final class HandyParticleCore {
     }
 
     /**
+     * 启用指定材质组成的方块拖尾。
+     *
+     * @param entity 目标实体
+     * @param materials 方块材质列表
+     * @return 实体有效且已发起调度请求时返回 true
+     */
+    public static synchronized boolean setBlock(@NotNull Entity entity, @NotNull Material[] materials) {
+        return start(entity, new BlockTrailTask(entity, materials), ParticleCategoryTypeEnum.BLOCK);
+    }
+
+    /**
      * 启用指定实体的物品雨。
      *
      * @param entity 实体
@@ -93,6 +106,17 @@ public final class HandyParticleCore {
     }
 
     /**
+     * 启用指定物品组成的物品雨。
+     *
+     * @param entity 目标实体
+     * @param items 物品列表
+     * @return 实体有效且已发起调度请求时返回 true
+     */
+    public static synchronized boolean setItemRain(@NotNull Entity entity, @NotNull ItemStack[] items) {
+        return start(entity, new ItemRainTask(entity, items), ParticleCategoryTypeEnum.RAIN);
+    }
+
+    /**
      * 启用指定实体的纸屑效果。
      *
      * @param entity 实体
@@ -101,6 +125,17 @@ public final class HandyParticleCore {
      */
     public static synchronized boolean setConfetti(@NotNull Entity entity, @NotNull ConfettiTypeEnum type) {
         return start(entity, new ConfettiTask(entity, type), ParticleCategoryTypeEnum.CONFETTI);
+    }
+
+    /**
+     * 启用指定物品组成的纸屑粒子。
+     *
+     * @param entity 目标实体
+     * @param items 纸屑物品列表
+     * @return 实体有效且已发起调度请求时返回 true
+     */
+    public static synchronized boolean setConfetti(@NotNull Entity entity, @NotNull ItemStack[] items) {
+        return start(entity, new ConfettiTask(entity, items), ParticleCategoryTypeEnum.CONFETTI);
     }
 
     /**

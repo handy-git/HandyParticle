@@ -60,10 +60,32 @@ public final class ItemRainTask extends HandyRunnable {
     public ItemRainTask(@NotNull Entity entity, @NotNull ItemRainTypeEnum type) {
         this.entity = entity;
         ItemStack[] items = type.items();
-        this.displays = new ParticleDisplay[items.length];
+        this.displays = this.createDisplays(items);
+    }
+
+    /**
+     * 创建自定义物品雨任务。
+     *
+     * @param entity 实体
+     * @param items  自定义物品
+     */
+    public ItemRainTask(@NotNull Entity entity, @NotNull ItemStack[] items) {
+        this.entity = entity;
+        this.displays = this.createDisplays(items);
+    }
+
+    /**
+     * 创建物品雨显示对象。
+     *
+     * @param items 物品列表
+     * @return 粒子显示对象
+     */
+    private ParticleDisplay[] createDisplays(@NotNull ItemStack[] items) {
+        ParticleDisplay[] displays = new ParticleDisplay[items.length];
         for (int index = 0; index < items.length; index++) {
             displays[index] = ParticleDisplay.of(XParticle.ITEM).withItem(items[index]).withCount(1);
         }
+        return displays;
     }
 
     /**

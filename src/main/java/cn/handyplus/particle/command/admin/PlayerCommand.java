@@ -6,8 +6,9 @@ import cn.handyplus.lib.core.MapUtil;
 import cn.handyplus.lib.util.AssertUtil;
 import cn.handyplus.lib.util.BaseUtil;
 import cn.handyplus.lib.util.MessageUtil;
+import cn.handyplus.particle.api.CustomTrailParticle;
 import cn.handyplus.particle.api.HandyParticleApi;
-import cn.handyplus.particle.api.ParticleType;
+import cn.handyplus.particle.api.ParticleTypeEnum;
 import cn.handyplus.particle.constants.ParticleCategoryTypeEnum;
 import cn.handyplus.particle.constants.ParticleCommandActionEnum;
 import cn.handyplus.particle.core.trail.TrailModeTypeEnum;
@@ -103,11 +104,9 @@ public final class PlayerCommand implements IHandyCommandEvent {
             this.setWing(sender, player, args, usage);
             return;
         }
-        ParticleType particleType = ParticleType.getEnumThrow(type);
-        ParticleCommandHelper.EffectOptions options = ParticleCommandHelper.parseEffect(categoryType, particleType,
-                option, colorValue, hasExtra, usage);
-        particleType = ParticleType.trail(particleType.getBuiltinTrail(), options.mode, options.color);
-        HandyParticleApi.enable(player, particleType);
+        ParticleTypeEnum particleType = ParticleTypeEnum.getEnumThrow(type);
+        ParticleCommandHelper.EffectOptions options = ParticleCommandHelper.parseEffect(categoryType, particleType, option, colorValue, hasExtra, usage);
+        HandyParticleApi.enable(player, categoryType == ParticleCategoryTypeEnum.TRAIL ? new CustomTrailParticle(particleType, options.mode, options.color) : particleType);
         this.save(player, particleType, options.mode, options.color);
         // 发消息
         MessageUtil.sendMessage(sender, BaseUtil.getLangMsg("setSuccess", MapUtil.of("player", player.getName(), "type", particleType.getDesc())));
@@ -132,7 +131,7 @@ public final class PlayerCommand implements IHandyCommandEvent {
         WingModelEnum model = WingModelEnum.getEnumThrow(modelValue);
         WingColorEnum color = WingColorEnum.getEnumThrow(colorValue);
         AssertUtil.notTrue(hasExtra, usage);
-        HandyParticleApi.enable(player, ParticleType.wing(model, color));
+        HandyParticleApi.enable(player, ParticleTypeEnum.wing(model, color));
         this.saveWing(player, model, color);
         MessageUtil.sendMessage(sender, BaseUtil.getLangMsg("setSuccess", MapUtil.of("player", player.getName(), "type", model.name() + "_" + color.name())));
         if (sender != player) {
@@ -203,12 +202,12 @@ public final class PlayerCommand implements IHandyCommandEvent {
      * @param mode         运动模式
      * @param color        粒子颜色
      */
-    private void save(@NotNull Player player, @NotNull ParticleType particleType, @Nullable TrailModeTypeEnum mode, Color color) {
+    private void save(@NotNull Player player, @NotNull ParticleTypeEnum particleType, @Nullable TrailModeTypeEnum mode, Color color) {
         Optional<PlayerParticleEntity> existing = PlayerParticleService.findByUuidAndCategory(player.getUniqueId(), particleType.getCategory().name());
         if (existing.isPresent()) {
             PlayerParticleEntity saved = existing.get();
             saved.setPlayerName(player.getName());
-            saved.setType(particleType.getName());
+            saved.setType(particleType.name());
             saved.setColor(color == null ? null : ParticleColorUtil.format(color));
             saved.setMode(mode == null ? null : mode.name());
             PlayerParticleService.update(saved);
@@ -218,7 +217,7 @@ public final class PlayerCommand implements IHandyCommandEvent {
                 .playerName(player.getName())
                 .playerUuid(player.getUniqueId())
                 .category(particleType.getCategory().name())
-                .type(particleType.getName())
+                .type(particleType.name())
                 .color(color == null ? null : ParticleColorUtil.format(color))
                 .mode(mode == null ? null : mode.name())
                 .build();

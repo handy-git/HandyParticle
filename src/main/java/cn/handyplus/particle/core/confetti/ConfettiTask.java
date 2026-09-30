@@ -33,10 +33,32 @@ public final class ConfettiTask extends HandyRunnable {
     public ConfettiTask(@NotNull Entity entity, @NotNull ConfettiTypeEnum type) {
         this.entity = entity;
         ItemStack[] items = type.items();
-        this.displays = new ParticleDisplay[items.length];
+        this.displays = this.createDisplays(items);
+    }
+
+    /**
+     * 创建自定义纸屑任务。
+     *
+     * @param entity 实体
+     * @param items  纸屑物品
+     */
+    public ConfettiTask(@NotNull Entity entity, @NotNull ItemStack[] items) {
+        this.entity = entity;
+        this.displays = this.createDisplays(items);
+    }
+
+    /**
+     * 创建纸屑显示对象。
+     *
+     * @param items 纸屑物品
+     * @return 粒子显示对象
+     */
+    private ParticleDisplay[] createDisplays(@NotNull ItemStack[] items) {
+        ParticleDisplay[] displays = new ParticleDisplay[items.length];
         for (int index = 0; index < items.length; index++) {
             displays[index] = ParticleDisplay.of(XParticle.ITEM).withItem(items[index]).withCount(3).withExtra(0.1D);
         }
+        return displays;
     }
 
     /**

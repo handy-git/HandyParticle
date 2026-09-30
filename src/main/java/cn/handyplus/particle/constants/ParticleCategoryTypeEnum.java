@@ -2,9 +2,10 @@ package cn.handyplus.particle.constants;
 
 import cn.handyplus.lib.constants.BaseConstants;
 import cn.handyplus.lib.util.BaseUtil;
-import cn.handyplus.particle.api.ParticleType;
+import cn.handyplus.particle.api.ParticleTypeEnum;
 import cn.handyplus.particle.core.wing.WingModelEnum;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,14 +52,29 @@ public enum ParticleCategoryTypeEnum {
      * @param value 类别名称
      * @return 粒子类别，未找到时返回 null
      */
-    @NotNull
-    public static ParticleCategoryTypeEnum getEnumThrow(@NotNull String value) {
+    @Nullable
+    public static ParticleCategoryTypeEnum getEnum(@NotNull String value) {
         for (ParticleCategoryTypeEnum category : values()) {
             if (category.name().equalsIgnoreCase(value)) {
                 return category;
             }
         }
-        throw new RuntimeException("not found particleCategoryType: " + value);
+        return null;
+    }
+
+    /**
+     * 按名称查找粒子类别。
+     *
+     * @param value 类别名称
+     * @return 粒子类别
+     */
+    @NotNull
+    public static ParticleCategoryTypeEnum getEnumThrow(@NotNull String value) {
+        ParticleCategoryTypeEnum category = getEnum(value);
+        if (category == null) {
+            throw new RuntimeException("not found particleCategoryType: " + value);
+        }
+        return category;
     }
 
     /**
@@ -86,9 +102,9 @@ public enum ParticleCategoryTypeEnum {
             return WingModelEnum.getAll();
         }
         boolean chinese = "zh_CN".equalsIgnoreCase(BaseConstants.CONFIG.getString("language", "zh_CN"));
-        for (ParticleType type : ParticleType.values()) {
+        for (ParticleTypeEnum type : ParticleTypeEnum.values()) {
             if (type.getCategory() == category) {
-                String name = type.getName();
+                String name = type.name();
                 result.add(chinese ? name + "(" + type.getDesc() + ")" : name);
             }
         }

@@ -2,8 +2,9 @@ package cn.handyplus.particle;
 
 import cn.handyplus.lib.InitApi;
 import cn.handyplus.lib.util.MessageUtil;
+import cn.handyplus.particle.api.CustomTrailParticle;
 import cn.handyplus.particle.api.HandyParticleApi;
-import cn.handyplus.particle.api.ParticleType;
+import cn.handyplus.particle.api.ParticleTypeEnum;
 import cn.handyplus.particle.constants.ParticleCategoryTypeEnum;
 import cn.handyplus.particle.core.trail.TrailModeTypeEnum;
 import cn.handyplus.particle.core.wing.WingColorEnum;
@@ -74,14 +75,17 @@ public final class HandyParticle extends JavaPlugin {
                 continue;
             }
             if (ParticleCategoryTypeEnum.WING.name().equalsIgnoreCase(saved.getCategory())) {
-                HandyParticleApi.enable(entity, ParticleType.wing(WingModelEnum.getEnumThrow(saved.getType()), WingColorEnum.getEnumThrow(saved.getColor())));
+                HandyParticleApi.enable(entity, ParticleTypeEnum.wing(WingModelEnum.getEnumThrow(saved.getType()), WingColorEnum.getEnumThrow(saved.getColor())));
                 continue;
             }
             // 数据库只保存实体 UUID；仅恢复当前服务器仍能解析到的实体。
-            ParticleType type = ParticleType.getEnumThrow(saved.getType());
-            HandyParticleApi.enable(entity, ParticleType.trail(type.getBuiltinTrail(),
-                    saved.getMode() == null ? null : TrailModeTypeEnum.get(saved.getMode()),
-                    ParticleColorUtil.parse(saved.getColor())));
+            ParticleTypeEnum type = ParticleTypeEnum.getEnumThrow(saved.getType());
+            if (type.getCategory() == ParticleCategoryTypeEnum.TRAIL) {
+                TrailModeTypeEnum mode = saved.getMode() == null ? null : TrailModeTypeEnum.get(saved.getMode());
+                HandyParticleApi.enable(entity, new CustomTrailParticle(type, mode == null ? TrailModeTypeEnum.DEFAULT : mode, ParticleColorUtil.parse(saved.getColor())));
+                continue;
+            }
+            HandyParticleApi.enable(entity, type);
         }
     }
 
