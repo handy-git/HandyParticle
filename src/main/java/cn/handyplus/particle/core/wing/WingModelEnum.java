@@ -94,6 +94,6 @@ public enum WingModelEnum {
                 return model;
             }
         }
-        throw new RuntimeException("not found wing model: " + value);
+        throw new IllegalArgumentException("not found wing model: " + value);
     }
 }

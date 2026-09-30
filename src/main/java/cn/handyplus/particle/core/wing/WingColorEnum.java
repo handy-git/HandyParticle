@@ -90,6 +90,6 @@ public enum WingColorEnum {
                 return color;
             }
         }
-        throw new RuntimeException("not found wing color: " + value);
+        throw new IllegalArgumentException("not found wing color: " + value);
     }
 }

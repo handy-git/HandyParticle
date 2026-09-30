@@ -72,7 +72,7 @@ public enum ParticleCategoryTypeEnum {
     public static ParticleCategoryTypeEnum getEnumThrow(@NotNull String value) {
         ParticleCategoryTypeEnum category = getEnum(value);
         if (category == null) {
-            throw new RuntimeException("not found particleCategoryType: " + value);
+            throw new IllegalArgumentException("not found particleCategoryType: " + value);
         }
         return category;
     }

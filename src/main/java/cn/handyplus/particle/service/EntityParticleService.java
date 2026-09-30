@@ -60,8 +60,7 @@ public final class EntityParticleService {
         Db<EntityParticleEntity> db = Db.use(EntityParticleEntity.class);
         db.update().set(EntityParticleEntity::getType, entity.getType())
                 .set(EntityParticleEntity::getColor, entity.getColor())
-                .set(EntityParticleEntity::getMode, entity.getMode())
-                .set(EntityParticleEntity::getEntityUuid, entity.getEntityUuid());
+                .set(EntityParticleEntity::getMode, entity.getMode());
         db.execution().updateById(entity.getId());
     }
 

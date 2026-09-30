@@ -577,7 +577,7 @@ public enum ParticleTypeEnum implements ParticleType {
     public static ParticleTypeEnum getEnumThrow(@NotNull String value) {
         ParticleTypeEnum type = getEnum(value);
         if (type == null) {
-            throw new RuntimeException("not found particleType: " + value);
+            throw new IllegalArgumentException("not found particleType: " + value);
         }
         return type;
     }

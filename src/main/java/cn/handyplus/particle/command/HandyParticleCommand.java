@@ -20,7 +20,7 @@ import java.util.List;
 @HandyCommand(name = "handyParticle")
 public final class HandyParticleCommand implements TabExecutor {
 
-    private final static String PERMISSION = "handyParticle.reload";
+    private static final String PERMISSION = "handyParticle.reload";
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String @NotNull [] args) {
