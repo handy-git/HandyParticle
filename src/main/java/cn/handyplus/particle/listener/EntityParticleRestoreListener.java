@@ -1,8 +1,6 @@
 package cn.handyplus.particle.listener;
 
 import cn.handyplus.lib.annotation.HandyListener;
-import cn.handyplus.lib.constants.BaseConstants;
-import cn.handyplus.lib.constants.VersionCheckEnum;
 import cn.handyplus.lib.internal.RegionSchedulerUtil;
 import cn.handyplus.particle.util.EntityParticleRestoreUtil;
 import org.bukkit.Chunk;
@@ -27,8 +25,7 @@ public final class EntityParticleRestoreListener implements Listener {
      */
     @EventHandler
     public void onChunkLoad(ChunkLoadEvent event) {
-        // 新版本区块与实体分别加载，改由实体加载事件恢复。
-        if (BaseConstants.VERSION_ID >= VersionCheckEnum.V_1_18.getVersionId() || EntityParticleRestoreUtil.isDone()) {
+        if (EntityParticleRestoreUtil.isDone()) {
             return;
         }
         Chunk chunk = event.getChunk();

@@ -1,14 +1,10 @@
 package cn.handyplus.particle.util;
 
-import cn.handyplus.lib.internal.RegionSchedulerUtil;
 import cn.handyplus.particle.api.HandyParticleApi;
 import cn.handyplus.particle.api.ParticleType;
 import cn.handyplus.particle.entity.EntityParticleEntity;
 import cn.handyplus.particle.service.EntityParticleService;
-import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
-import org.bukkit.Location;
-import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.jetbrains.annotations.NotNull;
 
@@ -22,7 +18,7 @@ import java.util.UUID;
  * 实体粒子效果的延迟恢复。
  *
  * <p>实体所在区块未加载时 Bukkit 取不到实体，因此先把记录缓存在内存，
- * 等实体加载后再按实体 UUID 恢复，并补充扫描启动时已加载的区块。
+ * 等区块加载后再按实体 UUID 恢复。
  *
  * @author handy
  */
@@ -40,7 +36,7 @@ public final class EntityParticleRestoreUtil {
     private static final Map<UUID, List<ParticleType>> PENDING = new HashMap<>();
 
     /**
-     * 读取并校验数据库中的实体粒子记录，供实体加载时恢复。
+     * 读取并校验数据库中的实体粒子记录，供区块加载时恢复。
      */
     public static synchronized void load() {
         PENDING.clear();
@@ -66,21 +62,6 @@ public final class EntityParticleRestoreUtil {
     }
 
     /**
-     * 补充恢复插件启用前已经加载的区块，不主动加载其他区块。
-     */
-    public static void restoreLoadedChunks() {
-        if (isDone()) {
-            return;
-        }
-        for (World world : Bukkit.getWorlds()) {
-            for (Chunk chunk : world.getLoadedChunks()) {
-                Location location = new Location(world, chunk.getX() << 4, 0, chunk.getZ() << 4);
-                RegionSchedulerUtil.runTaskLater(location, () -> restore(chunk), 1L);
-            }
-        }
-    }
-
-    /**
      * 恢复区块内尚未恢复的实体粒子效果，须在实体所属线程调用。
      *
      * @param chunk 已加载的区块
@@ -90,29 +71,14 @@ public final class EntityParticleRestoreUtil {
             return;
         }
         for (Entity entity : chunk.getEntities()) {
-            restore(entity);
+            List<ParticleType> types = PENDING.remove(entity.getUniqueId());
+            if (types == null) {
+                continue;
+            }
+            for (ParticleType type : types) {
+                HandyParticleApi.enable(entity, type);
+            }
         }
-    }
-
-    /**
-     * 恢复已经进入世界的实体粒子，须在实体所属线程调用。
-     *
-     * @param entity 已加载的实体
-     */
-    public static synchronized void restore(@NotNull Entity entity) {
-        // 核心会拒绝无效实体，此时必须保留记录等待真正加载完成。
-        if (!entity.isValid()) {
-            return;
-        }
-        UUID entityUuid = entity.getUniqueId();
-        List<ParticleType> types = PENDING.get(entityUuid);
-        if (types == null) {
-            return;
-        }
-        for (ParticleType type : types) {
-            HandyParticleApi.enable(entity, type);
-        }
-        PENDING.remove(entityUuid);
     }
 
 }
