@@ -37,8 +37,7 @@ public final class ParticleRestoreUtil {
      * @return 粒子效果，记录无效时返回 null
      */
     @Nullable
-    public static ParticleType parse(@NotNull String source, @Nullable String category, @Nullable String type,
-                                     @Nullable String color, @Nullable String mode) {
+    public static ParticleType parse(@NotNull String source, @Nullable String category, @Nullable String type, @Nullable String color, @Nullable String mode) {
         try {
             return doParse(source, category, type, color, mode);
         } catch (RuntimeException exception) {
@@ -59,8 +58,7 @@ public final class ParticleRestoreUtil {
      * @return 粒子效果，记录无效时返回 null
      */
     @Nullable
-    private static ParticleType doParse(@NotNull String source, @Nullable String category, @Nullable String type,
-                                        @Nullable String color, @Nullable String mode) {
+    private static ParticleType doParse(@NotNull String source, @Nullable String category, @Nullable String type, @Nullable String color, @Nullable String mode) {
         ParticleCategoryTypeEnum categoryType = ParticleCategoryTypeEnum.getEnum(category);
         if (categoryType == null) {
             warn(source, "未知的粒子类别: " + category);

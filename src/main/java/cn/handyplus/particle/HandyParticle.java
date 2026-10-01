@@ -3,13 +3,8 @@ package cn.handyplus.particle;
 import cn.handyplus.lib.InitApi;
 import cn.handyplus.lib.util.MessageUtil;
 import cn.handyplus.particle.api.HandyParticleApi;
-import cn.handyplus.particle.api.ParticleType;
-import cn.handyplus.particle.entity.EntityParticleEntity;
-import cn.handyplus.particle.service.EntityParticleService;
 import cn.handyplus.particle.util.ConfigUtil;
-import cn.handyplus.particle.util.ParticleRestoreUtil;
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Entity;
+import cn.handyplus.particle.util.EntityParticleRestoreUtil;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
@@ -30,8 +25,8 @@ public final class HandyParticle extends JavaPlugin {
                 .enableSql("cn.handyplus.particle.entity")
                 .checkVersion();
 
-        // 恢复当前已加载实体的粒子效果
-        this.restoreEntityParticles();
+        // 实体所在区块未加载时取不到实体，缓存记录后等区块加载再恢复
+        EntityParticleRestoreUtil.load();
 
         String[] logo = {
                 " _   _                 _       ____            _   _      _",
@@ -55,29 +50,6 @@ public final class HandyParticle extends JavaPlugin {
     public void onDisable() {
         HandyParticleApi.disableAll();
         InitApi.disable();
-    }
-
-    /**
-     * 恢复当前已加载实体的粒子效果。
-     */
-    private void restoreEntityParticles() {
-        for (EntityParticleEntity saved : EntityParticleService.findAll()) {
-            if (saved.getEntityUuid() == null) {
-                continue;
-            }
-            Entity entity = Bukkit.getEntity(saved.getEntityUuid());
-            if (entity == null || !entity.isValid()) {
-                continue;
-            }
-            ParticleType particleType = ParticleRestoreUtil.parse("实体 " + saved.getEntityUuid(), saved.getCategory(),
-                    saved.getType(), saved.getColor(), saved.getMode());
-            if (particleType == null) {
-                // 不清理的话每次启动都会重复尝试同一条无效记录
-                EntityParticleService.delete(saved.getEntityUuid(), saved.getCategory());
-                continue;
-            }
-            HandyParticleApi.enable(entity, particleType);
-        }
     }
 
 }
