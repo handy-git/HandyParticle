@@ -19,7 +19,7 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName(value = "entity_particle", comment = "实体粒子设置")
+@TableName(value = "handy_particle_entity", comment = "实体粒子设置")
 public class EntityParticleEntity {
 
     @TableField(value = "id", comment = "自增主键")
