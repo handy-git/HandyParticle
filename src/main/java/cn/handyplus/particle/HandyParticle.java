@@ -25,8 +25,9 @@ public final class HandyParticle extends JavaPlugin {
                 .enableSql("cn.handyplus.particle.entity")
                 .checkVersion();
 
-        // 实体所在区块未加载时取不到实体，缓存记录后等区块加载再恢复
+        // 先恢复已加载区块，其他记录保留到实体加载时恢复。
         EntityParticleRestoreUtil.load();
+        EntityParticleRestoreUtil.restoreLoadedChunks();
 
         String[] logo = {
                 " _   _                 _       ____            _   _      _",
