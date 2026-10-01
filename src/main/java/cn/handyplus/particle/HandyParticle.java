@@ -1,11 +1,16 @@
 package cn.handyplus.particle;
 
 import cn.handyplus.lib.InitApi;
+import cn.handyplus.lib.internal.HandySchedulerUtil;
 import cn.handyplus.lib.util.MessageUtil;
 import cn.handyplus.particle.api.HandyParticleApi;
+import cn.handyplus.particle.listener.PaperEntityParticleRestoreListener;
 import cn.handyplus.particle.util.ConfigUtil;
 import cn.handyplus.particle.util.EntityParticleRestoreUtil;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.Collections;
+import java.util.List;
 
 /**
  * 主类
@@ -19,9 +24,11 @@ public final class HandyParticle extends JavaPlugin {
         InitApi initApi = InitApi.getInstance(this);
         ConfigUtil.reload();
 
+        // 过滤不存在的监听
+        List<String> ignoreList = HandySchedulerUtil.isPaper() ? null : Collections.singletonList(PaperEntityParticleRestoreListener.class.getName());
         initApi.addMetrics(34366)
                 .initCommand("cn.handyplus.particle.command")
-                .initListener("cn.handyplus.particle.listener")
+                .initListener("cn.handyplus.particle.listener", ignoreList)
                 .enableSql("cn.handyplus.particle.entity")
                 .checkVersion();
 

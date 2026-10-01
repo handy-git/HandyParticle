@@ -2,6 +2,7 @@ package cn.handyplus.particle.service;
 
 import cn.handyplus.lib.db.Db;
 import cn.handyplus.particle.entity.EntityParticleEntity;
+import cn.handyplus.particle.util.EntityParticleRestoreUtil;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -48,7 +49,11 @@ public final class EntityParticleService {
      * @return 主键
      */
     public static int add(@NotNull EntityParticleEntity entity) {
-        return Db.use(EntityParticleEntity.class).execution().insert(entity);
+        int id = Db.use(EntityParticleEntity.class).execution().insert(entity);
+        if (id > 0) {
+            EntityParticleRestoreUtil.cache(entity);
+        }
+        return id;
     }
 
     /**
@@ -61,7 +66,9 @@ public final class EntityParticleService {
         db.update().set(EntityParticleEntity::getType, entity.getType())
                 .set(EntityParticleEntity::getColor, entity.getColor())
                 .set(EntityParticleEntity::getMode, entity.getMode());
-        db.execution().updateById(entity.getId());
+        if (db.execution().updateById(entity.getId()) > 0) {
+            EntityParticleRestoreUtil.cache(entity);
+        }
     }
 
     /**
@@ -72,7 +79,9 @@ public final class EntityParticleService {
     public static void delete(@NotNull UUID entityUuid) {
         Db<EntityParticleEntity> db = Db.use(EntityParticleEntity.class);
         db.where().eq(EntityParticleEntity::getEntityUuid, entityUuid);
-        db.execution().delete();
+        if (db.execution().delete() > 0) {
+            EntityParticleRestoreUtil.remove(entityUuid, null);
+        }
     }
 
     /**
@@ -85,7 +94,9 @@ public final class EntityParticleService {
         Db<EntityParticleEntity> db = Db.use(EntityParticleEntity.class);
         db.where().eq(EntityParticleEntity::getEntityUuid, entityUuid)
                 .eq(EntityParticleEntity::getCategory, category);
-        db.execution().delete();
+        if (db.execution().delete() > 0) {
+            EntityParticleRestoreUtil.remove(entityUuid, category);
+        }
     }
 
 }
