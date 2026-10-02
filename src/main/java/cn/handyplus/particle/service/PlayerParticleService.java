@@ -1,10 +1,18 @@
 package cn.handyplus.particle.service;
 
 import cn.handyplus.lib.db.Db;
+import cn.handyplus.particle.api.ParticleTypeEnum;
 import cn.handyplus.particle.constants.ParticleCategoryTypeEnum;
+import cn.handyplus.particle.core.trail.TrailModeTypeEnum;
+import cn.handyplus.particle.core.wing.WingColorEnum;
+import cn.handyplus.particle.core.wing.WingModelEnum;
 import cn.handyplus.particle.entity.PlayerParticleEntity;
+import cn.handyplus.particle.util.ParticleColorUtil;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
+import java.awt.Color;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -94,6 +102,63 @@ public final class PlayerParticleService {
         db.where().eq(PlayerParticleEntity::getPlayerUuid, playerUuid)
                 .eq(PlayerParticleEntity::getCategory, category);
         db.execution().delete();
+    }
+
+    /**
+     * 保存玩家指定类别的粒子设置，已存在时覆盖。
+     *
+     * @param player       玩家
+     * @param particleType 效果类型
+     * @param mode         运动模式，非拖尾类别为空
+     * @param color        粒子颜色
+     */
+    public static void save(@NotNull Player player, @NotNull ParticleTypeEnum particleType, @Nullable TrailModeTypeEnum mode, @Nullable Color color) {
+        String category = particleType.getCategory().name();
+        Optional<PlayerParticleEntity> existing = findByUuidAndCategory(player.getUniqueId(), category);
+        if (existing.isPresent()) {
+            PlayerParticleEntity saved = existing.get();
+            saved.setPlayerName(player.getName());
+            saved.setType(particleType.name());
+            saved.setColor(color == null ? null : ParticleColorUtil.format(color));
+            saved.setMode(mode == null ? null : mode.name());
+            update(saved);
+            return;
+        }
+        add(PlayerParticleEntity.builder()
+                .playerName(player.getName())
+                .playerUuid(player.getUniqueId())
+                .category(category)
+                .type(particleType.name())
+                .color(color == null ? null : ParticleColorUtil.format(color))
+                .mode(mode == null ? null : mode.name())
+                .build());
+    }
+
+    /**
+     * 保存玩家翅膀设置，已存在时覆盖。
+     *
+     * @param player 玩家
+     * @param model  翅膀外形
+     * @param color  颜色图案
+     */
+    public static void saveWing(@NotNull Player player, @NotNull WingModelEnum model, @NotNull WingColorEnum color) {
+        Optional<PlayerParticleEntity> existing = findByUuidAndCategory(player.getUniqueId(), ParticleCategoryTypeEnum.WING.name());
+        if (existing.isPresent()) {
+            PlayerParticleEntity saved = existing.get();
+            saved.setPlayerName(player.getName());
+            saved.setType(model.name());
+            saved.setColor(color.name());
+            saved.setMode(null);
+            update(saved);
+            return;
+        }
+        add(PlayerParticleEntity.builder()
+                .playerName(player.getName())
+                .playerUuid(player.getUniqueId())
+                .category(ParticleCategoryTypeEnum.WING.name())
+                .type(model.name())
+                .color(color.name())
+                .build());
     }
 
     /**

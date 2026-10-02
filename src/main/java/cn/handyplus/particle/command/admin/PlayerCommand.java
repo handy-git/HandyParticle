@@ -11,20 +11,13 @@ import cn.handyplus.particle.api.HandyParticleApi;
 import cn.handyplus.particle.api.ParticleTypeEnum;
 import cn.handyplus.particle.constants.ParticleCategoryTypeEnum;
 import cn.handyplus.particle.constants.ParticleCommandActionEnum;
-import cn.handyplus.particle.core.trail.TrailModeTypeEnum;
 import cn.handyplus.particle.core.wing.WingColorEnum;
 import cn.handyplus.particle.core.wing.WingModelEnum;
-import cn.handyplus.particle.entity.PlayerParticleEntity;
 import cn.handyplus.particle.service.PlayerParticleService;
-import cn.handyplus.particle.util.ParticleColorUtil;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import java.awt.Color;
-import java.util.Optional;
 
 /**
  * 管理在线玩家的粒子效果。
@@ -107,7 +100,7 @@ public final class PlayerCommand implements IHandyCommandEvent {
         ParticleTypeEnum particleType = ParticleTypeEnum.getEnumThrow(type);
         ParticleCommandHelper.EffectOptions options = ParticleCommandHelper.parseEffect(categoryType, particleType, option, colorValue, hasExtra, usage);
         HandyParticleApi.enable(player, categoryType == ParticleCategoryTypeEnum.TRAIL ? new CustomTrailParticle(particleType, options.mode, options.color) : particleType);
-        this.save(player, particleType, options.mode, options.color);
+        PlayerParticleService.save(player, particleType, options.mode, options.color);
         // 发消息
         MessageUtil.sendMessage(sender, BaseUtil.getLangMsg("setSuccess", MapUtil.of("player", player.getName(), "type", particleType.getDesc())));
         if (sender != player) {
@@ -132,38 +125,11 @@ public final class PlayerCommand implements IHandyCommandEvent {
         WingColorEnum color = WingColorEnum.getEnumThrow(colorValue);
         AssertUtil.notTrue(hasExtra, usage);
         HandyParticleApi.enable(player, ParticleTypeEnum.wing(model, color));
-        this.saveWing(player, model, color);
+        PlayerParticleService.saveWing(player, model, color);
         MessageUtil.sendMessage(sender, BaseUtil.getLangMsg("setSuccess", MapUtil.of("player", player.getName(), "type", model.name() + "_" + color.name())));
         if (sender != player) {
             MessageUtil.sendMessage(player, BaseUtil.getLangMsg("setTargetNotice", MapUtil.of("type", model.name() + "_" + color.name())));
         }
-    }
-
-    /**
-     * 保存玩家翅膀设置。
-     *
-     * @param player 目标玩家
-     * @param model  翅膀外形
-     * @param color  颜色图案
-     */
-    private void saveWing(@NotNull Player player, @NotNull WingModelEnum model, @NotNull WingColorEnum color) {
-        Optional<PlayerParticleEntity> existing = PlayerParticleService.findByUuidAndCategory(player.getUniqueId(), ParticleCategoryTypeEnum.WING.name());
-        if (existing.isPresent()) {
-            PlayerParticleEntity saved = existing.get();
-            saved.setPlayerName(player.getName());
-            saved.setType(model.name());
-            saved.setColor(color.name());
-            saved.setMode(null);
-            PlayerParticleService.update(saved);
-            return;
-        }
-        PlayerParticleService.add(PlayerParticleEntity.builder()
-                .playerName(player.getName())
-                .playerUuid(player.getUniqueId())
-                .category(ParticleCategoryTypeEnum.WING.name())
-                .type(model.name())
-                .color(color.name())
-                .build());
     }
 
     /**
@@ -193,36 +159,6 @@ public final class PlayerCommand implements IHandyCommandEvent {
         this.sendClearMessage(sender, player,
                 BaseUtil.getLangMsg("clearCategorySuccess", MapUtil.of("player", player.getName(), "category", categoryType.getDesc())),
                 BaseUtil.getLangMsg("clearCategoryTargetNotice", MapUtil.of("category", categoryType.getDesc())));
-    }
-
-    /**
-     * 保存玩家的分类粒子效果。
-     *
-     * @param player       玩家
-     * @param particleType 效果类型
-     * @param mode         运动模式
-     * @param color        粒子颜色
-     */
-    private void save(@NotNull Player player, @NotNull ParticleTypeEnum particleType, @Nullable TrailModeTypeEnum mode, @Nullable Color color) {
-        Optional<PlayerParticleEntity> existing = PlayerParticleService.findByUuidAndCategory(player.getUniqueId(), particleType.getCategory().name());
-        if (existing.isPresent()) {
-            PlayerParticleEntity saved = existing.get();
-            saved.setPlayerName(player.getName());
-            saved.setType(particleType.name());
-            saved.setColor(color == null ? null : ParticleColorUtil.format(color));
-            saved.setMode(mode == null ? null : mode.name());
-            PlayerParticleService.update(saved);
-            return;
-        }
-        PlayerParticleEntity entity = PlayerParticleEntity.builder()
-                .playerName(player.getName())
-                .playerUuid(player.getUniqueId())
-                .category(particleType.getCategory().name())
-                .type(particleType.name())
-                .color(color == null ? null : ParticleColorUtil.format(color))
-                .mode(mode == null ? null : mode.name())
-                .build();
-        PlayerParticleService.add(entity);
     }
 
     /**

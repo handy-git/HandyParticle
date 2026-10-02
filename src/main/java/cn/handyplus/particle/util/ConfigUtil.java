@@ -4,6 +4,7 @@ import cn.handyplus.lib.constants.BaseConstants;
 import cn.handyplus.lib.util.HandyConfigUtil;
 import cn.handyplus.particle.constants.ParticleCategoryTypeEnum;
 import cn.handyplus.particle.constants.ParticleConstants;
+import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.Collections;
 import java.util.EnumMap;
@@ -17,6 +18,8 @@ import java.util.Map;
  */
 public final class ConfigUtil {
 
+    public static FileConfiguration CATEGORY_CONFIG, EFFECT_CONFIG, MODE_CONFIG, COLOR_CONFIG, WING_COLOR_CONFIG;
+
     /**
      * 禁止实例化配置工具。
      */
@@ -29,6 +32,11 @@ public final class ConfigUtil {
     public static void reload() {
         HandyConfigUtil.loadConfig();
         HandyConfigUtil.loadLangConfig(false);
+        CATEGORY_CONFIG = HandyConfigUtil.load("gui/category.yml");
+        EFFECT_CONFIG = HandyConfigUtil.load("gui/effect.yml");
+        MODE_CONFIG = HandyConfigUtil.load("gui/mode.yml");
+        COLOR_CONFIG = HandyConfigUtil.load("gui/color.yml");
+        WING_COLOR_CONFIG = HandyConfigUtil.load("gui/wing-color.yml");
 
         // 加载刷新间隔
         Map<ParticleCategoryTypeEnum, Long> intervals = new EnumMap<>(ParticleCategoryTypeEnum.class);

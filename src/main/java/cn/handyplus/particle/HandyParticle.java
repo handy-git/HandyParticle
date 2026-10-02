@@ -29,6 +29,8 @@ public final class HandyParticle extends JavaPlugin {
         initApi.addMetrics(34366)
                 .initCommand("cn.handyplus.particle.command")
                 .initListener("cn.handyplus.particle.listener", ignoreList)
+                .initClickEvent("cn.handyplus.particle.listener.gui")
+                .enablePlayerInput()
                 .enableSql("cn.handyplus.particle.entity")
                 .checkVersion();
 

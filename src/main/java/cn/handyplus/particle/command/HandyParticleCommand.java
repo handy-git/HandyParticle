@@ -21,7 +21,6 @@ import java.util.List;
 public final class HandyParticleCommand implements TabExecutor {
 
     private static final String PERMISSION = "handyParticle.reload";
-
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String @NotNull [] args) {
         // 判断指令是否正确
@@ -47,10 +46,9 @@ public final class HandyParticleCommand implements TabExecutor {
      * @param sender 发送人
      */
     private void sendHelp(CommandSender sender) {
-        if (!sender.hasPermission(PERMISSION)) {
-            return;
-        }
-        List<String> helps = BaseConstants.LANG_CONFIG.getStringList("helps");
+        // 管理员看完整帮助，普通玩家只看自助部分
+        String key = sender.hasPermission(PERMISSION) ? "helps" : "helpsPlayer";
+        List<String> helps = BaseConstants.LANG_CONFIG.getStringList(key);
         for (String help : helps) {
             MessageUtil.sendMessage(sender, help);
         }
