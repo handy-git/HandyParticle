@@ -50,11 +50,22 @@ public final class ParticleCategoryClickEvent implements IHandyClickEvent {
         if (!action.startsWith(ParticleGuiUtil.DATA_PREFIX)) {
             return;
         }
-        // 点击类别
         ParticleCategoryTypeEnum category = ParticleCategoryTypeEnum.getEnum(action.substring(ParticleGuiUtil.DATA_PREFIX.length()));
-        if (category != null) {
-            handyInventory.syncOpen(ParticleEffectGui.getInstance().createGui(handyInventory.getPlayer(), category));
+        if (category == null) {
+            return;
         }
+        // 右键直接取消该类别粒子，无需进入子菜单
+        if (event.isRightClick()) {
+            if (ParticleGuiUtil.findCurrent(handyInventory.getPlayer(), category) == null) {
+                // 本来就没设置，静默忽略
+                return;
+            }
+            ParticleGuiUtil.clear(handyInventory.getPlayer(), category);
+            ParticleCategoryGui.getInstance().setInventoryDate(handyInventory);
+            return;
+        }
+        // 左键进入该类别的效果菜单
+        handyInventory.syncOpen(ParticleEffectGui.getInstance().createGui(handyInventory.getPlayer(), category));
     }
 
 }
