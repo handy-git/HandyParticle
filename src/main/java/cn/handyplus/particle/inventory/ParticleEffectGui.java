@@ -133,6 +133,9 @@ public final class ParticleEffectGui {
         if (category == ParticleCategoryTypeEnum.PROJECTILE) {
             return "list.projectileIndex";
         }
+        if (category == ParticleCategoryTypeEnum.WEAPON) {
+            return "list.weaponIndex";
+        }
         return "list.index";
     }
 
@@ -145,8 +148,10 @@ public final class ParticleEffectGui {
         ParticleCategoryTypeEnum category = ParticleCategoryTypeEnum.getEnumThrow(handyInventory.getSearchType());
         // 返回按钮
         HandyInventoryUtil.setButton(ConfigUtil.EFFECT_CONFIG, handyInventory, "back");
-        // 拖尾在三级菜单关闭，抛射物不提供关闭按钮，两者都只用紧凑分割板
-        if (category == ParticleCategoryTypeEnum.TRAIL || category == ParticleCategoryTypeEnum.PROJECTILE) {
+        // 拖尾在三级菜单关闭，抛射物与武器在三级选择生效范围，三者都只用紧凑分割板
+        if (category == ParticleCategoryTypeEnum.TRAIL
+                || category == ParticleCategoryTypeEnum.PROJECTILE
+                || category == ParticleCategoryTypeEnum.WEAPON) {
             HandyInventoryUtil.setButton(ConfigUtil.EFFECT_CONFIG, handyInventory, "custom.trailPane");
             return;
         }

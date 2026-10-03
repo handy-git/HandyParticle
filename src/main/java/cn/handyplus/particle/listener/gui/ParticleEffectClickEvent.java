@@ -11,6 +11,7 @@ import cn.handyplus.particle.inventory.ParticleCategoryGui;
 import cn.handyplus.particle.inventory.ParticleEffectGui;
 import cn.handyplus.particle.inventory.ParticleModeGui;
 import cn.handyplus.particle.inventory.ParticleProjectileGui;
+import cn.handyplus.particle.inventory.ParticleWeaponGui;
 import cn.handyplus.particle.inventory.ParticleWingColorGui;
 import cn.handyplus.particle.param.ParticleSelectContext;
 import cn.handyplus.particle.util.ConfigUtil;
@@ -45,6 +46,7 @@ public final class ParticleEffectClickEvent implements IHandyClickEvent {
         }
         // 关闭粒子 拖尾在三级菜单关闭 抛射物不提供关闭按钮
         if (category != ParticleCategoryTypeEnum.TRAIL && category != ParticleCategoryTypeEnum.PROJECTILE
+                && category != ParticleCategoryTypeEnum.WEAPON
                 && HandyInventoryUtil.isIndex(rawSlot, ConfigUtil.EFFECT_CONFIG, "closeCategory")) {
             ParticleGuiUtil.clear(handyInventory.getPlayer(), category);
             ParticleEffectGui.getInstance().setInventoryDate(handyInventory);
@@ -72,9 +74,13 @@ public final class ParticleEffectClickEvent implements IHandyClickEvent {
         // 非拖尾效果直接应用
         if (type.getCategory() != ParticleCategoryTypeEnum.TRAIL) {
             ParticleGuiUtil.apply(handyInventory.getPlayer(), type, null, null);
-            // 抛射物需要继续选择生效范围
+            // 抛射物与武器需要继续选择生效范围
             if (type.getCategory() == ParticleCategoryTypeEnum.PROJECTILE) {
                 handyInventory.syncOpen(ParticleProjectileGui.getInstance().createGui(handyInventory.getPlayer()));
+                return;
+            }
+            if (type.getCategory() == ParticleCategoryTypeEnum.WEAPON) {
+                handyInventory.syncOpen(ParticleWeaponGui.getInstance().createGui(handyInventory.getPlayer()));
                 return;
             }
             handyInventory.syncOpen(ParticleCategoryGui.getInstance().createGui(handyInventory.getPlayer()));

@@ -12,6 +12,7 @@ import cn.handyplus.particle.api.ParticleTypeEnum;
 import cn.handyplus.particle.constants.ParticleCategoryTypeEnum;
 import cn.handyplus.particle.core.projectile.ProjectileParticleManager;
 import cn.handyplus.particle.core.trail.TrailModeTypeEnum;
+import cn.handyplus.particle.core.weapon.WeaponParticleManager;
 import cn.handyplus.particle.entity.PlayerParticleEntity;
 import cn.handyplus.particle.service.PlayerParticleService;
 import org.bukkit.configuration.ConfigurationSection;
@@ -134,9 +135,15 @@ public final class ParticleGuiUtil {
             if (type.getCategory() == ParticleCategoryTypeEnum.PROJECTILE) {
                 // 换效果时保留玩家已勾选的抛射物范围
                 ProjectileParticleManager.ProjectileRecord record = ProjectileParticleManager.getRecord(player);
-                String projectiles = record == null ? null : record.getProjectiles();
+                String projectiles = record == null ? null : record.getScopes();
                 HandyParticleApi.enable(player, type);
                 PlayerParticleService.save(player, type, null, null, projectiles);
+            } else if (type.getCategory() == ParticleCategoryTypeEnum.WEAPON) {
+                // 换效果时保留玩家已勾选的武器范围
+                WeaponParticleManager.WeaponRecord record = WeaponParticleManager.getRecord(player.getUniqueId());
+                String scopes = record == null ? null : record.getScopes();
+                HandyParticleApi.enable(player, type);
+                PlayerParticleService.save(player, type, null, null, scopes);
             } else {
                 HandyParticleApi.enable(player, type);
                 PlayerParticleService.save(player, type, null, null);
@@ -152,9 +159,12 @@ public final class ParticleGuiUtil {
      * @param category 粒子类别
      */
     public static void clear(@NotNull Player player, @Nullable ParticleCategoryTypeEnum category) {
-        // 抛射物效果不在任务表中，需要单独清理内存记录，否则关闭后箭仍会带粒子
+        // 抛射物与武器效果不在任务表中，需要单独清理内存记录，否则关闭后仍会触发
         if (category == null || category == ParticleCategoryTypeEnum.PROJECTILE) {
             ProjectileParticleManager.disable(player.getUniqueId());
+        }
+        if (category == null || category == ParticleCategoryTypeEnum.WEAPON) {
+            WeaponParticleManager.disable(player.getUniqueId());
         }
         if (category == null) {
             HandyParticleApi.disable(player);

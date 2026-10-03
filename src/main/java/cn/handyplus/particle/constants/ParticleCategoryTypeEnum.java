@@ -41,7 +41,11 @@ public enum ParticleCategoryTypeEnum {
     /**
      * 抛射物效果，仅对自己发射的抛射物生效。
      */
-    PROJECTILE;
+    PROJECTILE,
+    /**
+     * 武器攻击效果，仅近战伤害触发。
+     */
+    WEAPON;
 
     /**
      * 获取当前类别的本地化描述。

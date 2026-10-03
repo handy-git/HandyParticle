@@ -11,6 +11,8 @@ import cn.handyplus.particle.core.projectile.ProjectileTrailTypeEnum;
 import cn.handyplus.particle.core.rain.ItemRainTypeEnum;
 import cn.handyplus.particle.core.trail.TrailModeTypeEnum;
 import cn.handyplus.particle.core.trail.TrailTypeEnum;
+import cn.handyplus.particle.core.weapon.WeaponEffectTypeEnum;
+import cn.handyplus.particle.core.weapon.WeaponParticleManager;
 import cn.handyplus.particle.core.wing.WingColorEnum;
 import cn.handyplus.particle.core.wing.WingModelEnum;
 import lombok.Getter;
@@ -624,7 +626,108 @@ public enum ParticleTypeEnum implements ParticleType {
     /**
      * 爆炸发射抛射物拖尾。
      */
-    PROJECTILE_EXPLOSION_EMITTER(ProjectileTrailTypeEnum.EXPLOSION_EMITTER);
+    PROJECTILE_EXPLOSION_EMITTER(ProjectileTrailTypeEnum.EXPLOSION_EMITTER),
+
+    /**
+     * 末影信号武器攻击粒子。
+     */
+    WEAPON_ENDER_SIGNAL(WeaponEffectTypeEnum.ENDER_SIGNAL),
+    /**
+     * 刷怪箱火焰武器攻击粒子。
+     */
+    WEAPON_SPAWNER_FLAME(WeaponEffectTypeEnum.SPAWNER_FLAME),
+    /**
+     * 雪铲武器攻击粒子。
+     */
+    WEAPON_SNOW_SHOVEL(WeaponEffectTypeEnum.SNOW_SHOVEL),
+    /**
+     * 受伤武器攻击粒子。
+     */
+    WEAPON_HURT(WeaponEffectTypeEnum.HURT),
+    /**
+     * 浓烟武器攻击粒子。
+     */
+    WEAPON_SMOKE(WeaponEffectTypeEnum.SMOKE),
+    /**
+     * 烈焰人火球武器攻击粒子。
+     */
+    WEAPON_FLAME(WeaponEffectTypeEnum.FLAME),
+    /**
+     * 爱心武器攻击粒子。
+     */
+    WEAPON_HEART(WeaponEffectTypeEnum.HEART),
+    /**
+     * 音符武器攻击粒子。
+     */
+    WEAPON_NOTE(WeaponEffectTypeEnum.NOTE),
+    /**
+     * 瞬间法术武器攻击粒子。
+     */
+    WEAPON_SPELL(WeaponEffectTypeEnum.SPELL),
+    /**
+     * 传送门武器攻击粒子。
+     */
+    WEAPON_PORTAL(WeaponEffectTypeEnum.PORTAL),
+    /**
+     * 暴击武器攻击粒子。
+     */
+    WEAPON_CRIT(WeaponEffectTypeEnum.CRIT),
+    /**
+     * 气泡武器攻击粒子。
+     */
+    WEAPON_BUBBLE(WeaponEffectTypeEnum.BUBBLE),
+    /**
+     * 火焰武器攻击粒子。
+     */
+    WEAPON_FIRE(WeaponEffectTypeEnum.FIRE),
+    /**
+     * 扫火武器攻击粒子。
+     */
+    WEAPON_SWEEP(WeaponEffectTypeEnum.SWEEP),
+    /**
+     * 伤害指示武器攻击粒子。
+     */
+    WEAPON_DAMAGE_INDICATOR(WeaponEffectTypeEnum.DAMAGE_INDICATOR),
+    /**
+     * 雪球武器攻击粒子。
+     */
+    WEAPON_SNOWBALL(WeaponEffectTypeEnum.SNOWBALL),
+    /**
+     * 黏液块武器攻击粒子。
+     */
+    WEAPON_SLIME(WeaponEffectTypeEnum.SLIME),
+    /**
+     * 水花武器攻击粒子。
+     */
+    WEAPON_SPLASH(WeaponEffectTypeEnum.SPLASH),
+    /**
+     * 村民开心武器攻击粒子。
+     */
+    WEAPON_VILLAGER_HAPPY(WeaponEffectTypeEnum.VILLAGER_HAPPY),
+    /**
+     * 巫妖魔法武器攻击粒子。
+     */
+    WEAPON_WITCH(WeaponEffectTypeEnum.WITCH),
+    /**
+     * 云龙武器攻击粒子。
+     */
+    WEAPON_CLOUD(WeaponEffectTypeEnum.CLOUD),
+    /**
+     * 火花武器攻击粒子。
+     */
+    WEAPON_FIREWORK(WeaponEffectTypeEnum.FIREWORK),
+    /**
+     * 大型爆炸武器攻击粒子。
+     */
+    WEAPON_LARGE_EXPLOSION(WeaponEffectTypeEnum.LARGE_EXPLOSION),
+    /**
+     * 熔岩迸溅武器攻击粒子。
+     */
+    WEAPON_LAVA_POP(WeaponEffectTypeEnum.LAVA_POP),
+    /**
+     * 灵光武器攻击粒子。
+     */
+    WEAPON_GLOW(WeaponEffectTypeEnum.GLOW);
 
     private final ParticleCategoryTypeEnum category;
     private final TrailTypeEnum builtinTrail;
@@ -633,6 +736,7 @@ public enum ParticleTypeEnum implements ParticleType {
     private final ConfettiTypeEnum confetti;
     private final ElytraTrailTypeEnum elytraTrail;
     private final ProjectileTrailTypeEnum projectileTrail;
+    private final WeaponEffectTypeEnum weaponEffect;
     private final WingModelEnum wingModel;
     private final WingColorEnum wingColor;
 
@@ -647,6 +751,7 @@ public enum ParticleTypeEnum implements ParticleType {
         this.confetti = null;
         this.elytraTrail = null;
         this.projectileTrail = null;
+        this.weaponEffect = null;
         this.wingModel = model;
         this.wingColor = color;
     }
@@ -662,6 +767,7 @@ public enum ParticleTypeEnum implements ParticleType {
         this.confetti = null;
         this.elytraTrail = null;
         this.projectileTrail = null;
+        this.weaponEffect = null;
         this.wingModel = null;
         this.wingColor = null;
     }
@@ -677,6 +783,7 @@ public enum ParticleTypeEnum implements ParticleType {
         this.confetti = null;
         this.elytraTrail = null;
         this.projectileTrail = null;
+        this.weaponEffect = null;
         this.wingModel = null;
         this.wingColor = null;
     }
@@ -692,6 +799,7 @@ public enum ParticleTypeEnum implements ParticleType {
         this.confetti = null;
         this.elytraTrail = null;
         this.projectileTrail = null;
+        this.weaponEffect = null;
         this.wingModel = null;
         this.wingColor = null;
     }
@@ -707,6 +815,7 @@ public enum ParticleTypeEnum implements ParticleType {
         this.confetti = confetti;
         this.elytraTrail = null;
         this.projectileTrail = null;
+        this.weaponEffect = null;
         this.wingModel = null;
         this.wingColor = null;
     }
@@ -722,6 +831,7 @@ public enum ParticleTypeEnum implements ParticleType {
         this.confetti = null;
         this.elytraTrail = elytra;
         this.projectileTrail = null;
+        this.weaponEffect = null;
         this.wingModel = null;
         this.wingColor = null;
     }
@@ -737,6 +847,23 @@ public enum ParticleTypeEnum implements ParticleType {
         this.confetti = null;
         this.elytraTrail = null;
         this.projectileTrail = projectile;
+        this.weaponEffect = null;
+        this.wingModel = null;
+        this.wingColor = null;
+    }
+
+    /**
+     * 创建武器攻击预置。
+     */
+    ParticleTypeEnum(WeaponEffectTypeEnum weapon) {
+        this.category = ParticleCategoryTypeEnum.WEAPON;
+        this.builtinTrail = null;
+        this.blockTrail = null;
+        this.itemRain = null;
+        this.confetti = null;
+        this.elytraTrail = null;
+        this.projectileTrail = null;
+        this.weaponEffect = weapon;
         this.wingModel = null;
         this.wingColor = null;
     }
@@ -846,6 +973,13 @@ public enum ParticleTypeEnum implements ParticleType {
             // 保留玩家已勾选的生效范围，避免换效果时被重置为全选
             ProjectileParticleManager.ProjectileRecord record = ProjectileParticleManager.getRecord(entity.getUniqueId());
             ProjectileParticleManager.enable(entity.getUniqueId(), this, record == null ? null : record.getKinds());
+            return;
+        }
+        if (this.weaponEffect != null) {
+            // 武器效果没有常驻任务，仅登记开关，攻击时由监听器按需生成
+            // 保留玩家已勾选的生效范围，避免换效果时被重置为全选
+            WeaponParticleManager.WeaponRecord record = WeaponParticleManager.getRecord(entity.getUniqueId());
+            WeaponParticleManager.enable(entity.getUniqueId(), this, record == null ? null : record.getGroups());
             return;
         }
         if (this.wingModel != null) {

@@ -116,7 +116,7 @@ public final class ParticleProjectileClickEvent implements IHandyClickEvent {
     private void apply(@NotNull HandyInventory handyInventory, @NotNull List<ProjectileKindEnum> selected) {
         Player player = handyInventory.getPlayer();
         ProjectileParticleManager.updateKinds(player.getUniqueId(), selected);
-        PlayerParticleService.updateProjectiles(player.getUniqueId(), ProjectileKindEnum.serialize(selected));
+        PlayerParticleService.updateScopes(player.getUniqueId(), ParticleCategoryTypeEnum.PROJECTILE, ProjectileKindEnum.serialize(selected));
         if (selected.isEmpty()) {
             MessageUtil.sendMessage(player, BaseUtil.getLangMsg("guiProjectileClearAll"));
         } else {

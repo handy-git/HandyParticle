@@ -43,6 +43,11 @@ public class PlayerParticleEntity {
     @TableField(value = "mode", comment = "运动模式")
     private String mode;
 
-    @TableField(value = "projectiles", comment = "生效的抛射物类型", length = 255)
-    private String projectiles;
+    /**
+     * 生效范围，英文逗号分隔，为空表示全部生效。
+     *
+     * <p>抛射物类别存抛射物类型名，武器类别存武器分组名，两者共用此列。
+     */
+    @TableField(value = "scopes", comment = "生效范围", length = 255)
+    private String scopes;
 }

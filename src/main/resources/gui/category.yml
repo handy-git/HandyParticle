@@ -5,8 +5,9 @@ sound: ""
 
 # 类别选项槽位
 list:
-  # 粒子类别的按钮槽位
-  index: 19,20,21,22,23,24,25
+  # 8 个粒子类别的按钮槽位
+  # 排布为 第3行 19-25（7个） 第4行 28（1个）
+  index: 19,20,21,22,23,24,25,28
   # 每项可按按钮格式继续设置 name、lore、isEnchant、sound、custom-model-data
   items:
     TRAIL:
@@ -23,6 +24,8 @@ list:
       material: ELYTRA
     PROJECTILE:
       material: TARGET
+    WEAPON:
+      material: DIAMOND_SWORD
 
 # 数据区物品的公共部分
 data:

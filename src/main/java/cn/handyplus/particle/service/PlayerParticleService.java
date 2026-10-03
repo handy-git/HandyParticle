@@ -77,21 +77,22 @@ public final class PlayerParticleService {
                 .set(PlayerParticleEntity::getType, entity.getType())
                 .set(PlayerParticleEntity::getColor, entity.getColor())
                 .set(PlayerParticleEntity::getMode, entity.getMode())
-                .set(PlayerParticleEntity::getProjectiles, entity.getProjectiles());
+                .set(PlayerParticleEntity::getScopes, entity.getScopes());
         db.execution().updateById(entity.getId());
     }
 
     /**
-     * 单独更新玩家抛射物生效范围。
+     * 单独更新玩家指定类别的生效范围。
      *
      * @param playerUuid 玩家 UUID
-     * @param projectiles 逗号分隔的抛射物类型，为空表示全部
+     * @param category   粒子类别
+     * @param scopes     逗号分隔的生效范围，为空表示全部
      */
-    public static void updateProjectiles(@NotNull UUID playerUuid, @Nullable String projectiles) {
+    public static void updateScopes(@NotNull UUID playerUuid, @NotNull ParticleCategoryTypeEnum category, @Nullable String scopes) {
         Db<PlayerParticleEntity> db = Db.use(PlayerParticleEntity.class);
         db.where().eq(PlayerParticleEntity::getPlayerUuid, playerUuid)
-                .eq(PlayerParticleEntity::getCategory, ParticleCategoryTypeEnum.PROJECTILE.name());
-        db.update().set(PlayerParticleEntity::getProjectiles, projectiles);
+                .eq(PlayerParticleEntity::getCategory, category.name());
+        db.update().set(PlayerParticleEntity::getScopes, scopes);
         db.execution().update();
     }
 
@@ -138,10 +139,10 @@ public final class PlayerParticleService {
      * @param particleType 效果类型
      * @param mode         运动模式，非拖尾类别为空
      * @param color        粒子颜色
-     * @param projectiles  抛射物生效范围，逗号分隔，为空表示全部
+     * @param scopes       生效范围，逗号分隔，为空表示全部
      */
     public static void save(@NotNull Player player, @NotNull ParticleTypeEnum particleType, @Nullable TrailModeTypeEnum mode,
-                            @Nullable Color color, @Nullable String projectiles) {
+                            @Nullable Color color, @Nullable String scopes) {
         String category = particleType.getCategory().name();
         Optional<PlayerParticleEntity> existing = findByUuidAndCategory(player.getUniqueId(), category);
         if (existing.isPresent()) {
@@ -150,7 +151,7 @@ public final class PlayerParticleService {
             saved.setType(particleType.name());
             saved.setColor(color == null ? null : ParticleColorUtil.format(color));
             saved.setMode(mode == null ? null : mode.name());
-            saved.setProjectiles(projectiles);
+            saved.setScopes(scopes);
             update(saved);
             return;
         }
@@ -161,7 +162,7 @@ public final class PlayerParticleService {
                 .type(particleType.name())
                 .color(color == null ? null : ParticleColorUtil.format(color))
                 .mode(mode == null ? null : mode.name())
-                .projectiles(projectiles)
+                .scopes(scopes)
                 .build());
     }
 

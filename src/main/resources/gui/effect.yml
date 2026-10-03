@@ -10,6 +10,8 @@ list:
   # 普通粒子使用
   trailIndex: 1,2,3,4,5,6,7,10,11,12,13,14,15,16,19,20,21,22,23,24,25,28,29,30,31,32,33,34,37,38,39,40,41,42,43
   # 抛射物使用
+  # 武器效果 24 个 复用紧凑排版
+  weaponIndex: 1,2,3,4,5,6,7,10,11,12,13,14,15,16,19,20,21,22,23,24,25,28,29,30,31,32,33,34,37,38,39,40,41,42,43
   projectileIndex: 1,2,3,4,5,6,7,10,11,12,13,14,15,16,19,20,21,22,23,24,25,28,29,30,31,32,33,34,37,38,39,40,41,42,43
   # 每项可按按钮格式继续设置 name、lore、isEnchant、sound、custom-model-data
   items:
@@ -143,6 +145,57 @@ list:
       material: PRISMARINE_CRYSTALS
     ELYTRA_DRAGON:
       material: DRAGON_EGG
+
+    WEAPON_ENDER_SIGNAL:
+      material: END_PORTAL_FRAME
+    WEAPON_SPAWNER_FLAME:
+      material: BLAZE_POWDER
+    WEAPON_SNOW_SHOVEL:
+      material: SNOWBALL
+    WEAPON_HURT:
+      material: REDSTONE
+    WEAPON_SMOKE:
+      material: CANDLE
+    WEAPON_FLAME:
+      material: FIRE_CHARGE
+    WEAPON_HEART:
+      material: HEART_OF_THE_SEA
+    WEAPON_NOTE:
+      material: NOTE_BLOCK
+    WEAPON_SPELL:
+      material: BREWING_STAND
+    WEAPON_PORTAL:
+      material: END_ROD
+    WEAPON_CRIT:
+      material: NETHERITE_SWORD
+    WEAPON_BUBBLE:
+      material: GLASS_BOTTLE
+    WEAPON_FIRE:
+      material: SOUL_CAMPFIRE
+    WEAPON_SWEEP:
+      material: DIAMOND_SWORD
+    WEAPON_DAMAGE_INDICATOR:
+      material: TOTEM_OF_UNDYING
+    WEAPON_SNOWBALL:
+      material: SNOW_BLOCK
+    WEAPON_SLIME:
+      material: SLIME_BALL
+    WEAPON_SPLASH:
+      material: SPLASH_POTION
+    WEAPON_VILLAGER_HAPPY:
+      material: EMERALD
+    WEAPON_WITCH:
+      material: WITCH_SPAWN_EGG
+    WEAPON_CLOUD:
+      material: WHITE_WOOL
+    WEAPON_FIREWORK:
+      material: FIREWORK_ROCKET
+    WEAPON_LARGE_EXPLOSION:
+      material: TNT
+    WEAPON_LAVA_POP:
+      material: MAGMA_CREAM
+    WEAPON_GLOW:
+      material: SEA_LANTERN
 
     PROJECTILE_MAGIC:
       material: WITCH_SPAWN_EGG

@@ -34,7 +34,11 @@ public enum ParticleGuiTypeEnum {
     /**
      * 三级菜单，选择抛射物生效范围。
      */
-    PROJECTILE_KIND("particleProjectile");
+    PROJECTILE_KIND("particleProjectile"),
+    /**
+     * 三级菜单，选择武器生效范围。
+     */
+    WEAPON_KIND("particleWeapon");
 
     private final String type;
 

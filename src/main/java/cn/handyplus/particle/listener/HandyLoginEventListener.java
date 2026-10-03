@@ -9,6 +9,8 @@ import cn.handyplus.particle.api.ParticleTypeEnum;
 import cn.handyplus.particle.constants.ParticleCategoryTypeEnum;
 import cn.handyplus.particle.core.projectile.ProjectileKindEnum;
 import cn.handyplus.particle.core.projectile.ProjectileParticleManager;
+import cn.handyplus.particle.core.weapon.WeaponGroupEnum;
+import cn.handyplus.particle.core.weapon.WeaponParticleManager;
 import cn.handyplus.particle.entity.PlayerParticleEntity;
 import cn.handyplus.particle.service.PlayerParticleService;
 import cn.handyplus.particle.util.ParticleRestoreUtil;
@@ -47,7 +49,13 @@ public final class HandyLoginEventListener implements Listener {
                 if (saved.getCategory().equals(ParticleCategoryTypeEnum.PROJECTILE.name())) {
                     // 抛射物只登记开关，不起常驻任务
                     ProjectileParticleManager.enable(playerId, (ParticleTypeEnum) particleType,
-                            ProjectileKindEnum.parse(saved.getProjectiles()));
+                            ProjectileKindEnum.parse(saved.getScopes()));
+                    continue;
+                }
+                if (saved.getCategory().equals(ParticleCategoryTypeEnum.WEAPON.name())) {
+                    // 武器攻击只登记开关，攻击时才由监听器生成粒子
+                    WeaponParticleManager.enable(playerId, (ParticleTypeEnum) particleType,
+                            WeaponGroupEnum.parse(saved.getScopes()));
                     continue;
                 }
                 HandyParticleApi.enable(player, particleType);

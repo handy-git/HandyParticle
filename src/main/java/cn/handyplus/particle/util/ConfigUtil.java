@@ -18,7 +18,7 @@ import java.util.Map;
  */
 public final class ConfigUtil {
 
-    public static FileConfiguration CATEGORY_CONFIG, EFFECT_CONFIG, MODE_CONFIG, COLOR_CONFIG, WING_COLOR_CONFIG, PROJECTILE_CONFIG;
+    public static FileConfiguration CATEGORY_CONFIG, EFFECT_CONFIG, MODE_CONFIG, COLOR_CONFIG, WING_COLOR_CONFIG, PROJECTILE_CONFIG, WEAPON_CONFIG;
 
     /**
      * 禁止实例化配置工具。
@@ -38,6 +38,7 @@ public final class ConfigUtil {
         COLOR_CONFIG = HandyConfigUtil.load("gui/color.yml");
         WING_COLOR_CONFIG = HandyConfigUtil.load("gui/wing-color.yml");
         PROJECTILE_CONFIG = HandyConfigUtil.load("gui/projectile.yml");
+        WEAPON_CONFIG = HandyConfigUtil.load("gui/weapon.yml");
 
         // 加载刷新间隔
         Map<ParticleCategoryTypeEnum, Long> intervals = new EnumMap<>(ParticleCategoryTypeEnum.class);

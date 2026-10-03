@@ -72,6 +72,9 @@ final class ParticleCommandHelper {
         // 抛射物
         set.when(context -> tabValues(ParticleCategoryTypeEnum.PROJECTILE))
                 .next(context -> ParticleCategoryTypeEnum.get(ParticleCategoryTypeEnum.PROJECTILE));
+        // 武器攻击
+        set.when(context -> tabValues(ParticleCategoryTypeEnum.WEAPON))
+                .next(context -> ParticleCategoryTypeEnum.get(ParticleCategoryTypeEnum.WEAPON));
 
         // clear
         HandyTab clear = action.when(ParticleCommandActionEnum.CLEAR.getValue());

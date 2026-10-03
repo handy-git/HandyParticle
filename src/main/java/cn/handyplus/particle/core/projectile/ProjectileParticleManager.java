@@ -94,7 +94,7 @@ public final class ProjectileParticleManager {
         if (record == null) {
             return;
         }
-        record.setProjectiles(kinds == null ? null : ProjectileKindEnum.serialize(kinds));
+        record.setScopes(kinds == null ? null : ProjectileKindEnum.serialize(kinds));
     }
 
     /**
@@ -109,7 +109,7 @@ public final class ProjectileParticleManager {
         if (record == null) {
             return false;
         }
-        String saved = record.getProjectiles();
+        String saved = record.getScopes();
         // 未配置时视为全部生效
         if (saved == null || saved.isEmpty()) {
             return true;
@@ -145,13 +145,13 @@ public final class ProjectileParticleManager {
          */
         private final ParticleTypeEnum type;
         /**
-         * 生效的抛射物类型，逗号分隔，为空表示全部。
+         * 生效范围，逗号分隔，为空表示全部。
          */
-        private String projectiles;
+        private String scopes;
 
-        ProjectileRecord(@NotNull ParticleTypeEnum type, @Nullable String projectiles) {
+        ProjectileRecord(@NotNull ParticleTypeEnum type, @Nullable String scopes) {
             this.type = type;
-            this.projectiles = projectiles;
+            this.scopes = scopes;
         }
 
         /**
@@ -171,7 +171,7 @@ public final class ProjectileParticleManager {
          */
         @NotNull
         public List<ProjectileKindEnum> getKinds() {
-            return ProjectileKindEnum.parse(this.projectiles);
+            return ProjectileKindEnum.parse(this.scopes);
         }
 
         /**
@@ -180,17 +180,17 @@ public final class ProjectileParticleManager {
          * @return 文本，全选时返回 null
          */
         @Nullable
-        public String getProjectiles() {
-            return this.projectiles;
+        public String getScopes() {
+            return this.scopes;
         }
 
         /**
-         * 覆盖生效的抛射物范围。
+         * 覆盖生效范围。
          *
-         * @param projectiles 逗号分隔文本
+         * @param scopes 逗号分隔文本
          */
-        void setProjectiles(@Nullable String projectiles) {
-            this.projectiles = projectiles;
+        void setScopes(@Nullable String scopes) {
+            this.scopes = scopes;
         }
     }
 

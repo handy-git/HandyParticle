@@ -42,6 +42,8 @@ guiColorInputChatPrompt: "&e请输入颜色 例如 #FF0000，输入 ${cancel} �
 guiColorInputCancel: "&8[&a✔&8] &a已取消颜色输入"
 guiProjectileSelected: "&8[&a✔&8] &a已为 ${number} 种抛射物启用粒子"
 guiProjectileClearAll: "&8[&c✔&8] &c已关闭全部抛射物的粒子效果"
+guiWeaponSelected: "&8[&a✔&8] &a已为 ${number} 种武器启用粒子"
+guiWeaponClearAll: "&8[&c✔&8] &c已关闭全部武器的粒子效果"
 
 # 管理员帮助信息
 helps:
@@ -216,7 +218,31 @@ particleTypeDesc:
   PROJECTILE_MYCELIUM: "菌丝"
   PROJECTILE_EXPLOSION: "爆炸"
   PROJECTILE_EXPLOSION_EMITTER: "爆炸发射"
-
+  WEAPON_ENDER_SIGNAL: "末影信号"
+  WEAPON_SPAWNER_FLAME: "刷怪箱火焰"
+  WEAPON_SNOW_SHOVEL: "雪铲"
+  WEAPON_HURT: "受伤"
+  WEAPON_SMOKE: "浓烟"
+  WEAPON_FLAME: "烈焰人火球"
+  WEAPON_HEART: "爱心"
+  WEAPON_NOTE: "音符"
+  WEAPON_SPELL: "瞬间法术"
+  WEAPON_PORTAL: "传送门"
+  WEAPON_CRIT: "暴击"
+  WEAPON_BUBBLE: "气泡"
+  WEAPON_FIRE: "火焰"
+  WEAPON_SWEEP: "横扫"
+  WEAPON_DAMAGE_INDICATOR: "伤害指示"
+  WEAPON_SNOWBALL: "雪球"
+  WEAPON_SLIME: "史莱姆"
+  WEAPON_SPLASH: "水花"
+  WEAPON_VILLAGER_HAPPY: "村民喜悦"
+  WEAPON_WITCH: "女巫魔咒"
+  WEAPON_CLOUD: "云"
+  WEAPON_FIREWORK: "火花"
+  WEAPON_LARGE_EXPLOSION: "大型爆炸"
+  WEAPON_LAVA_POP: "熔岩迸溅"
+  WEAPON_GLOW: "灵光"
 # 类别提醒
 particleCategoryDesc:
   TRAIL: "普通"
@@ -226,6 +252,7 @@ particleCategoryDesc:
   CONFETTI: "纸屑"
   ELYTRA: "鞘翅"
   PROJECTILE: "抛射物"
+  WEAPON: "武器攻击"
 
 # 翅膀样式
 wingModelDesc:
@@ -276,3 +303,15 @@ projectileKindDesc:
   ENDER_PEARL: "末影珍珠"
   SHULKER_BULLET: "潜影壳"
   WIND_CHARGE: "风弹"
+
+# 武器分组
+weaponGroupDesc:
+  SWORD: "剑"
+  AXE: "斧"
+  PICKAXE: "镐"
+  SHOVEL: "锹"
+  HOE: "锄"
+  TRIDENT: "三叉戟"
+  MACE: "锤"
+  SPEAR: "矛"
+  HAND: "空手"
