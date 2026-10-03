@@ -133,6 +133,12 @@ list:
       material: FIREWORK_STAR
     CONFETTI_RED_GREEN_BLACK:
       material: FIREWORK_ROCKET
+    ELYTRA_METAL:
+      material: DIAMOND
+    ELYTRA_PRISMARINE:
+      material: PRISMARINE_CRYSTALS
+    ELYTRA_DRAGON:
+      material: DRAGON_EGG
 
 # 数据区物品的公共部分
 data:

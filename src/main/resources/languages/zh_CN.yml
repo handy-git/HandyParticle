@@ -178,6 +178,9 @@ particleTypeDesc:
   CONFETTI_RED_YELLOW_WHITE: "红黄白"
   CONFETTI_BLACK_YELLOW_PURPLE: "黑黄紫"
   CONFETTI_RED_GREEN_BLACK: "红绿黑"
+  ELYTRA_METAL: "贵金属"
+  ELYTRA_PRISMARINE: "海晶"
+  ELYTRA_DRAGON: "龙蛋"
 
 # 类别提醒
 particleCategoryDesc:
@@ -186,6 +189,7 @@ particleCategoryDesc:
   BLOCK: "方块"
   RAIN: "物品雨"
   CONFETTI: "纸屑"
+  ELYTRA: "鞘翅"
 
 # 翅膀样式
 wingModelDesc:

@@ -33,7 +33,11 @@ public enum ParticleCategoryTypeEnum {
     /**
      * 纸屑效果。
      */
-    CONFETTI;
+    CONFETTI,
+    /**
+     * 鞘翅拖尾效果，仅在玩家滑翔时生成。
+     */
+    ELYTRA;
 
     /**
      * 获取当前类别的本地化描述。

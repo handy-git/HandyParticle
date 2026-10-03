@@ -8,6 +8,8 @@ import cn.handyplus.particle.core.block.BlockTrailTask;
 import cn.handyplus.particle.core.block.BlockTrailTypeEnum;
 import cn.handyplus.particle.core.confetti.ConfettiTask;
 import cn.handyplus.particle.core.confetti.ConfettiTypeEnum;
+import cn.handyplus.particle.core.elytra.ElytraTrailTask;
+import cn.handyplus.particle.core.elytra.ElytraTrailTypeEnum;
 import cn.handyplus.particle.core.rain.ItemRainTask;
 import cn.handyplus.particle.core.rain.ItemRainTypeEnum;
 import cn.handyplus.particle.core.trail.TrailModeTypeEnum;
@@ -128,6 +130,26 @@ public final class HandyParticleCore {
      */
     public static synchronized void setConfetti(@NotNull Entity entity, @NotNull ItemStack[] items) {
         start(entity, new ConfettiTask(entity, items), ParticleCategoryTypeEnum.CONFETTI);
+    }
+
+    /**
+     * 启用指定实体的鞘翅滑翔拖尾。
+     *
+     * @param entity 实体
+     * @param type   材质组合
+     */
+    public static synchronized void setElytra(@NotNull Entity entity, @NotNull ElytraTrailTypeEnum type) {
+        start(entity, new ElytraTrailTask(entity, type), ParticleCategoryTypeEnum.ELYTRA);
+    }
+
+    /**
+     * 启用指定物品组成的鞘翅滑翔拖尾。
+     *
+     * @param entity 目标实体
+     * @param items  物品列表
+     */
+    public static synchronized void setElytra(@NotNull Entity entity, @NotNull ItemStack[] items) {
+        start(entity, new ElytraTrailTask(entity, items), ParticleCategoryTypeEnum.ELYTRA);
     }
 
     /**

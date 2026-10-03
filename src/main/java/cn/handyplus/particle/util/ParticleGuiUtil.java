@@ -129,6 +129,7 @@ public final class ParticleGuiUtil {
             HandyParticleApi.enable(player, new CustomTrailParticle(type, mode == null ? TrailModeTypeEnum.DEFAULT : mode, color));
             PlayerParticleService.save(player, type, mode, color);
         } else {
+            // 鞘翅、方块、物品雨、纸屑均无附加参数
             HandyParticleApi.enable(player, type);
             PlayerParticleService.save(player, type, null, null);
         }

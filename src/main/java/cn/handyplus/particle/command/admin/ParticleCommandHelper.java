@@ -60,6 +60,8 @@ final class ParticleCommandHelper {
         set.when(ParticleCategoryTypeEnum.RAIN.name()).next(ParticleCategoryTypeEnum.get(ParticleCategoryTypeEnum.RAIN));
         // 纸屑
         set.when(ParticleCategoryTypeEnum.CONFETTI.name()).next(ParticleCategoryTypeEnum.get(ParticleCategoryTypeEnum.CONFETTI));
+        // 鞘翅
+        set.when(ParticleCategoryTypeEnum.ELYTRA.name()).next(ParticleCategoryTypeEnum.get(ParticleCategoryTypeEnum.ELYTRA));
 
         // clear
         HandyTab clear = action.when(ParticleCommandActionEnum.CLEAR.getValue());

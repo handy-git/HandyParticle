@@ -5,6 +5,7 @@ import cn.handyplus.particle.constants.ParticleCategoryTypeEnum;
 import cn.handyplus.particle.core.HandyParticleCore;
 import cn.handyplus.particle.core.block.BlockTrailTypeEnum;
 import cn.handyplus.particle.core.confetti.ConfettiTypeEnum;
+import cn.handyplus.particle.core.elytra.ElytraTrailTypeEnum;
 import cn.handyplus.particle.core.rain.ItemRainTypeEnum;
 import cn.handyplus.particle.core.trail.TrailModeTypeEnum;
 import cn.handyplus.particle.core.trail.TrailTypeEnum;
@@ -475,13 +476,27 @@ public enum ParticleTypeEnum implements ParticleType {
     /**
      * 红绿黑纸屑。
      */
-    CONFETTI_RED_GREEN_BLACK(ConfettiTypeEnum.RED_GREEN_BLACK);
+    CONFETTI_RED_GREEN_BLACK(ConfettiTypeEnum.RED_GREEN_BLACK),
+
+    /**
+     * 贵金属鞘翅拖尾。
+     */
+    ELYTRA_METAL(ElytraTrailTypeEnum.ELYTRA_METAL),
+    /**
+     * 海晶鞘翅拖尾。
+     */
+    ELYTRA_PRISMARINE(ElytraTrailTypeEnum.ELYTRA_PRISMARINE),
+    /**
+     * 珍宝鞘翅拖尾。
+     */
+    ELYTRA_DRAGON(ElytraTrailTypeEnum.ELYTRA_DRAGON);
 
     private final ParticleCategoryTypeEnum category;
     private final TrailTypeEnum builtinTrail;
     private final BlockTrailTypeEnum blockTrail;
     private final ItemRainTypeEnum itemRain;
     private final ConfettiTypeEnum confetti;
+    private final ElytraTrailTypeEnum elytraTrail;
     private final WingModelEnum wingModel;
     private final WingColorEnum wingColor;
 
@@ -494,6 +509,7 @@ public enum ParticleTypeEnum implements ParticleType {
         this.blockTrail = null;
         this.itemRain = null;
         this.confetti = null;
+        this.elytraTrail = null;
         this.wingModel = model;
         this.wingColor = color;
     }
@@ -507,6 +523,7 @@ public enum ParticleTypeEnum implements ParticleType {
         this.blockTrail = null;
         this.itemRain = null;
         this.confetti = null;
+        this.elytraTrail = null;
         this.wingModel = null;
         this.wingColor = null;
     }
@@ -520,6 +537,7 @@ public enum ParticleTypeEnum implements ParticleType {
         this.blockTrail = block;
         this.itemRain = null;
         this.confetti = null;
+        this.elytraTrail = null;
         this.wingModel = null;
         this.wingColor = null;
     }
@@ -533,6 +551,7 @@ public enum ParticleTypeEnum implements ParticleType {
         this.blockTrail = null;
         this.itemRain = rain;
         this.confetti = null;
+        this.elytraTrail = null;
         this.wingModel = null;
         this.wingColor = null;
     }
@@ -546,6 +565,21 @@ public enum ParticleTypeEnum implements ParticleType {
         this.blockTrail = null;
         this.itemRain = null;
         this.confetti = confetti;
+        this.elytraTrail = null;
+        this.wingModel = null;
+        this.wingColor = null;
+    }
+
+    /**
+     * 创建鞘翅拖尾预置。
+     */
+    ParticleTypeEnum(ElytraTrailTypeEnum elytra) {
+        this.category = ParticleCategoryTypeEnum.ELYTRA;
+        this.builtinTrail = null;
+        this.blockTrail = null;
+        this.itemRain = null;
+        this.confetti = null;
+        this.elytraTrail = elytra;
         this.wingModel = null;
         this.wingColor = null;
     }
@@ -664,6 +698,10 @@ public enum ParticleTypeEnum implements ParticleType {
         }
         if (this.confetti != null) {
             HandyParticleCore.setConfetti(entity, this.confetti);
+            return;
+        }
+        if (this.elytraTrail != null) {
+            HandyParticleCore.setElytra(entity, this.elytraTrail);
             return;
         }
         HandyParticleCore.setTrail(entity, this.builtinTrail, mode, color);
