@@ -6,7 +6,8 @@ sound: ""
 # 色板槽位，colors 未配置时使用内置颜色
 colorBoard:
   enable: true
-  index: 19,20,21,22,23,24,25,28,29,30,31,32,33,34,37,38
+  # 16 个预设颜色的色板槽位，材质按 colorMaterials 映射到染色羊毛
+  index: 10,11,12,13,14,15,16,19,20,21,22,23,24,25,28,29,30,31,32,33,34
   material: RED_WOOL
   isEnchant: false
   sound: ""
@@ -81,13 +82,13 @@ back:
 # 自定义颜色
 customColor:
   enable: true
-  index: 39
+  index: 43
   material: NETHER_WART_BLOCK
   isEnchant: false
   sound: ""
   name: "    &8[&d自定义颜色&8]"
   lore:
-    - '&8▪ &7输入自定义颜色 支持 &f#RGB &7或 &f#RRGGBB'
+    - '&8▪ &7输入自定义颜色'
   custom-model-data: 0
 
 # 自定义按钮

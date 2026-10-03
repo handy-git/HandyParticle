@@ -5,6 +5,7 @@ sound: ""
 
 # 图案选项槽位
 list:
+  # 7 个翅膀颜色图案
   index: 19,20,21,22,23,24,25
   # 每项可按按钮格式继续设置 name、lore、isEnchant、sound、custom-model-data
   items:
@@ -26,7 +27,6 @@ list:
 # 数据区物品
 data:
   enable: true
-  material: PAPER
   sound: ""
   isEnchant: false
   custom-model-data: 0
@@ -40,7 +40,6 @@ data:
 # 已选中物品
 selected:
   enable: true
-  material: PAPER
   sound: ""
   isEnchant: true
   custom-model-data: 0

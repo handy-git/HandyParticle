@@ -42,8 +42,9 @@ public final class ParticleEffectClickEvent implements IHandyClickEvent {
             handyInventory.syncOpen(ParticleCategoryGui.getInstance().createGui(handyInventory.getPlayer()));
             return;
         }
-        // 关闭粒子
-        if (category != ParticleCategoryTypeEnum.TRAIL && HandyInventoryUtil.isIndex(rawSlot, ConfigUtil.EFFECT_CONFIG, "closeCategory")) {
+        // 关闭粒子 拖尾在三级菜单关闭 抛射物不提供关闭按钮
+        if (category != ParticleCategoryTypeEnum.TRAIL && category != ParticleCategoryTypeEnum.PROJECTILE
+                && HandyInventoryUtil.isIndex(rawSlot, ConfigUtil.EFFECT_CONFIG, "closeCategory")) {
             ParticleGuiUtil.clear(handyInventory.getPlayer(), category);
             ParticleEffectGui.getInstance().setInventoryDate(handyInventory);
             return;

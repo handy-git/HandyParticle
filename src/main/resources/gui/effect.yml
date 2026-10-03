@@ -5,8 +5,12 @@ sound: ""
 
 # 效果选项槽位
 list:
+  # 效果数量少的类别使用：翅膀8 / 方块8 / 物品雨5 / 纸屑7
   index: 19,20,21,22,23,24,25,28,29,30,31,32,33,34
-  trailIndex: 1,2,3,4,5,6,7,10,11,12,13,14,15,16,19,20,21,22,23,24,25,28,29,30,31,32,33,34,37,38,39,40,41,42
+  # 普通粒子使用
+  trailIndex: 1,2,3,4,5,6,7,10,11,12,13,14,15,16,19,20,21,22,23,24,25,28,29,30,31,32,33,34,37,38,39,40,41,42,43
+  # 抛射物使用
+  projectileIndex: 1,2,3,4,5,6,7,10,11,12,13,14,15,16,19,20,21,22,23,24,25,28,29,30,31,32,33,34,37,38,39,40,41,42,43
   # 每项可按按钮格式继续设置 name、lore、isEnchant、sound、custom-model-data
   items:
     ANGEL:
@@ -140,10 +144,76 @@ list:
     ELYTRA_DRAGON:
       material: DRAGON_EGG
 
+    PROJECTILE_MAGIC:
+      material: WITCH_SPAWN_EGG
+    PROJECTILE_GREEN_SPARKLE:
+      material: EMERALD
+    PROJECTILE_COLOR_DUST:
+      material: REDSTONE
+    PROJECTILE_CRIT:
+      material: NETHERITE_SWORD
+    PROJECTILE_SPARKS:
+      material: FIREWORK_ROCKET
+    PROJECTILE_FLAME:
+      material: BLAZE_POWDER
+    PROJECTILE_GLYPH:
+      material: GLOWSTONE_DUST
+    PROJECTILE_HEART:
+      material: HEART_OF_THE_SEA
+    PROJECTILE_SPELL:
+      material: BREWING_STAND
+    PROJECTILE_SMOKE:
+      material: CAMPFIRE
+    PROJECTILE_LARGE_SMOKE:
+      material: BLACK_CONCRETE
+    PROJECTILE_LAVA_POP:
+      material: MAGMA_CREAM
+    PROJECTILE_LAVA_DRIP:
+      material: LAVA_BUCKET
+    PROJECTILE_MAGIC_CRIT:
+      material: GOLDEN_APPLE
+    PROJECTILE_NOTE:
+      material: NOTE_BLOCK
+    PROJECTILE_ENCHANT:
+      material: ENDER_EYE
+    PROJECTILE_PORTAL:
+      material: END_PORTAL_FRAME
+    PROJECTILE_POTION_SWIRL:
+      material: POTION
+    PROJECTILE_SLIME:
+      material: SLIME_BALL
+    PROJECTILE_SNOW:
+      material: SNOWBALL
+    PROJECTILE_SNOWBALL:
+      material: SNOW_BLOCK
+    PROJECTILE_SPLASH:
+      material: SPLASH_POTION
+    PROJECTILE_ANGRY_VILLAGER:
+      material: REDSTONE_TORCH
+    PROJECTILE_VOID_FOG:
+      material: GLOW_INK_SAC
+    PROJECTILE_WATER_DRIP:
+      material: WATER_BUCKET
+    PROJECTILE_END_ROD:
+      material: END_ROD
+    PROJECTILE_TOTEM:
+      material: TOTEM_OF_UNDYING
+    PROJECTILE_SOUL_FIRE:
+      material: SOUL_TORCH
+    PROJECTILE_GOLD_SPARKS:
+      material: GOLD_NUGGET
+    PROJECTILE_DRAGON_BREATH:
+      material: DRAGON_BREATH
+    PROJECTILE_MYCELIUM:
+      material: SHROOMLIGHT
+    PROJECTILE_EXPLOSION:
+      material: FIRE_CHARGE
+    PROJECTILE_EXPLOSION_EMITTER:
+      material: RESIN_BRICKS
+
 # 数据区物品的公共部分
 data:
   enable: true
-  material: PAPER
   sound: ""
   isEnchant: false
   custom-model-data: 0
@@ -158,7 +228,6 @@ data:
 # 数据区已选中物品的展示部分 覆盖 data
 selected:
   enable: true
-  material: PAPER
   sound: ""
   isEnchant: true
   custom-model-data: 0
@@ -207,7 +276,7 @@ custom:
       - "&7哎呀,不要随便戳人家啦"
     custom-model-data: 0
 
-  # 普通拖尾分割板
+  # 普通粒子与抛射物的分割板
   trailPane:
     enable: true
     index: 0,8,9,17,18,26,27,35,36,44,45,46,47,48,50,51,52,53
@@ -218,4 +287,3 @@ custom:
     lore:
       - "&7哎呀,不要随便戳人家啦"
     custom-model-data: 0
-

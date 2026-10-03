@@ -89,9 +89,7 @@ public final class ParticleEffectGui {
     private void setData(@NotNull HandyInventory handyInventory) {
         Player player = handyInventory.getPlayer();
         ParticleCategoryTypeEnum category = ParticleCategoryTypeEnum.getEnumThrow(handyInventory.getSearchType());
-        String indexKey = category == ParticleCategoryTypeEnum.TRAIL ? "list.trailIndex" : "list.index";
-        String index = ConfigUtil.EFFECT_CONFIG.getString(indexKey);
-        List<Integer> indexList = StrUtil.strToIntList(index);
+        List<Integer> indexList = StrUtil.strToIntList(ConfigUtil.EFFECT_CONFIG.getString(this.indexKey(category)));
         if (CollUtil.isEmpty(indexList)) {
             return;
         }
@@ -120,6 +118,25 @@ public final class ParticleEffectGui {
     }
 
     /**
+     * 获取类别对应的数据区槽位配置键。
+     *
+     * <p>拖尾与抛射物效果数量多，使用腾出更多槽位的紧凑排版。
+     *
+     * @param category 粒子类别
+     * @return 配置键
+     */
+    @NotNull
+    private String indexKey(@NotNull ParticleCategoryTypeEnum category) {
+        if (category == ParticleCategoryTypeEnum.TRAIL) {
+            return "list.trailIndex";
+        }
+        if (category == ParticleCategoryTypeEnum.PROJECTILE) {
+            return "list.projectileIndex";
+        }
+        return "list.index";
+    }
+
+    /**
      * 设置功能性菜单
      *
      * @param handyInventory gui
@@ -128,14 +145,14 @@ public final class ParticleEffectGui {
         ParticleCategoryTypeEnum category = ParticleCategoryTypeEnum.getEnumThrow(handyInventory.getSearchType());
         // 返回按钮
         HandyInventoryUtil.setButton(ConfigUtil.EFFECT_CONFIG, handyInventory, "back");
-        // 自定义按钮
-        if (category == ParticleCategoryTypeEnum.TRAIL) {
+        // 拖尾在三级菜单关闭，抛射物不提供关闭按钮，两者都只用紧凑分割板
+        if (category == ParticleCategoryTypeEnum.TRAIL || category == ParticleCategoryTypeEnum.PROJECTILE) {
             HandyInventoryUtil.setButton(ConfigUtil.EFFECT_CONFIG, handyInventory, "custom.trailPane");
-        } else {
-            // 关闭按钮
-            HandyInventoryUtil.setButton(ConfigUtil.EFFECT_CONFIG, handyInventory, "closeCategory", MapUtil.of("category", category.getDesc()));
-            HandyInventoryUtil.setButton(ConfigUtil.EFFECT_CONFIG, handyInventory, "custom.pane");
+            return;
         }
+        // 关闭按钮
+        HandyInventoryUtil.setButton(ConfigUtil.EFFECT_CONFIG, handyInventory, "closeCategory", MapUtil.of("category", category.getDesc()));
+        HandyInventoryUtil.setButton(ConfigUtil.EFFECT_CONFIG, handyInventory, "custom.pane");
     }
 
     /**

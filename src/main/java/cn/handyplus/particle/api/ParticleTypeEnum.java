@@ -6,6 +6,8 @@ import cn.handyplus.particle.core.HandyParticleCore;
 import cn.handyplus.particle.core.block.BlockTrailTypeEnum;
 import cn.handyplus.particle.core.confetti.ConfettiTypeEnum;
 import cn.handyplus.particle.core.elytra.ElytraTrailTypeEnum;
+import cn.handyplus.particle.core.projectile.ProjectileParticleManager;
+import cn.handyplus.particle.core.projectile.ProjectileTrailTypeEnum;
 import cn.handyplus.particle.core.rain.ItemRainTypeEnum;
 import cn.handyplus.particle.core.trail.TrailModeTypeEnum;
 import cn.handyplus.particle.core.trail.TrailTypeEnum;
@@ -489,7 +491,140 @@ public enum ParticleTypeEnum implements ParticleType {
     /**
      * 珍宝鞘翅拖尾。
      */
-    ELYTRA_DRAGON(ElytraTrailTypeEnum.ELYTRA_DRAGON);
+    ELYTRA_DRAGON(ElytraTrailTypeEnum.ELYTRA_DRAGON),
+
+    /**
+     * 魔法抛射物拖尾。
+     */
+    PROJECTILE_MAGIC(ProjectileTrailTypeEnum.MAGIC),
+    /**
+     * 绿色火花抛射物拖尾。
+     */
+    PROJECTILE_GREEN_SPARKLE(ProjectileTrailTypeEnum.GREEN_SPARKLE),
+    /**
+     * 彩色尘土抛射物拖尾。
+     */
+    PROJECTILE_COLOR_DUST(ProjectileTrailTypeEnum.COLOR_DUST),
+    /**
+     * 暴击抛射物拖尾。
+     */
+    PROJECTILE_CRIT(ProjectileTrailTypeEnum.CRIT),
+    /**
+     * 火花抛射物拖尾。
+     */
+    PROJECTILE_SPARKS(ProjectileTrailTypeEnum.SPARKS),
+    /**
+     * 火焰抛射物拖尾。
+     */
+    PROJECTILE_FLAME(ProjectileTrailTypeEnum.FLAME),
+    /**
+     * 飘落字符抛射物拖尾。
+     */
+    PROJECTILE_GLYPH(ProjectileTrailTypeEnum.GLYPH),
+    /**
+     * 爱心抛射物拖尾。
+     */
+    PROJECTILE_HEART(ProjectileTrailTypeEnum.HEART),
+    /**
+     * 瞬间法术抛射物拖尾。
+     */
+    PROJECTILE_SPELL(ProjectileTrailTypeEnum.SPELL),
+    /**
+     * 烟雾抛射物拖尾。
+     */
+    PROJECTILE_SMOKE(ProjectileTrailTypeEnum.SMOKE),
+    /**
+     * 浓烟抛射物拖尾。
+     */
+    PROJECTILE_LARGE_SMOKE(ProjectileTrailTypeEnum.LARGE_SMOKE),
+    /**
+     * 熔岩迸溅抛射物拖尾。
+     */
+    PROJECTILE_LAVA_POP(ProjectileTrailTypeEnum.LAVA_POP),
+    /**
+     * 熔岩滴落抛射物拖尾。
+     */
+    PROJECTILE_LAVA_DRIP(ProjectileTrailTypeEnum.LAVA_DRIP),
+    /**
+     * 魔法暴击抛射物拖尾。
+     */
+    PROJECTILE_MAGIC_CRIT(ProjectileTrailTypeEnum.MAGIC_CRIT),
+    /**
+     * 音符抛射物拖尾。
+     */
+    PROJECTILE_NOTE(ProjectileTrailTypeEnum.NOTE),
+    /**
+     * 附魔抛射物拖尾。
+     */
+    PROJECTILE_ENCHANT(ProjectileTrailTypeEnum.ENCHANT),
+    /**
+     * 传送门抛射物拖尾。
+     */
+    PROJECTILE_PORTAL(ProjectileTrailTypeEnum.PORTAL),
+    /**
+     * 药水旋涡抛射物拖尾。
+     */
+    PROJECTILE_POTION_SWIRL(ProjectileTrailTypeEnum.POTION_SWIRL),
+    /**
+     * 史莱姆抛射物拖尾。
+     */
+    PROJECTILE_SLIME(ProjectileTrailTypeEnum.SLIME),
+    /**
+     * 雪花抛射物拖尾。
+     */
+    PROJECTILE_SNOW(ProjectileTrailTypeEnum.SNOW),
+    /**
+     * 雪球抛射物拖尾。
+     */
+    PROJECTILE_SNOWBALL(ProjectileTrailTypeEnum.SNOWBALL),
+    /**
+     * 水花抛射物拖尾。
+     */
+    PROJECTILE_SPLASH(ProjectileTrailTypeEnum.SPLASH),
+    /**
+     * 愤怒村民抛射物拖尾。
+     */
+    PROJECTILE_ANGRY_VILLAGER(ProjectileTrailTypeEnum.ANGRY_VILLAGER),
+    /**
+     * 虚空雾抛射物拖尾。
+     */
+    PROJECTILE_VOID_FOG(ProjectileTrailTypeEnum.VOID_FOG),
+    /**
+     * 水滴抛射物拖尾。
+     */
+    PROJECTILE_WATER_DRIP(ProjectileTrailTypeEnum.WATER_DRIP),
+    /**
+     * 末地烛抛射物拖尾。
+     */
+    PROJECTILE_END_ROD(ProjectileTrailTypeEnum.END_ROD),
+    /**
+     * 不死图腾抛射物拖尾。
+     */
+    PROJECTILE_TOTEM(ProjectileTrailTypeEnum.TOTEM),
+    /**
+     * 灵魂火抛射物拖尾。
+     */
+    PROJECTILE_SOUL_FIRE(ProjectileTrailTypeEnum.SOUL_FIRE),
+    /**
+     * 金色火花抛射物拖尾。
+     */
+    PROJECTILE_GOLD_SPARKS(ProjectileTrailTypeEnum.GOLD_SPARKS),
+    /**
+     * 龙息抛射物拖尾。
+     */
+    PROJECTILE_DRAGON_BREATH(ProjectileTrailTypeEnum.DRAGON_BREATH),
+    /**
+     * 菌丝抛射物拖尾。
+     */
+    PROJECTILE_MYCELIUM(ProjectileTrailTypeEnum.MYCELIUM),
+    /**
+     * 爆炸抛射物拖尾。
+     */
+    PROJECTILE_EXPLOSION(ProjectileTrailTypeEnum.EXPLOSION),
+    /**
+     * 爆炸发射抛射物拖尾。
+     */
+    PROJECTILE_EXPLOSION_EMITTER(ProjectileTrailTypeEnum.EXPLOSION_EMITTER);
 
     private final ParticleCategoryTypeEnum category;
     private final TrailTypeEnum builtinTrail;
@@ -497,6 +632,7 @@ public enum ParticleTypeEnum implements ParticleType {
     private final ItemRainTypeEnum itemRain;
     private final ConfettiTypeEnum confetti;
     private final ElytraTrailTypeEnum elytraTrail;
+    private final ProjectileTrailTypeEnum projectileTrail;
     private final WingModelEnum wingModel;
     private final WingColorEnum wingColor;
 
@@ -510,6 +646,7 @@ public enum ParticleTypeEnum implements ParticleType {
         this.itemRain = null;
         this.confetti = null;
         this.elytraTrail = null;
+        this.projectileTrail = null;
         this.wingModel = model;
         this.wingColor = color;
     }
@@ -524,6 +661,7 @@ public enum ParticleTypeEnum implements ParticleType {
         this.itemRain = null;
         this.confetti = null;
         this.elytraTrail = null;
+        this.projectileTrail = null;
         this.wingModel = null;
         this.wingColor = null;
     }
@@ -538,6 +676,7 @@ public enum ParticleTypeEnum implements ParticleType {
         this.itemRain = null;
         this.confetti = null;
         this.elytraTrail = null;
+        this.projectileTrail = null;
         this.wingModel = null;
         this.wingColor = null;
     }
@@ -552,6 +691,7 @@ public enum ParticleTypeEnum implements ParticleType {
         this.itemRain = rain;
         this.confetti = null;
         this.elytraTrail = null;
+        this.projectileTrail = null;
         this.wingModel = null;
         this.wingColor = null;
     }
@@ -566,6 +706,7 @@ public enum ParticleTypeEnum implements ParticleType {
         this.itemRain = null;
         this.confetti = confetti;
         this.elytraTrail = null;
+        this.projectileTrail = null;
         this.wingModel = null;
         this.wingColor = null;
     }
@@ -580,6 +721,22 @@ public enum ParticleTypeEnum implements ParticleType {
         this.itemRain = null;
         this.confetti = null;
         this.elytraTrail = elytra;
+        this.projectileTrail = null;
+        this.wingModel = null;
+        this.wingColor = null;
+    }
+
+    /**
+     * 创建抛射物拖尾预置。
+     */
+    ParticleTypeEnum(ProjectileTrailTypeEnum projectile) {
+        this.category = ParticleCategoryTypeEnum.PROJECTILE;
+        this.builtinTrail = null;
+        this.blockTrail = null;
+        this.itemRain = null;
+        this.confetti = null;
+        this.elytraTrail = null;
+        this.projectileTrail = projectile;
         this.wingModel = null;
         this.wingColor = null;
     }
@@ -684,6 +841,11 @@ public enum ParticleTypeEnum implements ParticleType {
      * @param color  Dust 颜色
      */
     void enable(@NotNull Entity entity, @NotNull TrailModeTypeEnum mode, @Nullable Color color) {
+        if (this.projectileTrail != null) {
+            // 抛射物效果没有常驻任务，仅登记开关，发射时由监听器附加一次性拖尾
+            ProjectileParticleManager.enable(entity.getUniqueId(), this);
+            return;
+        }
         if (this.wingModel != null) {
             HandyParticleCore.setWings(entity, this.wingModel, this.wingColor);
             return;

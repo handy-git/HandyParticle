@@ -4,6 +4,7 @@ import cn.handyplus.lib.InitApi;
 import cn.handyplus.lib.internal.HandySchedulerUtil;
 import cn.handyplus.lib.util.MessageUtil;
 import cn.handyplus.particle.api.HandyParticleApi;
+import cn.handyplus.particle.core.projectile.ProjectileParticleManager;
 import cn.handyplus.particle.listener.PaperEntityParticleRestoreListener;
 import cn.handyplus.particle.util.ConfigUtil;
 import cn.handyplus.particle.util.EntityParticleRestoreUtil;
@@ -58,6 +59,7 @@ public final class HandyParticle extends JavaPlugin {
     @Override
     public void onDisable() {
         HandyParticleApi.disableAll();
+        ProjectileParticleManager.clear();
         InitApi.disable();
     }
 

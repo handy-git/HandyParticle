@@ -62,6 +62,8 @@ final class ParticleCommandHelper {
         set.when(ParticleCategoryTypeEnum.CONFETTI.name()).next(ParticleCategoryTypeEnum.get(ParticleCategoryTypeEnum.CONFETTI));
         // 鞘翅
         set.when(ParticleCategoryTypeEnum.ELYTRA.name()).next(ParticleCategoryTypeEnum.get(ParticleCategoryTypeEnum.ELYTRA));
+        // 抛射物
+        set.when(ParticleCategoryTypeEnum.PROJECTILE.name()).next(ParticleCategoryTypeEnum.get(ParticleCategoryTypeEnum.PROJECTILE));
 
         // clear
         HandyTab clear = action.when(ParticleCommandActionEnum.CLEAR.getValue());

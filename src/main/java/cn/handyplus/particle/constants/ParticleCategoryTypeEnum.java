@@ -37,7 +37,11 @@ public enum ParticleCategoryTypeEnum {
     /**
      * 鞘翅拖尾效果，仅在玩家滑翔时生成。
      */
-    ELYTRA;
+    ELYTRA,
+    /**
+     * 抛射物效果，仅对自己发射的抛射物生效。
+     */
+    PROJECTILE;
 
     /**
      * 获取当前类别的本地化描述。
