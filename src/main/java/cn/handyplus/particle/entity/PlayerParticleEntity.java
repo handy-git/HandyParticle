@@ -42,4 +42,7 @@ public class PlayerParticleEntity {
 
     @TableField(value = "mode", comment = "运动模式")
     private String mode;
+
+    @TableField(value = "projectiles", comment = "生效的抛射物类型", length = 255)
+    private String projectiles;
 }

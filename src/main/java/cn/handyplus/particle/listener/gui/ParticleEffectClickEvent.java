@@ -10,6 +10,7 @@ import cn.handyplus.particle.core.wing.WingModelEnum;
 import cn.handyplus.particle.inventory.ParticleCategoryGui;
 import cn.handyplus.particle.inventory.ParticleEffectGui;
 import cn.handyplus.particle.inventory.ParticleModeGui;
+import cn.handyplus.particle.inventory.ParticleProjectileGui;
 import cn.handyplus.particle.inventory.ParticleWingColorGui;
 import cn.handyplus.particle.param.ParticleSelectContext;
 import cn.handyplus.particle.util.ConfigUtil;
@@ -71,6 +72,11 @@ public final class ParticleEffectClickEvent implements IHandyClickEvent {
         // 非拖尾效果直接应用
         if (type.getCategory() != ParticleCategoryTypeEnum.TRAIL) {
             ParticleGuiUtil.apply(handyInventory.getPlayer(), type, null, null);
+            // 抛射物需要继续选择生效范围
+            if (type.getCategory() == ParticleCategoryTypeEnum.PROJECTILE) {
+                handyInventory.syncOpen(ParticleProjectileGui.getInstance().createGui(handyInventory.getPlayer()));
+                return;
+            }
             handyInventory.syncOpen(ParticleCategoryGui.getInstance().createGui(handyInventory.getPlayer()));
             return;
         }

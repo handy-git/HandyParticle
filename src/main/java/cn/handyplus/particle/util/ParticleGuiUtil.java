@@ -130,9 +130,17 @@ public final class ParticleGuiUtil {
             HandyParticleApi.enable(player, new CustomTrailParticle(type, mode == null ? TrailModeTypeEnum.DEFAULT : mode, color));
             PlayerParticleService.save(player, type, mode, color);
         } else {
-            // 鞘翅、方块、物品雨、纸屑、抛射物均无附加参数
-            HandyParticleApi.enable(player, type);
-            PlayerParticleService.save(player, type, null, null);
+            // 鞘翅、方块、物品雨、纸屑均无附加参数
+            if (type.getCategory() == ParticleCategoryTypeEnum.PROJECTILE) {
+                // 换效果时保留玩家已勾选的抛射物范围
+                ProjectileParticleManager.ProjectileRecord record = ProjectileParticleManager.getRecord(player);
+                String projectiles = record == null ? null : record.getProjectiles();
+                HandyParticleApi.enable(player, type);
+                PlayerParticleService.save(player, type, null, null, projectiles);
+            } else {
+                HandyParticleApi.enable(player, type);
+                PlayerParticleService.save(player, type, null, null);
+            }
         }
         MessageUtil.sendMessage(player, BaseUtil.getLangMsg("guiSetSuccess", MapUtil.of("type", type.getDesc())));
     }

@@ -5,6 +5,7 @@ import cn.handyplus.lib.util.AssertUtil;
 import cn.handyplus.particle.api.ParticleTypeEnum;
 import cn.handyplus.particle.constants.ParticleCategoryTypeEnum;
 import cn.handyplus.particle.constants.ParticleCommandActionEnum;
+import cn.handyplus.particle.constants.ParticleConstants;
 import cn.handyplus.particle.core.trail.TrailModeTypeEnum;
 import cn.handyplus.particle.core.wing.WingColorEnum;
 import cn.handyplus.particle.core.wing.WingModelEnum;
@@ -15,6 +16,8 @@ import org.jetbrains.annotations.Nullable;
 
 import java.awt.Color;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * 玩家和实体粒子命令共用的参数处理工具。
@@ -42,10 +45,10 @@ final class ParticleCommandHelper {
         if (hasTarget) {
             set = set.nextNull();
         }
-        // 类别
+        // 类别 中文环境下会拼接描述 Tab 需要同时匹配带括号与不带括号两种形式
         set = set.next(ParticleCategoryTypeEnum.getAll());
         // 拖尾
-        HandyTab trails = set.when(ParticleCategoryTypeEnum.TRAIL.name())
+        HandyTab trails = set.when(context -> tabValues(ParticleCategoryTypeEnum.TRAIL))
                 .next(context -> ParticleCategoryTypeEnum.get(ParticleCategoryTypeEnum.TRAIL));
         trails.next(TrailModeTypeEnum.getAll());
         // 自定义颜色的拖尾
@@ -53,17 +56,22 @@ final class ParticleCommandHelper {
                 .next(TrailModeTypeEnum.getAll()).next("#FFFFFF");
 
         // 翅膀
-        set.when(ParticleCategoryTypeEnum.WING.name()).next(WingModelEnum.getAll()).next(WingColorEnum.getAll());
+        set.when(context -> tabValues(ParticleCategoryTypeEnum.WING)).next(WingModelEnum.getAll()).next(WingColorEnum.getAll());
         // 方块
-        set.when(ParticleCategoryTypeEnum.BLOCK.name()).next(ParticleCategoryTypeEnum.get(ParticleCategoryTypeEnum.BLOCK));
+        set.when(context -> tabValues(ParticleCategoryTypeEnum.BLOCK))
+                .next(context -> ParticleCategoryTypeEnum.get(ParticleCategoryTypeEnum.BLOCK));
         // 物品雨
-        set.when(ParticleCategoryTypeEnum.RAIN.name()).next(ParticleCategoryTypeEnum.get(ParticleCategoryTypeEnum.RAIN));
+        set.when(context -> tabValues(ParticleCategoryTypeEnum.RAIN))
+                .next(context -> ParticleCategoryTypeEnum.get(ParticleCategoryTypeEnum.RAIN));
         // 纸屑
-        set.when(ParticleCategoryTypeEnum.CONFETTI.name()).next(ParticleCategoryTypeEnum.get(ParticleCategoryTypeEnum.CONFETTI));
+        set.when(context -> tabValues(ParticleCategoryTypeEnum.CONFETTI))
+                .next(context -> ParticleCategoryTypeEnum.get(ParticleCategoryTypeEnum.CONFETTI));
         // 鞘翅
-        set.when(ParticleCategoryTypeEnum.ELYTRA.name()).next(ParticleCategoryTypeEnum.get(ParticleCategoryTypeEnum.ELYTRA));
+        set.when(context -> tabValues(ParticleCategoryTypeEnum.ELYTRA))
+                .next(context -> ParticleCategoryTypeEnum.get(ParticleCategoryTypeEnum.ELYTRA));
         // 抛射物
-        set.when(ParticleCategoryTypeEnum.PROJECTILE.name()).next(ParticleCategoryTypeEnum.get(ParticleCategoryTypeEnum.PROJECTILE));
+        set.when(context -> tabValues(ParticleCategoryTypeEnum.PROJECTILE))
+                .next(context -> ParticleCategoryTypeEnum.get(ParticleCategoryTypeEnum.PROJECTILE));
 
         // clear
         HandyTab clear = action.when(ParticleCommandActionEnum.CLEAR.getValue());
@@ -71,6 +79,24 @@ final class ParticleCommandHelper {
             clear = clear.nextNull();
         }
         clear.next(ParticleCategoryTypeEnum.getAll());
+    }
+
+    /**
+     * 列出粒子类别在当前语言下的所有 Tab 匹配形式。
+     *
+     * <p>中文环境下补全会填入带括号描述的文本，后续 Tab 匹配是精确比较，
+     * 因此需要同时提供带括号与不带括号两种形式。
+     *
+     * @param category 粒子类别
+     * @return 匹配用候选值
+     */
+    @NotNull
+    private static List<String> tabValues(@NotNull ParticleCategoryTypeEnum category) {
+        String name = category.name();
+        if (!ParticleConstants.isChinese()) {
+            return Collections.singletonList(name);
+        }
+        return Arrays.asList(name, name + "(" + category.getDesc() + ")");
     }
 
     /**

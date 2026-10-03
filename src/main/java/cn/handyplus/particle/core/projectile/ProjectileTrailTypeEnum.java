@@ -3,10 +3,6 @@ package cn.handyplus.particle.core.projectile;
 import com.cryptomorin.xseries.particles.XParticle;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 内置抛射物拖尾效果。
@@ -159,19 +155,5 @@ public enum ProjectileTrailTypeEnum {
      * 粒子自身额外速度。
      */
     private final double speed;
-
-    /**
-     * 列出所有抛射物效果名称。
-     *
-     * @return 效果名称列表
-     */
-    @NotNull
-    public static List<String> getAll() {
-        List<String> result = new ArrayList<>();
-        for (ProjectileTrailTypeEnum type : values()) {
-            result.add(type.name());
-        }
-        return result;
-    }
 
 }

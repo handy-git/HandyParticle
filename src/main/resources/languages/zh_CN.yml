@@ -40,6 +40,8 @@ guiColorInputDescription: "&7支持 #RGB 或 #RRGGBB 格式，输入 &e${cancel}
 guiColorInputField: "&a请输入颜色"
 guiColorInputChatPrompt: "&e请输入颜色 例如 #FF0000，输入 ${cancel} 取消"
 guiColorInputCancel: "&8[&a✔&8] &a已取消颜色输入"
+guiProjectileSelected: "&8[&a✔&8] &a已为 ${number} 种抛射物启用粒子"
+guiProjectileClearAll: "&8[&c✔&8] &c已关闭全部抛射物的粒子效果"
 
 # 管理员帮助信息
 helps:
@@ -258,3 +260,19 @@ trailModeDesc:
   FOOT_CIRCLE: "圆圈"
   COLOR_SPIN: "色环"
   FAIRY: "精灵"
+
+# 抛射物类型
+projectileKindDesc:
+  ARROW: "箭"
+  SPECTRAL_ARROW: "光灵箭"
+  TRIDENT: "三叉戟"
+  SNOWBALL: "雪球"
+  EGG: "蛋"
+  FIREBALL: "火球"
+  FIREWORK_ROCKET: "烟花"
+  SPLASH_POTION: "喷溅药水"
+  LINGERING_POTION: "滞留药水"
+  EXPERIENCE_BOTTLE: "经验球"
+  ENDER_PEARL: "末影珍珠"
+  SHULKER_BULLET: "潜影壳"
+  WIND_CHARGE: "风弹"

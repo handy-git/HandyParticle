@@ -30,7 +30,11 @@ public enum ParticleGuiTypeEnum {
     /**
      * 三级菜单，选择翅膀图案。
      */
-    WING_COLOR("particleWingColor");
+    WING_COLOR("particleWingColor"),
+    /**
+     * 三级菜单，选择抛射物生效范围。
+     */
+    PROJECTILE_KIND("particleProjectile");
 
     private final String type;
 

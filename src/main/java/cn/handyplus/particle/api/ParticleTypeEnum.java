@@ -843,7 +843,9 @@ public enum ParticleTypeEnum implements ParticleType {
     void enable(@NotNull Entity entity, @NotNull TrailModeTypeEnum mode, @Nullable Color color) {
         if (this.projectileTrail != null) {
             // 抛射物效果没有常驻任务，仅登记开关，发射时由监听器附加一次性拖尾
-            ProjectileParticleManager.enable(entity.getUniqueId(), this);
+            // 保留玩家已勾选的生效范围，避免换效果时被重置为全选
+            ProjectileParticleManager.ProjectileRecord record = ProjectileParticleManager.getRecord(entity.getUniqueId());
+            ProjectileParticleManager.enable(entity.getUniqueId(), this, record == null ? null : record.getKinds());
             return;
         }
         if (this.wingModel != null) {

@@ -89,13 +89,14 @@ public enum ParticleCategoryTypeEnum {
     /**
      * 列出命令支持的效果类别。
      *
-     * @return 可补全的效果类别名称
+     * @return 可补全的效果类别名称，中文环境下附带描述
      */
     @NotNull
     public static List<String> getAll() {
         List<String> result = new ArrayList<>();
-        for (ParticleCategoryTypeEnum category : ParticleCategoryTypeEnum.values()) {
-            result.add(category.name());
+        boolean chinese = ParticleConstants.isChinese();
+        for (ParticleCategoryTypeEnum category : values()) {
+            result.add(chinese ? category.name() + "(" + category.getDesc() + ")" : category.name());
         }
         return result;
     }

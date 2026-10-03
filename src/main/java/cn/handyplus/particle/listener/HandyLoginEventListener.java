@@ -5,6 +5,10 @@ import cn.handyplus.lib.internal.HandyLoginEvent;
 import cn.handyplus.lib.internal.HandySchedulerUtil;
 import cn.handyplus.particle.api.HandyParticleApi;
 import cn.handyplus.particle.api.ParticleType;
+import cn.handyplus.particle.api.ParticleTypeEnum;
+import cn.handyplus.particle.constants.ParticleCategoryTypeEnum;
+import cn.handyplus.particle.core.projectile.ProjectileKindEnum;
+import cn.handyplus.particle.core.projectile.ProjectileParticleManager;
 import cn.handyplus.particle.entity.PlayerParticleEntity;
 import cn.handyplus.particle.service.PlayerParticleService;
 import cn.handyplus.particle.util.ParticleRestoreUtil;
@@ -38,6 +42,12 @@ public final class HandyLoginEventListener implements Listener {
                 if (particleType == null) {
                     // 不清理的话每次登录都会重复尝试同一条无效记录
                     PlayerParticleService.delete(playerId, saved.getCategory());
+                    continue;
+                }
+                if (saved.getCategory().equals(ParticleCategoryTypeEnum.PROJECTILE.name())) {
+                    // 抛射物只登记开关，不起常驻任务
+                    ProjectileParticleManager.enable(playerId, (ParticleTypeEnum) particleType,
+                            ProjectileKindEnum.parse(saved.getProjectiles()));
                     continue;
                 }
                 HandyParticleApi.enable(player, particleType);

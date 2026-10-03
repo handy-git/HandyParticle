@@ -44,8 +44,13 @@ public final class ProjectileParticleListener implements Listener {
         if (!(source instanceof Player)) {
             return;
         }
-        ParticleTypeEnum type = ProjectileParticleManager.get((Player) source);
+        Player player = (Player) source;
+        ParticleTypeEnum type = ProjectileParticleManager.get(player);
         if (type == null) {
+            return;
+        }
+        // 只对玩家勾选的抛射物类型生效
+        if (!ProjectileParticleManager.matches(player, event.getEntity())) {
             return;
         }
         ProjectileTrail trail = new ProjectileTrail(event.getEntity(), type);
