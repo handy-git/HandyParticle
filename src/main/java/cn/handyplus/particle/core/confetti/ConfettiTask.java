@@ -2,6 +2,7 @@ package cn.handyplus.particle.core.confetti;
 
 import cn.handyplus.lib.internal.HandyRunnable;
 import cn.handyplus.particle.core.HandyParticleCore;
+import cn.handyplus.particle.util.ParticleVisibilityUtil;
 import com.cryptomorin.xseries.particles.ParticleDisplay;
 import com.cryptomorin.xseries.particles.XParticle;
 import org.bukkit.Location;
@@ -72,7 +73,7 @@ public final class ConfettiTask extends HandyRunnable {
         }
         Location location = entity.getLocation();
         for (ParticleDisplay display : displays) {
-            display.spawn(location);
+            ParticleVisibilityUtil.spawn(display, location, entity);
         }
     }
 }

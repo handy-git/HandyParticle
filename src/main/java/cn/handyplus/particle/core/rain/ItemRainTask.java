@@ -2,6 +2,7 @@ package cn.handyplus.particle.core.rain;
 
 import cn.handyplus.lib.internal.HandyRunnable;
 import cn.handyplus.particle.core.HandyParticleCore;
+import cn.handyplus.particle.util.ParticleVisibilityUtil;
 import com.cryptomorin.xseries.particles.ParticleDisplay;
 import com.cryptomorin.xseries.particles.XParticle;
 import org.bukkit.Location;
@@ -107,7 +108,7 @@ public final class ItemRainTask extends HandyRunnable {
             }
             Location location = entry.getKey().clone().subtract(0.0D, age * DROP_STEP, 0.0D);
             entry.setValue(age);
-            displays[(int) ((tick - age) % displays.length)].spawn(location);
+            ParticleVisibilityUtil.spawn(displays[(int) ((tick - age) % displays.length)], location, entity);
         }
         Location head = entity.getLocation().add(0.0D, 1.6D, 0.0D);
         if (entity instanceof LivingEntity) {
@@ -119,7 +120,7 @@ public final class ItemRainTask extends HandyRunnable {
             double z = ThreadLocalRandom.current().nextDouble(-RAIN_RADIUS, RAIN_RADIUS);
             Location spawn = head.clone().add(x, 1.0D, z);
             drops.put(spawn, 0);
-            display.spawn(spawn);
+            ParticleVisibilityUtil.spawn(display, spawn, entity);
         }
         tick++;
     }

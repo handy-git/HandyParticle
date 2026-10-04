@@ -90,7 +90,7 @@ public final class TrailTask extends HandyRunnable {
      * @param location 位置
      */
     void spawnAt(@NotNull Location location) {
-        type.spawnAt(display, location);
+        type.spawnAt(display, location, entity);
     }
 
 }

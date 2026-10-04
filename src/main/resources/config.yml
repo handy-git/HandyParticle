@@ -7,6 +7,12 @@ isCheckUpdate: true
 # op登录时候是否发送更新提醒
 isCheckUpdateToOpMsg: true
 
+# 低 TPS 时是否只让玩家自己看到自身粒子
+particleVisibility:
+  lowTps:
+    enabled: true
+    threshold: 18.0
+
 # 粒子刷新间隔，单位 tick（20 tick = 1 秒），最小为 1
 # 修改后需重新设置玩家效果，新任务才会使用新间隔
 refreshInterval:

@@ -1,9 +1,11 @@
 package cn.handyplus.particle.core.trail;
 
+import cn.handyplus.particle.util.ParticleVisibilityUtil;
 import com.cryptomorin.xseries.particles.ParticleDisplay;
 import com.cryptomorin.xseries.particles.XParticle;
 import lombok.Getter;
 import org.bukkit.Location;
+import org.bukkit.entity.Entity;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.Color;
@@ -205,9 +207,10 @@ public enum TrailTypeEnum {
      *
      * @param display  预先配置的显示对象
      * @param location 生成位置
+     * @param entity   效果所属实体
      */
-    void spawnAt(@NotNull ParticleDisplay display, @NotNull Location location) {
-        display.spawn(location);
+    void spawnAt(@NotNull ParticleDisplay display, @NotNull Location location, @NotNull Entity entity) {
+        ParticleVisibilityUtil.spawn(display, location, entity);
     }
 
     /**

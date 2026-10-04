@@ -1,5 +1,6 @@
 package cn.handyplus.particle.core.wing;
 
+import cn.handyplus.particle.util.ParticleVisibilityUtil;
 import com.cryptomorin.xseries.particles.ParticleDisplay;
 import com.cryptomorin.xseries.particles.XParticle;
 import org.bukkit.Location;
@@ -37,8 +38,8 @@ final class WingUtil {
         Location origin = entity.getLocation();
         origin.setPitch(0.0F);
         origin.add(origin.getDirection().multiply(-0.3D));
-        drawWing(origin, points, -120.0F);
-        drawWing(origin, points, 120.0F);
+        drawWing(entity, origin, points, -120.0F);
+        drawWing(entity, origin, points, 120.0F);
     }
 
     /**
@@ -63,11 +64,12 @@ final class WingUtil {
     /**
      * 按点阵绘制单侧翅膀。
      *
+     * @param entity 实体
      * @param origin 翅膀原点
      * @param points 翅膀点阵
      * @param angle  翅膀旋转角度
      */
-    private static void drawWing(@NotNull Location origin, @NotNull WingPoint[] points, float angle) {
+    private static void drawWing(@NotNull Entity entity, @NotNull Location origin, @NotNull WingPoint[] points, float angle) {
         Location rotated = origin.clone();
         rotated.setYaw(rotated.getYaw() - angle);
         Vector direction = rotated.getDirection();
@@ -80,7 +82,7 @@ final class WingUtil {
             location.setZ(rotated.getZ() + stepZ * point.getColumn());
             ParticleDisplay display = point.getDisplay();
             if (display != null) {
-                display.spawn(location);
+                ParticleVisibilityUtil.spawn(display, location, entity);
             }
         }
     }

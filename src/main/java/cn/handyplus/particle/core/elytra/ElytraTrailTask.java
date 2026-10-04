@@ -2,6 +2,7 @@ package cn.handyplus.particle.core.elytra;
 
 import cn.handyplus.lib.internal.HandyRunnable;
 import cn.handyplus.particle.core.HandyParticleCore;
+import cn.handyplus.particle.util.ParticleVisibilityUtil;
 import com.cryptomorin.xseries.particles.ParticleDisplay;
 import com.cryptomorin.xseries.particles.XParticle;
 import org.bukkit.Location;
@@ -98,7 +99,7 @@ public final class ElytraTrailTask extends HandyRunnable {
                         -direction.getX() * distance + sideX * width,
                         0.9D - direction.getY() * distance + ThreadLocalRandom.current().nextDouble(0.3D),
                         -direction.getZ() * distance + sideZ * width);
-                displays[ThreadLocalRandom.current().nextInt(displays.length)].spawn(location);
+                ParticleVisibilityUtil.spawn(displays[ThreadLocalRandom.current().nextInt(displays.length)], location, entity);
             }
         }
     }
@@ -116,7 +117,8 @@ public final class ElytraTrailTask extends HandyRunnable {
         if (!player.isGliding()) {
             return false;
         }
-        return player.getInventory().getChestplate().getType() == Material.ELYTRA;
+        ItemStack chestplate = player.getInventory().getChestplate();
+        return chestplate != null && chestplate.getType() == Material.ELYTRA;
     }
 
 }

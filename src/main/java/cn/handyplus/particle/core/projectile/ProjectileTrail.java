@@ -2,10 +2,13 @@ package cn.handyplus.particle.core.projectile;
 
 import cn.handyplus.lib.internal.HandyRunnable;
 import cn.handyplus.particle.api.ParticleTypeEnum;
+import cn.handyplus.particle.util.ParticleVisibilityUtil;
 import com.cryptomorin.xseries.particles.ParticleDisplay;
 import com.cryptomorin.xseries.particles.XParticle;
 import org.bukkit.Location;
 import org.bukkit.entity.Projectile;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.Color;
@@ -60,7 +63,8 @@ public final class ProjectileTrail extends HandyRunnable {
             return;
         }
         Location location = projectile.getLocation();
-        this.display.spawn(location);
+        Entity shooter = projectile.getShooter() instanceof Player ? (Player) projectile.getShooter() : projectile;
+        ParticleVisibilityUtil.spawn(display, location, shooter);
     }
 
     /**

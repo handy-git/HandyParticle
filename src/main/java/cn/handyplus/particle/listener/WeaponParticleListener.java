@@ -5,6 +5,7 @@ import cn.handyplus.particle.api.ParticleTypeEnum;
 import cn.handyplus.particle.core.weapon.WeaponEffectTypeEnum;
 import cn.handyplus.particle.core.weapon.WeaponGroupEnum;
 import cn.handyplus.particle.core.weapon.WeaponParticleManager;
+import cn.handyplus.particle.util.ParticleVisibilityUtil;
 import com.cryptomorin.xseries.particles.ParticleDisplay;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -56,7 +57,7 @@ public final class WeaponParticleListener implements Listener {
         if (!WeaponParticleManager.matches(player, group)) {
             return;
         }
-        this.spawn(event.getEntity().getLocation(), type);
+        this.spawn(event.getEntity().getLocation(), type, player);
     }
 
     /**
@@ -66,16 +67,16 @@ public final class WeaponParticleListener implements Listener {
      *
      * @param location 受击者位置
      * @param type     效果类型
+     * @param player   攻击玩家
      */
-    private void spawn(@NotNull Location location, @NotNull ParticleTypeEnum type) {
+    private void spawn(@NotNull Location location, @NotNull ParticleTypeEnum type, @NotNull Player player) {
         WeaponEffectTypeEnum effect = type.getWeaponEffect();
         if (effect == null) {
             return;
         }
-        ParticleDisplay.of(effect.getParticle())
+        ParticleVisibilityUtil.spawn(ParticleDisplay.of(effect.getParticle())
                 .withCount(effect.getCount())
-                .offset(SPREAD)
-                .spawn(location.clone().add(0.0D, HEIGHT_OFFSET, 0.0D));
+                .offset(SPREAD), location.clone().add(0.0D, HEIGHT_OFFSET, 0.0D), player);
     }
 
 }
