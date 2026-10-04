@@ -44,6 +44,8 @@ guiProjectileSelected: "&8[&a✔&8] &a已为 ${number} 种抛射物启用粒子"
 guiProjectileClearAll: "&8[&c✔&8] &c已关闭全部抛射物的粒子效果"
 guiWeaponSelected: "&8[&a✔&8] &a已为 ${number} 种武器启用粒子"
 guiWeaponClearAll: "&8[&c✔&8] &c已关闭全部武器的粒子效果"
+particleStateSpectator: "&e旁观者模式下暂不显示粒子效果，退出后会自动恢复"
+particleStateInvisible: "&e隐身状态下暂不显示粒子效果，解除后会自动恢复"
 
 # 管理员帮助信息
 helps:

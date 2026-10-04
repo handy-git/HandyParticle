@@ -3,6 +3,7 @@ package cn.handyplus.particle.util;
 import cn.handyplus.lib.constants.BaseConstants;
 import com.cryptomorin.xseries.particles.ParticleDisplay;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -33,6 +34,9 @@ public final class ParticleVisibilityUtil {
      * @param entity 效果所属实体
      */
     public static void spawn(@NotNull ParticleDisplay display, @NotNull Location location, @NotNull Entity entity) {
+        if (isBlocked(entity)) {
+            return;
+        }
         if (entity instanceof Player && thisOnlyVisible()) {
             display.onlyVisibleTo((Player) entity);
             try {
@@ -43,6 +47,20 @@ public final class ParticleVisibilityUtil {
             return;
         }
         display.spawn(location);
+    }
+
+    /**
+     * 判断实体当前是否不应显示粒子。
+     *
+     * @param entity 效果所属实体
+     * @return 玩家处于旁观者或隐身状态时返回 true
+     */
+    public static boolean isBlocked(@NotNull Entity entity) {
+        if (!(entity instanceof Player)) {
+            return false;
+        }
+        Player player = (Player) entity;
+        return player.getGameMode() == GameMode.SPECTATOR || player.isInvisible();
     }
 
     /**

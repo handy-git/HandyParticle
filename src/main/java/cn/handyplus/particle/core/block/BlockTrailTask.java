@@ -5,6 +5,7 @@ import cn.handyplus.lib.constants.VersionCheckEnum;
 import cn.handyplus.lib.internal.HandyRunnable;
 import cn.handyplus.lib.internal.HandySchedulerUtil;
 import cn.handyplus.particle.core.HandyParticleCore;
+import cn.handyplus.particle.util.ParticleVisibilityUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -91,6 +92,10 @@ public final class BlockTrailTask extends HandyRunnable {
             HandyParticleCore.disable(entity);
             return;
         }
+        if (ParticleVisibilityUtil.isBlocked(entity)) {
+            this.hideViewers();
+            return;
+        }
         Location location = entity.getLocation().clone().subtract(0.0D, 1.0D, 0.0D);
         Block block = location.getBlock();
         location = BlockTrailTypeEnum.isGround(block) ? block.getLocation() : null;
@@ -158,6 +163,15 @@ public final class BlockTrailTask extends HandyRunnable {
         }
         locations.clear();
         viewers.clear();
+    }
+
+    /**
+     * 暂时隐藏已发送的临时方块，保留任务和位置记录。
+     */
+    private void hideViewers() {
+        for (Location location : locations.keySet()) {
+            this.restore(location);
+        }
     }
 
     /**
