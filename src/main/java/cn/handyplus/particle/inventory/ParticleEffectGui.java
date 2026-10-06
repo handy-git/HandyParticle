@@ -98,6 +98,9 @@ public final class ParticleEffectGui {
             PlayerParticleEntity saved = ParticleGuiUtil.findCurrent(player, category);
             int i = 0;
             for (WingModelEnum model : models) {
+                if (!this.hasAvailableWing(player, model)) {
+                    continue;
+                }
                 if (i >= indexList.size()) {
                     break;
                 }
@@ -106,7 +109,7 @@ public final class ParticleEffectGui {
             }
             return;
         }
-        List<ParticleTypeEnum> types = this.listTypes(category);
+        List<ParticleTypeEnum> types = this.listTypes(player, category);
         String selectedType = this.findSelectedType(player, category);
         int i = 0;
         for (ParticleTypeEnum type : types) {
@@ -167,14 +170,30 @@ public final class ParticleEffectGui {
      * @return 效果列表
      */
     @NotNull
-    private List<ParticleTypeEnum> listTypes(@NotNull ParticleCategoryTypeEnum category) {
+    private List<ParticleTypeEnum> listTypes(@NotNull Player player, @NotNull ParticleCategoryTypeEnum category) {
         List<ParticleTypeEnum> types = new ArrayList<>();
         for (ParticleTypeEnum type : ParticleTypeEnum.values()) {
-            if (type.getCategory() == category) {
+            if (type.getCategory() == category && ParticleGuiUtil.hasParticlePermission(player, type)) {
                 types.add(type);
             }
         }
         return types;
+    }
+
+    /**
+     * 判断指定翅膀模型是否至少有一个可用图案。
+     *
+     * @param player 玩家
+     * @param model 翅膀模型
+     * @return 有可用图案时返回 true
+     */
+    private boolean hasAvailableWing(@NotNull Player player, @NotNull WingModelEnum model) {
+        for (ParticleTypeEnum type : ParticleTypeEnum.values()) {
+            if (type.getWingModel() == model && ParticleGuiUtil.hasParticlePermission(player, type)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**

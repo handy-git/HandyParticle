@@ -24,6 +24,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.awt.Color;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -37,6 +38,22 @@ public final class ParticleGuiUtil {
     }
 
     public static final String DATA_PREFIX = "data:";
+
+    /**
+     * 判断玩家是否拥有指定粒子的使用权限。
+     *
+     * @param player 玩家
+     * @param type 粒子类型
+     * @return 有权限时返回 true
+     */
+    public static boolean hasParticlePermission(@NotNull Player player, @NotNull ParticleTypeEnum type) {
+        String base = "handyParticle.particle.";
+        String name = type.name().toLowerCase(Locale.ROOT);
+        String category = type.getCategory().name().toLowerCase(Locale.ROOT);
+        return player.hasPermission(base + name)
+                || player.hasPermission(base + category + ".*")
+                || player.hasPermission(base + "*");
+    }
 
     /**
      * 获取已选粒子

@@ -6,6 +6,7 @@ import cn.handyplus.lib.core.MapUtil;
 import cn.handyplus.lib.core.StrUtil;
 import cn.handyplus.lib.inventory.HandyInventory;
 import cn.handyplus.lib.inventory.HandyInventoryUtil;
+import cn.handyplus.particle.api.ParticleTypeEnum;
 import cn.handyplus.particle.constants.ParticleCategoryTypeEnum;
 import cn.handyplus.particle.constants.ParticleGuiTypeEnum;
 import cn.handyplus.particle.core.wing.WingColorEnum;
@@ -93,11 +94,20 @@ public final class ParticleWingColorGui {
             return;
         }
         WingColorEnum[] colors = WingColorEnum.values();
+        int availableCount = 0;
+        for (WingColorEnum color : colors) {
+            if (ParticleGuiUtil.hasParticlePermission(handyInventory.getPlayer(), ParticleTypeEnum.wing(model, color))) {
+                availableCount++;
+            }
+        }
         handyInventory.setPageSize(indexList.size());
-        handyInventory.setPageCount(colors.length);
+        handyInventory.setPageCount(availableCount);
         PlayerParticleEntity saved = ParticleGuiUtil.findCurrent(handyInventory.getPlayer(), ParticleCategoryTypeEnum.WING);
         int i = 0;
         for (WingColorEnum color : colors) {
+            if (!ParticleGuiUtil.hasParticlePermission(handyInventory.getPlayer(), ParticleTypeEnum.wing(model, color))) {
+                continue;
+            }
             if (i >= indexList.size()) {
                 break;
             }

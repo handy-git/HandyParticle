@@ -24,3 +24,30 @@ permissions:
   handyParticle.entity:
     description: 管理实体粒子效果
     default: op
+  handyParticle.particle.*:
+    description: 使用全部玩家粒子效果
+    default: op
+  handyParticle.particle.trail.*:
+    description: 使用全部拖尾粒子效果
+    default: false
+  handyParticle.particle.wing.*:
+    description: 使用全部翅膀粒子效果
+    default: false
+  handyParticle.particle.block.*:
+    description: 使用全部方块粒子效果
+    default: false
+  handyParticle.particle.rain.*:
+    description: 使用全部物品雨粒子效果
+    default: false
+  handyParticle.particle.confetti.*:
+    description: 使用全部纸屑粒子效果
+    default: false
+  handyParticle.particle.elytra.*:
+    description: 使用全部鞘翅粒子效果
+    default: false
+  handyParticle.particle.projectile.*:
+    description: 使用全部抛射物粒子效果
+    default: false
+  handyParticle.particle.weapon.*:
+    description: 使用全部武器粒子效果
+    default: false
