@@ -4,6 +4,8 @@ import cn.handyplus.lib.constants.BaseConstants;
 import cn.handyplus.lib.core.DateUtil;
 import cn.handyplus.lib.db.SqlBackupUtil;
 import cn.handyplus.lib.internal.HandySchedulerUtil;
+import cn.handyplus.lib.util.BaseUtil;
+import cn.handyplus.lib.util.MessageUtil;
 
 import java.util.Date;
 
@@ -34,6 +36,7 @@ public class BackUpUtil {
             }
             // 进行备份
             SqlBackupUtil.backup();
+            MessageUtil.sendConsoleMessage(BaseUtil.getLangMsg("backUpMsg"));
         }, 20 * 30, 20 * 60);
     }
 

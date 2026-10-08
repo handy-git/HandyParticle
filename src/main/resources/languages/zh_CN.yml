@@ -1,6 +1,8 @@
 noPermission: "&8[&c✘&8] &7你没有权限执行该命令"
 
 reloadMsg: "&8[&a✔&8] &a插件配置已重载"
+convertSuccess: "&8[&a✔&8] &a数据已转换为 ${type}，请重启服务器使配置生效"
+backUpMsg: "&a数据库备份完成"
 setUsage: "&c用法: /hp player set <玩家> <类别> <效果> [运动轨迹] [颜色]"
 setWingUsage: "&c用法: /hp player set <玩家> WING <外形> <颜色>"
 clearUsage: "&c用法: /hp player clear <玩家> [类别]"
@@ -60,7 +62,7 @@ helps:
   - "   &8- &f player clear <玩家> [类别]          &7清除玩家粒子效果"
   - "   &8- &f entity set <类别> <效果> ...       &7设置实体粒子效果"
   - "   &8- &f entity clear [类别]                &7清除实体粒子效果"
-  - "   &8- &f convert [类别]                     &7转换数据存储类型"
+  - "   &8- &f convert [MySQL|SQLite]           &7转换数据存储类型"
   - ""
 
 # 普通玩家帮助信息
