@@ -25,7 +25,7 @@ import cn.handyplus.particle.util.ParticleGuiUtil;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
-import java.awt.Color;
+import java.awt.*;
 import java.util.Collections;
 import java.util.Map;
 

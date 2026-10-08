@@ -2,7 +2,6 @@ package cn.handyplus.particle.api;
 
 import cn.handyplus.particle.constants.ParticleCategoryTypeEnum;
 import cn.handyplus.particle.core.HandyParticleCore;
-import lombok.NonNull;
 import org.bukkit.entity.Entity;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
@@ -25,7 +24,7 @@ public final class CustomConfettiParticle implements ParticleType {
      *
      * @param items 至少一个非空物品
      */
-    public CustomConfettiParticle(@NonNull ItemStack... items) {
+    public CustomConfettiParticle(@NotNull ItemStack... items) {
         if (items.length == 0) {
             throw new IllegalArgumentException("items must not be empty");
         }

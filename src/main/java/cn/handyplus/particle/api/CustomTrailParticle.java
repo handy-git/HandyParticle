@@ -2,12 +2,11 @@ package cn.handyplus.particle.api;
 
 import cn.handyplus.particle.constants.ParticleCategoryTypeEnum;
 import cn.handyplus.particle.core.trail.TrailModeTypeEnum;
-import lombok.NonNull;
 import org.bukkit.entity.Entity;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.awt.Color;
+import java.awt.*;
 
 /**
  * 使用预置粒子类型和指定运动模式的自定义拖尾。
@@ -35,7 +34,7 @@ public final class CustomTrailParticle implements ParticleType {
      * @param mode  运动模式
      * @param color Dust 颜色，非 Dust 拖尾必须为空
      */
-    public CustomTrailParticle(@NonNull ParticleTypeEnum type, @NonNull TrailModeTypeEnum mode, @Nullable Color color) {
+    public CustomTrailParticle(@NotNull ParticleTypeEnum type, @NotNull TrailModeTypeEnum mode, @Nullable Color color) {
         if (type.getCategory() != ParticleCategoryTypeEnum.TRAIL) {
             throw new IllegalArgumentException("type must be a trail preset");
         }
@@ -53,7 +52,7 @@ public final class CustomTrailParticle implements ParticleType {
      * @param type 拖尾预置
      * @param mode 运动模式
      */
-    public CustomTrailParticle(@NonNull ParticleTypeEnum type, @NonNull TrailModeTypeEnum mode) {
+    public CustomTrailParticle(@NotNull ParticleTypeEnum type, @NotNull TrailModeTypeEnum mode) {
         this(type, mode, null);
     }
 
@@ -63,7 +62,7 @@ public final class CustomTrailParticle implements ParticleType {
      * @param type  Dust 拖尾预置
      * @param color Dust 颜色
      */
-    public CustomTrailParticle(@NonNull ParticleTypeEnum type, @NonNull Color color) {
+    public CustomTrailParticle(@NotNull ParticleTypeEnum type, @NotNull Color color) {
         this(type, TrailModeTypeEnum.DEFAULT, color);
     }
 

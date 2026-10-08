@@ -11,7 +11,7 @@ import cn.handyplus.particle.core.wing.WingModelEnum;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.awt.Color;
+import java.awt.*;
 
 /**
  * 数据库粒子记录解析工具。
