@@ -1,6 +1,6 @@
 name: HandyParticle
 main: cn.handyplus.particle.HandyParticle
-version: 1.0.0
+version: 1.0.1
 author: handy
 api-version: 1.13
 description: 一个有点好用的玩家粒子插件
@@ -12,8 +12,19 @@ commands:
     description: 玩家粒子插件
     aliases: [ hp ]
 permissions:
+  handyParticle.*:
+    description: 玩家粒子插件
+    children:
+      handyParticle.reload: true
+      handyParticle.convert: true
+      handyParticle.gui: true
+      handyParticle.player: true
+      handyParticle.entity: true
   handyParticle.reload:
     description: 重载配置
+    default: op
+  handyParticle.convert:
+    description: 转化数据库
     default: op
   handyParticle.gui:
     description: 打开粒子选择gui

@@ -22,3 +22,9 @@ refreshInterval:
   rain: 4
   confetti: 4
   elytra: 1
+
+# 每日全量备份数据到 backUp 目录
+backUp: false
+
+# 备份时间
+backUpTime: "00:00"
