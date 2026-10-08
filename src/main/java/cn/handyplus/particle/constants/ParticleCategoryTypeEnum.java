@@ -59,6 +59,8 @@ public enum ParticleCategoryTypeEnum {
     /**
      * 按名称查找粒子类别。
      *
+     * <p>中文环境的 tab 补全会带上形如 {@code TRAIL(普通)} 的描述后缀，需先截断。
+     *
      * @param value 类别名称，可为空
      * @return 粒子类别，未找到时返回 null
      */
@@ -67,8 +69,9 @@ public enum ParticleCategoryTypeEnum {
         if (value == null) {
             return null;
         }
+        String name = ParticleConstants.trimDescription(value);
         for (ParticleCategoryTypeEnum category : values()) {
-            if (category.name().equalsIgnoreCase(value)) {
+            if (category.name().equalsIgnoreCase(name)) {
                 return category;
             }
         }

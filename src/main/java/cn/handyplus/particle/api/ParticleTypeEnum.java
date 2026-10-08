@@ -2,6 +2,7 @@ package cn.handyplus.particle.api;
 
 import cn.handyplus.lib.util.BaseUtil;
 import cn.handyplus.particle.constants.ParticleCategoryTypeEnum;
+import cn.handyplus.particle.constants.ParticleConstants;
 import cn.handyplus.particle.core.HandyParticleCore;
 import cn.handyplus.particle.core.block.BlockTrailTypeEnum;
 import cn.handyplus.particle.core.confetti.ConfettiTypeEnum;
@@ -879,7 +880,7 @@ public enum ParticleTypeEnum implements ParticleType {
         if (value == null) {
             return null;
         }
-        String name = value.split("\\(", 2)[0].trim().toUpperCase(Locale.ROOT);
+        String name = ParticleConstants.trimDescription(value).toUpperCase(Locale.ROOT);
         for (ParticleTypeEnum type : values()) {
             if (type.name().equals(name)) {
                 return type;
