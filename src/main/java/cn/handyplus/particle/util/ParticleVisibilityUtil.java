@@ -1,6 +1,7 @@
 package cn.handyplus.particle.util;
 
 import cn.handyplus.lib.constants.BaseConstants;
+import cn.handyplus.lib.internal.HandySchedulerUtil;
 import com.cryptomorin.xseries.particles.ParticleDisplay;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -21,7 +22,6 @@ public final class ParticleVisibilityUtil {
     private static final long TPS_CACHE_TIME = 1000L;
     private static volatile long lastCheckTime;
     private static volatile boolean onlyOwner;
-    private static Method getTpsMethod;
 
     private ParticleVisibilityUtil() {
     }
@@ -29,9 +29,9 @@ public final class ParticleVisibilityUtil {
     /**
      * 向实体位置发送粒子，并按低 TPS 配置限制接收者。
      *
-     * @param display 粒子显示对象
+     * @param display  粒子显示对象
      * @param location 生成位置
-     * @param entity 效果所属实体
+     * @param entity   效果所属实体
      */
     public static void spawn(@NotNull ParticleDisplay display, @NotNull Location location, @NotNull Entity entity) {
         if (isBlocked(entity)) {
@@ -93,17 +93,10 @@ public final class ParticleVisibilityUtil {
      * @return TPS，无法读取时返回 20
      */
     private static double readTps() {
-        try {
-            if (getTpsMethod == null) {
-                getTpsMethod = Bukkit.getServer().getClass().getMethod("getTPS");
-            }
-            Object result = getTpsMethod.invoke(Bukkit.getServer());
-            if (result instanceof double[] && ((double[]) result).length > 0) {
-                return ((double[]) result)[0];
-            }
-        } catch (ReflectiveOperationException ignored) {
-            // 非 Paper 服务端没有 TPS API，保持全局可见。
+        if ((HandySchedulerUtil.isFolia() || HandySchedulerUtil.isPaper())) {
+            return Bukkit.getServer().getTPS()[0];
         }
         return 20.0D;
     }
+
 }
