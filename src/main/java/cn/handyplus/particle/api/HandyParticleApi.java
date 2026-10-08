@@ -1,7 +1,6 @@
 package cn.handyplus.particle.api;
 
 import cn.handyplus.particle.constants.ParticleCategoryTypeEnum;
-import cn.handyplus.particle.core.HandyParticleCore;
 import org.bukkit.entity.Entity;
 import org.jetbrains.annotations.NotNull;
 
@@ -26,18 +25,14 @@ public final class HandyParticleApi {
      * @param entity 目标实体
      * @param type   粒子效果
      */
-    public static void enable(@NotNull Entity entity, @NotNull ParticleType type) {
-        type.enable(entity);
-    }
+    public native static void enable(@NotNull Entity entity, @NotNull ParticleType type);
 
     /**
      * 关闭指定实体的全部粒子效果。
      *
      * @param entity 目标实体
      */
-    public static void disable(@NotNull Entity entity) {
-        HandyParticleCore.disable(entity);
-    }
+    public native static void disable(@NotNull Entity entity);
 
     /**
      * 关闭指定实体某一类别的粒子效果。
@@ -45,15 +40,11 @@ public final class HandyParticleApi {
      * @param entity   目标实体
      * @param category 粒子类别
      */
-    public static void disable(@NotNull Entity entity, @NotNull ParticleCategoryTypeEnum category) {
-        HandyParticleCore.disable(entity, category);
-    }
+    public native static void disable(@NotNull Entity entity, @NotNull ParticleCategoryTypeEnum category);
 
     /**
      * 关闭全部粒子效果。
      */
-    public static void disableAll() {
-        HandyParticleCore.disableAll();
-    }
+    public native static void disableAll();
 
 }

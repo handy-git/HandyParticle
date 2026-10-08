@@ -1,7 +1,6 @@
 package cn.handyplus.particle.api;
 
 import cn.handyplus.particle.constants.ParticleCategoryTypeEnum;
-import cn.handyplus.particle.core.HandyParticleCore;
 import org.bukkit.entity.Entity;
 import org.jetbrains.annotations.NotNull;
 
@@ -37,7 +36,6 @@ public interface ParticleType {
      * @param entity 目标实体
      */
     default void disable(@NotNull Entity entity) {
-        HandyParticleCore.disable(entity, this.getCategory());
     }
 
 }

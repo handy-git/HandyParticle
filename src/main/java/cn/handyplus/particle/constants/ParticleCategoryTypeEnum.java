@@ -1,11 +1,8 @@
 package cn.handyplus.particle.constants;
 
-import cn.handyplus.lib.util.BaseUtil;
-import cn.handyplus.particle.api.ParticleTypeEnum;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -52,9 +49,8 @@ public enum ParticleCategoryTypeEnum {
      *
      * @return 类别描述
      */
-    public String getDesc() {
-        return BaseUtil.getLangMsg("particleCategoryDesc." + this.name());
-    }
+    @NotNull
+    public native String getDesc();
 
     /**
      * 按名称查找粒子类别。
@@ -63,17 +59,7 @@ public enum ParticleCategoryTypeEnum {
      * @return 粒子类别，未找到时返回 null
      */
     @Nullable
-    public static ParticleCategoryTypeEnum getEnum(@Nullable String value) {
-        if (value == null) {
-            return null;
-        }
-        for (ParticleCategoryTypeEnum category : values()) {
-            if (category.name().equalsIgnoreCase(value)) {
-                return category;
-            }
-        }
-        return null;
-    }
+    public native static ParticleCategoryTypeEnum getEnum(@Nullable String value);
 
     /**
      * 按名称查找粒子类别。
@@ -82,13 +68,7 @@ public enum ParticleCategoryTypeEnum {
      * @return 粒子类别
      */
     @NotNull
-    public static ParticleCategoryTypeEnum getEnumThrow(@NotNull String value) {
-        ParticleCategoryTypeEnum category = getEnum(value);
-        if (category == null) {
-            throw new IllegalArgumentException(BaseUtil.getLangMsg("invalidParticleCategory"));
-        }
-        return category;
-    }
+    public native static ParticleCategoryTypeEnum getEnumThrow(@NotNull String value);
 
     /**
      * 列出命令支持的效果类别。
@@ -96,14 +76,7 @@ public enum ParticleCategoryTypeEnum {
      * @return 可补全的效果类别名称，中文环境下附带描述
      */
     @NotNull
-    public static List<String> getAll() {
-        List<String> result = new ArrayList<>();
-        boolean chinese = ParticleConstants.isChinese();
-        for (ParticleCategoryTypeEnum category : values()) {
-            result.add(chinese ? category.name() + "(" + category.getDesc() + ")" : category.name());
-        }
-        return result;
-    }
+    public native static List<String> getAll();
 
     /**
      * 列出指定类别下的效果名称。
@@ -112,16 +85,6 @@ public enum ParticleCategoryTypeEnum {
      * @return 类别对应的效果名称
      */
     @NotNull
-    public static List<String> get(@NotNull ParticleCategoryTypeEnum category) {
-        List<String> result = new ArrayList<>();
-        boolean chinese = ParticleConstants.isChinese();
-        for (ParticleTypeEnum type : ParticleTypeEnum.values()) {
-            if (type.getCategory() == category) {
-                String name = type.name();
-                result.add(chinese ? name + "(" + type.getDesc() + ")" : name);
-            }
-        }
-        return result;
-    }
+    public native static List<String> get(@NotNull ParticleCategoryTypeEnum category);
 
 }

@@ -1,8 +1,6 @@
 package cn.handyplus.particle.api;
 
 import cn.handyplus.particle.constants.ParticleCategoryTypeEnum;
-import cn.handyplus.particle.core.HandyParticleCore;
-import lombok.NonNull;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.jetbrains.annotations.NotNull;
@@ -25,7 +23,7 @@ public final class CustomBlockParticle implements ParticleType {
      *
      * @param materials 至少一个可显示的方块材质
      */
-    public CustomBlockParticle(@NonNull Material... materials) {
+    public CustomBlockParticle(@NotNull Material... materials) {
         if (materials.length == 0) {
             throw new IllegalArgumentException("materials must not be empty");
         }
@@ -55,7 +53,6 @@ public final class CustomBlockParticle implements ParticleType {
      * @param entity 目标实体
      */
     @Override
-    public void enable(@NotNull Entity entity) {
-        HandyParticleCore.setBlock(entity, this.materials.clone());
-    }
+    public native void enable(@NotNull Entity entity);
+
 }

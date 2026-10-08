@@ -1,14 +1,8 @@
 package cn.handyplus.particle.core.wing;
 
-import cn.handyplus.lib.util.BaseUtil;
-import cn.handyplus.particle.constants.ParticleConstants;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,46 +10,39 @@ import java.util.List;
  *
  * @author handy
  */
-@Getter(AccessLevel.PACKAGE)
-@AllArgsConstructor
 public enum WingModelEnum {
     /**
      * 天使翅膀。
      */
-    ANGEL(WingModelData.ANGEL),
+    ANGEL,
     /**
      * 蝴蝶翅膀。
      */
-    BUTTERFLY(WingModelData.BUTTERFLY),
+    BUTTERFLY,
     /**
      * 精灵翅膀。
      */
-    ELF(WingModelData.ELF),
+    ELF,
     /**
      * 长翼翅膀。
      */
-    LONG(WingModelData.LONG),
+    LONG,
     /**
      * 蝴蝶二翅膀。
      */
-    BUTTERFLY2(WingModelData.BUTTERFLY2),
+    BUTTERFLY2,
     /**
      * 短翼翅膀。
      */
-    SHORT(WingModelData.SHORT),
+    SHORT,
     /**
      * 恶魔翅膀。
      */
-    DEMON(WingModelData.DEMON),
+    DEMON,
     /**
      * 暗夜翅膀。
      */
-    NIGHT(WingModelData.NIGHT);
-
-    /**
-     * 模型点位及粒子类型。
-     */
-    private final int[][] shape;
+    NIGHT;
 
     /**
      * 获取模型描述。
@@ -63,9 +50,7 @@ public enum WingModelEnum {
      * @return 模型描述
      */
     @NotNull
-    public String getDesc() {
-        return BaseUtil.getLangMsg("wingModelDesc." + name());
-    }
+    public native String getDesc();
 
     /**
      * 获取所有模型名称。
@@ -73,14 +58,7 @@ public enum WingModelEnum {
      * @return 模型名称，中文环境下附带描述
      */
     @NotNull
-    public static List<String> getAll() {
-        List<String> result = new ArrayList<>();
-        boolean chinese = ParticleConstants.isChinese();
-        for (WingModelEnum model : values()) {
-            result.add(chinese ? model.name() + "(" + model.getDesc() + ")" : model.name());
-        }
-        return result;
-    }
+    public native static List<String> getAll();
 
     /**
      * 解析模型名称，未匹配到时返回 null。
@@ -89,18 +67,7 @@ public enum WingModelEnum {
      * @return 模型，未匹配到时返回 null
      */
     @Nullable
-    public static WingModelEnum get(@Nullable String value) {
-        if (value == null) {
-            return null;
-        }
-        String name = ParticleConstants.trimDescription(value);
-        for (WingModelEnum model : values()) {
-            if (model.name().equalsIgnoreCase(name)) {
-                return model;
-            }
-        }
-        return null;
-    }
+    public native static WingModelEnum get(@Nullable String value);
 
     /**
      * 解析模型名称。
@@ -109,11 +76,6 @@ public enum WingModelEnum {
      * @return 模型
      */
     @NotNull
-    public static WingModelEnum getEnumThrow(@NotNull String value) {
-        WingModelEnum model = get(value);
-        if (model == null) {
-            throw new IllegalArgumentException(BaseUtil.getLangMsg("invalidWingModel"));
-        }
-        return model;
-    }
+    public native static WingModelEnum getEnumThrow(@NotNull String value);
+
 }

@@ -1,14 +1,8 @@
 package cn.handyplus.particle.core.wing;
 
-import cn.handyplus.lib.util.BaseUtil;
-import cn.handyplus.particle.constants.ParticleConstants;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,52 +10,35 @@ import java.util.List;
  *
  * @author handy
  */
-@Getter(AccessLevel.PACKAGE)
-@AllArgsConstructor
 public enum WingColorEnum {
     /**
      * 渐变一。
      */
-    GRADIENT1(WingPaletteData.GRADIENT1),
+    GRADIENT1,
     /**
      * 渐变二。
      */
-    GRADIENT2(WingPaletteData.GRADIENT2),
+    GRADIENT2,
     /**
      * 渐变三。
      */
-    GRADIENT3(WingPaletteData.GRADIENT3),
+    GRADIENT3,
     /**
      * 蘑菇图案。
      */
-    MUSHROOM(WingPaletteData.MUSHROOM),
+    MUSHROOM,
     /**
      * 火焰图案。
      */
-    FIRE(WingPaletteData.FIRE),
+    FIRE,
     /**
      * 彩色图案。
      */
-    COLORS(WingPaletteData.COLORS),
+    COLORS,
     /**
      * 飞行图案。
      */
-    FLY(WingPaletteData.FLY);
-
-    /**
-     * 模型对应的 RGB 颜色点阵。
-     */
-    private final int[][] palette;
-
-    /**
-     * 获取颜色描述。
-     *
-     * @return 颜色描述
-     */
-    @NotNull
-    public String getDesc() {
-        return BaseUtil.getLangMsg("wingColorDesc." + name());
-    }
+    FLY;
 
     /**
      * 获取所有颜色图案名称。
@@ -69,14 +46,7 @@ public enum WingColorEnum {
      * @return 颜色图案名称，中文环境下附带描述
      */
     @NotNull
-    public static List<String> getAll() {
-        List<String> result = new ArrayList<>();
-        boolean chinese = ParticleConstants.isChinese();
-        for (WingColorEnum color : values()) {
-            result.add(chinese ? color.name() + "(" + color.getDesc() + ")" : color.name());
-        }
-        return result;
-    }
+    public native static List<String> getAll();
 
     /**
      * 解析颜色图案名称，未匹配到时返回 null。
@@ -85,18 +55,7 @@ public enum WingColorEnum {
      * @return 颜色图案，未匹配到时返回 null
      */
     @Nullable
-    public static WingColorEnum get(@Nullable String value) {
-        if (value == null) {
-            return null;
-        }
-        String name = ParticleConstants.trimDescription(value);
-        for (WingColorEnum color : values()) {
-            if (color.name().equalsIgnoreCase(name)) {
-                return color;
-            }
-        }
-        return null;
-    }
+    public native static WingColorEnum get(@Nullable String value);
 
     /**
      * 解析颜色图案名称。
@@ -105,11 +64,6 @@ public enum WingColorEnum {
      * @return 颜色图案
      */
     @NotNull
-    public static WingColorEnum getEnumThrow(@NotNull String value) {
-        WingColorEnum color = get(value);
-        if (color == null) {
-            throw new IllegalArgumentException(BaseUtil.getLangMsg("invalidWingColor"));
-        }
-        return color;
-    }
+    public native static WingColorEnum getEnumThrow(@NotNull String value);
+
 }
