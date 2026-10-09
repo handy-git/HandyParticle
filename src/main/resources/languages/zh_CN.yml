@@ -1,8 +1,6 @@
 noPermission: "&8[&c✘&8] &7你没有权限执行该命令"
 
 reloadMsg: "&8[&a✔&8] &a插件配置已重载"
-convertSuccess: "&8[&a✔&8] &a数据已转换为 ${type}，请重启服务器使配置生效"
-backUpMsg: "&a数据库备份完成"
 setUsage: "&c用法: /hp player set <玩家> <类别> <效果> [运动轨迹] [颜色]"
 setWingUsage: "&c用法: /hp player set <玩家> WING <外形> <颜色>"
 clearUsage: "&c用法: /hp player clear <玩家> [类别]"
@@ -30,6 +28,34 @@ entityNotFound: "&c视线内没有可用实体"
 entitySetSuccess: "&a已为视线实体设置 ${type} 粒子效果"
 entityClearSuccess: "&a已清除视线实体的全部粒子效果"
 entityClearCategorySuccess: "&a已清除视线实体的 ${category} 类粒子效果"
+
+# 数据库转换提醒
+sqlConvertUnsupportedTypeMsg: '数据库转换失败: 不支持的存储类型 '
+sqlConvertSameTypeMsg: '数据库转换失败: 当前存储类型已经是 '
+sqlConvertNotInitializedMsg: '尚未初始化数据库实体包'
+sqlConvertNoTablesMsg: '未找到可转换的实体表: '
+sqlConvertInsertFailureMsg: '数据写入失败: '
+sqlConvertFailureMsg: '数据库转换失败: '
+sqlConvertSuccessMsg: '数据库转换完成，目标存储类型: '
+sqlConvertRestartMsg: '请务必重启服务器，刷新缓存以避免数据异常。'
+
+# 数据库备份提醒
+sqlBackupFailureMsg: '数据库备份失败: '
+sqlBackupSuccessMsg: '数据库备份完成，备份文件: '
+sqlBackupCleanupFailureMsg: '数据库备份已完成，但清理过期文件失败: '
+sqlBackupNoTablesMsg: '未找到可备份的实体表: '
+sqlBackupDirectoryCreateFailureMsg: '无法创建备份目录: '
+sqlBackupFileExistsMsg: '备份文件已存在，禁止覆盖: '
+sqlBackupFileCreateFailureMsg: '无法创建备份文件: '
+sqlBackupMissingIdMsg: '备份实体必须映射 id 字段: '
+sqlBackupInsertFailureMsg: '备份数据写入失败: '
+sqlBackupFailedFileDeleteFailureMsg: '无法删除失败的备份文件: '
+sqlBackupCreateFailureMsg: '创建 SQLite 备份失败: '
+sqlBackupDirectoryReadFailureMsg: '无法读取备份目录: '
+sqlBackupExpiredFileDeleteFailureMsg: '无法删除过期备份: '
+
+# 数据库异常原因
+sqlFailureCauseMsg: '，原因: '
 
 # 粒子选择gui
 guiAllCategory: "全部分类"

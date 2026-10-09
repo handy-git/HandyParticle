@@ -7,7 +7,6 @@ import cn.handyplus.particle.api.HandyParticleApi;
 import cn.handyplus.particle.core.projectile.ProjectileParticleManager;
 import cn.handyplus.particle.core.weapon.WeaponParticleManager;
 import cn.handyplus.particle.listener.PaperEntityParticleRestoreListener;
-import cn.handyplus.particle.util.BackUpUtil;
 import cn.handyplus.particle.util.ConfigUtil;
 import cn.handyplus.particle.util.EntityParticleRestoreUtil;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -35,6 +34,7 @@ public final class HandyParticle extends JavaPlugin {
                 .initClickEvent("cn.handyplus.particle.listener.gui")
                 .enablePlayerInput()
                 .enableSql("cn.handyplus.particle.entity")
+                .enableSqlBackup()
                 .checkVersion();
 
         // 实体所在区块未加载时取不到实体，缓存记录后等区块加载再恢复
@@ -51,9 +51,6 @@ public final class HandyParticle extends JavaPlugin {
         for (String line : logo) {
             MessageUtil.sendConsoleMessage("&3" + line);
         }
-
-        // 开始备份
-        BackUpUtil.init();
 
         MessageUtil.sendConsoleMessage("&a已成功载入服务器!");
         MessageUtil.sendConsoleMessage("&aAuthor:handy WIKI: https://ricedoc.handyplus.cn/wiki/HandyParticle/README/");
